@@ -10,6 +10,8 @@ import java.io.Serializable;
 public class ExecutedExamInfo implements Serializable {
 
     @Id
+    private int id ;
+
     private String code;
     private String password;
     private Double average;
@@ -31,6 +33,9 @@ public class ExecutedExamInfo implements Serializable {
         this.median = median;
         this.hist = new int[10];
         this.executedExamList = new ArrayList<ExecutedExam>();
+    }
+
+    public ExecutedExamInfo() {
     }
 
     public String getCode() {

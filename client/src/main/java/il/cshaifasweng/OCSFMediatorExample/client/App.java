@@ -1,5 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Student;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,12 +24,24 @@ public class App extends Application {
     private static Scene scene;
     private SimpleClient client;
 
+
+    private  User user;
+
+    private   User getUser() {
+        return user;
+    }
+
+    private   void setUser(User user) {
+        this.user = user;
+    }
+
+
     @Override
     public void start(Stage stage) throws IOException {
     	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("login1"), 1000, 600);
         stage.setScene(scene);
         stage.show();
     }
@@ -61,6 +75,46 @@ public class App extends Application {
         	alert.show();
     	});
     	
+    }
+
+    @Subscribe
+    public void loginEventfunc(loginEvent event)
+    {
+        setUser(event.getUser());
+        chnageScene();
+
+    }
+
+    private void chnageScene()
+    {
+        String fxmlFile;
+        switch (user.getType())
+        {
+            case Student:
+                fxmlFile="studentMain";
+                break;
+
+            case Teacher:
+                fxmlFile="teacherMain";
+                break;
+
+            case Principal:
+                fxmlFile="principalMain";
+                break;
+            default:
+                return;
+        }
+
+        Platform.runLater(()->{
+            try
+            {
+                scene.setRoot(loadFXML(fxmlFile));
+            }catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        );
     }
 
 	public static void main(String[] args) {

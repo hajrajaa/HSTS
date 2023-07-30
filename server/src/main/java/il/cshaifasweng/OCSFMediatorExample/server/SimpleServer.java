@@ -10,14 +10,18 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleServer extends AbstractServer {
 
+	private static final SessionFactory sessionFactory=getSessionFactory();
 	private static Session session;
-
-	//private static final SessionFactory sessionFactory=getSessionFactory();
 
 	public SimpleServer(int port) {
 		super(port);
@@ -48,10 +52,22 @@ public class SimpleServer extends AbstractServer {
 		return configuration.buildSessionFactory(serviceRegistry);
 	}
 
+	private static <T> List<T> getAllObjects(Class<T> object){
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<T> query = builder.createQuery(object);
+		Root<T> rootEnter= query.from(object);
+		CriteriaQuery<T> criteriaQueries = query.select(rootEnter);
+
+		TypedQuery<T> queries=session.createQuery(criteriaQueries);
+		return queries.getResultList();
+	}
+
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		String msgString = msg.toString();
+		Message message=(Message)msg;
+		String msgString = ((Message) msg).getMessage().toString();
+
 		if (msgString.startsWith("#warning")) {
 			Warning warning = new Warning("Warning from server!");
 			try {
@@ -61,31 +77,101 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.equals("#LoginRequest"))
+		{
+			User newLogin = (User) message.getObject1();
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			String userName=newLogin.getName();
+			String userPassword=newLogin.getPassword();
+			try
+			{
+			List<User> usersList=getAllObjects(User.class);
 
+			boolean userExist=false;
+			for(User user: usersList)
+			{
+				    if(user.getName().equals(userName)) {
+					userExist = true;
+					if (user.isConnected())
+					{
+						Warning warning = new Warning("You're already connected ");
+						client.sendToClient(new Message("#loginWarning", warning));
+						return;
+					}
+					else
+					{
+						if (user.getPassword().equals(userPassword))
+						{
+							user.setConnected(true);
+							client.sendToClient(new Message("#LogISuccessfully", user));
+							session.update(user);
+							session.flush();
+							session.getTransaction().commit();
+							session.close();
+						}
+						else
+						{
+							Warning warning = new Warning("password is not correct");
+							client.sendToClient(new Message("#loginWarning", warning));
+							return;
+						}
+
+					}
+
+				}
+			}
+			if(!userExist)
+			{
+				Warning warning=new Warning("User Name doesn't exist");
+				client.sendToClient(new Message("#loginWarning",warning));
+			}
+		}
+			catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
+	   }
 	}
+
+
 
 	private  static  void generateTeacher() throws  Exception
 	{
 		ArrayList<Teacher> teachersList = new ArrayList<>();
 
-		Teacher newTeacher = new Teacher(123 , "teacher1","111111");
-		teachersList.add(newTeacher);
-		session.save(newTeacher);
+		Teacher newTeacher1 = new Teacher(123 , "teacher1","111111");
+		teachersList.add(newTeacher1);
+		session.save(newTeacher1);
+
+
+		Teacher newTeacher2=new Teacher(1,"a","3");
+		teachersList.add(newTeacher2);
+		session.save(newTeacher2);
+
 		session.flush();
 	}
 
 	private static void generatePrinciple() throws Exception{
 
-		User princable= new User(111,"Principle","123456789","Principle");
+		User principle= new User(9,"Principle","123456789", User.type.Principal);
+		session.save(principle);
+		session.flush();
 	}
 
 	private static void generateStudents() throws Exception
 	{
 		ArrayList<Student> studentsList = new ArrayList<>();
 
-		Student newStudent = new Student(0,"ManarZoabi","manar123");
-		studentsList.add(newStudent);
-		session.save(newStudent);
+		Student newStudent1 = new Student(0,"ManarZoabi","manar123");
+		studentsList.add(newStudent1);
+		session.save(newStudent1);
+
+		Student newStudent2 = new Student(3,"r","b");
+		studentsList.add(newStudent2);
+		session.save(newStudent2);
+
+
 		session.flush();
 	}
 
@@ -113,8 +199,7 @@ public class SimpleServer extends AbstractServer {
 
 //	public void connectToDate()
 //	{
-//		try {
-//			SessionFactory sessionFactory = getSessionFactory();
+//	try {			SessionFactory sessionFactory = getSessionFactory();
 //			session = sessionFactory.openSession();
 //			session.beginTransaction();
 //			generatePrinciple();

@@ -19,9 +19,12 @@ public class Teacher extends User implements Serializable{
     private List<String> courseID;
 
     public Teacher(int id, String username, String password){
-        super(id,username,password,"Teacher");
+        super(id,username,password,type.Teacher);
         this.examsInfo=new ArrayList<ExecutedExamInfo>();
         this.courseID = new ArrayList<String>();
+    }
+
+    public Teacher() {
     }
 
 

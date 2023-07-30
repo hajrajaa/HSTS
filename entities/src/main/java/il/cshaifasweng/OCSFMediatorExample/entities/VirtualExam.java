@@ -23,6 +23,9 @@ public class VirtualExam extends Exam implements Serializable {
         this.examQuestion=new ArrayList<ExamQuestion>();
     }
 
+    public VirtualExam() {
+    }
+
     public List<ExamQuestion> getExamQuestion() {
         return examQuestion;
     }

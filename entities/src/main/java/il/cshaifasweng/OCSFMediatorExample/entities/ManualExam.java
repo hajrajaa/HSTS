@@ -16,6 +16,9 @@ public class ManualExam  extends Exam implements Serializable{
         this.file=file;
     }
 
+    public ManualExam() {
+    }
+
 
     public String getFile() {
         return file;

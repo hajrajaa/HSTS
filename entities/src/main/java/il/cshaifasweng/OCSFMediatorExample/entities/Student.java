@@ -21,7 +21,7 @@
         }
 
         public Student(int id, String username, String password) {
-            super(id, username, password, "Student");
+            super(id, username, password, type.Student);
             this.myExams = new ArrayList<ExecutedExam>();
         }
 

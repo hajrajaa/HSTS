@@ -27,6 +27,9 @@ public class Question implements Serializable {
         possibilities[3]="~";
     }
 
+    public Question() {
+    }
+
     public int getCode() {
         return code;
     }

@@ -26,6 +26,10 @@ public class ExamQuestion extends Question implements Serializable{
         this.student_note = student_note;
     }
 
+    public ExamQuestion() {
+
+    }
+
 //    public int getId() {
 //        return id;
 //    }
