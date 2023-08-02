@@ -15,6 +15,9 @@ public class ExecutedManual extends ExecutedExam implements Serializable {
         this.solutionFile = solutionFile;
     }
 
+    public ExecutedManual() {
+    }
+
     public String getSolutionFile() {
         return solutionFile;
     }

@@ -12,19 +12,33 @@ public class Question implements Serializable {
     @Id
     private int code;
     private String question;
-    private String[] possibilities;
+
+
+
+    private String[] answers;
+
     private int correct_answer;
 
-    public Question(int code, String question, int correct_answer) {
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "question")
+    private List<Subject> subjects;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "questions_courses",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id"))
+    private List<Course> coursesList;
+
+    public Question(int code, String question, String[] answers, int correct_answer) {
         super();
         this.code = code;
         this.question = question;
         this.correct_answer = correct_answer;
-        this.possibilities = new String[4];
-        possibilities[0]="~";
-        possibilities[1]="~";
-        possibilities[2]="~";
-        possibilities[3]="~";
+        this.answers = new String[4];
+        this.subjects=new ArrayList<>();
+    }
+
+    public Question() {
     }
 
     public int getCode() {
@@ -43,10 +57,21 @@ public class Question implements Serializable {
         this.question = question;
     }
 
-    public String getPossibility(int x) {return possibilities[x];}
-//    public void setPossibilities(List<String> possibilities,int x) {
-//        this.possibilities[x] = possibilities;
-//    }
+//    public String getPossibility(int x) {return possibilities[x];}
+////    public void setPossibilities(List<String> possibilities,int x) {
+////        this.possibilities[x] = possibilities;
+////    }
+
+    public String[] getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(String[] answers) {
+        this.answers = answers;
+    }
+
+
+
 
     public int getCorrect_answer() {
         return correct_answer;

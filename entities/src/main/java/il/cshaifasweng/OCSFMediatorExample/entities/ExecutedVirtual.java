@@ -23,6 +23,9 @@ public class ExecutedVirtual extends ExecutedExam implements Serializable {
         this.solutions=new ArrayList<String>();
     }
 
+    public ExecutedVirtual() {
+    }
+
 
     public String getNote() {
         return note;

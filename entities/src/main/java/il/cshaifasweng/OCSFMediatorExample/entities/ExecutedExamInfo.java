@@ -10,27 +10,32 @@ import java.io.Serializable;
 public class ExecutedExamInfo implements Serializable {
 
     @Id
+    private int id ;
+
     private String code;
     private String password;
-    private Double average;
-    private Double median;
+    private double average;
+    private double median;
+
     private int[] hist;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JoinColumn(name = "testDate_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "testDate")
     private List<ExecutedExam> executedExamList;
 
-    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
-    @JoinColumn(name = "teacher_id")
-    private Teacher executingTeacher;
+//    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+//    @JoinColumn(name = "teacher_id")
+//    private Teacher executingTeacher;
 
-    public ExecutedExamInfo(String code, String password, Double average, Double median) {
+    public ExecutedExamInfo(String code, String password, double average, double median) {
         this.code = code;
         this.password = password;
         this.average = average;
         this.median = median;
         this.hist = new int[10];
         this.executedExamList = new ArrayList<ExecutedExam>();
+    }
+
+    public ExecutedExamInfo() {
     }
 
     public String getCode() {
@@ -65,13 +70,13 @@ public class ExecutedExamInfo implements Serializable {
         this.median = median;
     }
 
-    public int[] getHist() {
-        return hist;
-    }
+   // public int[] getHist() {
+       // return hist;
+    //}
 
-    public void setHist(int[] hist) {
-        this.hist = hist;
-    }
+   // public void setHist(int[] hist) {
+       // this.hist = hist;
+   // }
 
     public List<ExecutedExam> getExecutedExamList() {
         return executedExamList;
@@ -81,13 +86,13 @@ public class ExecutedExamInfo implements Serializable {
         this.executedExamList = executedExamList;
     }
 
-    public  void setExecutingTeacher(Teacher teacher)
-    {
-        if (this.executingTeacher != null) {
-            this.executingTeacher.getExams().remove(this);
-        }
-
-        this.executingTeacher = teacher;
-        teacher.getExamsInfo().add(this);
-    }
+//    public  void setExecutingTeacher(Teacher teacher)
+//    {
+//        if (this.executingTeacher != null) {
+//            this.executingTeacher.getExams().remove(this);
+//        }
+//
+//        this.executingTeacher = teacher;
+//        teacher.getExamsInfo().add(this);
+//    }
 }
