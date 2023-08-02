@@ -7,25 +7,27 @@ import java.util.List;
 @Entity
 @Table(name="Exams")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Exam implements Serializable{
-
-
+public class Exam implements Serializable
+{
     private int time;
 
     @Id
-    private String codeExam;
+    private int codeExam;
 
     private String descForStudent;
 
     private String descForTeacher;
+
+    String type;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id2")
     private Teacher teacher;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    //@JoinColumn(name = "exam_id")
+
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam")
     private List<ExecutedExam> executedExams;
 
 
@@ -34,13 +36,14 @@ public class Exam implements Serializable{
     }
 
 
-    public Exam( int time, String codeExam, String descForStudent, String descForTeacher, Teacher teacher) {
+    public Exam(int time, int codeExam, String descForStudent, String descForTeacher, Teacher teacher, String type) {
         super();
         this.time = time;
         this.codeExam = codeExam;
         this.descForStudent = descForStudent;
         this.descForTeacher = descForTeacher;
         setTeacher(teacher);
+        this.type = type;
     }
 
     public int getTime() {
@@ -51,11 +54,11 @@ public class Exam implements Serializable{
         this.time = time;
     }
 
-    public String getCodeExam() {
+    public int getCodeExam() {
         return codeExam;
     }
 
-    public void setCodeExam(String codeExam) {
+    public void setCodeExam(int codeExam) {
         this.codeExam = codeExam;
     }
 
@@ -85,14 +88,25 @@ public class Exam implements Serializable{
         }
 
         this.teacher = teacher;
-        teacher.getExams().add(this);
+        //teacher.getExams().add(this);
     }
 
     public List<ExecutedExam> getExecutedExams() {
         return executedExams;
     }
 
+    public String getMyClass ()
+    {
+        return this.getClass().getName();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+
     //TODO: check if need set for executedExams;
+
 
 }
 

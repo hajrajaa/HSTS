@@ -10,9 +10,9 @@ public class ManualExam  extends Exam implements Serializable{
 
     private String file;
 
-    ManualExam( int time, String codeExam, String descForStudent, String descForTeacher, Teacher teacher,String file)
+    ManualExam( int time, int codeExam, String descForStudent, String descForTeacher, Teacher teacher,String file)
     {
-        super( time, codeExam, descForStudent, descForTeacher, teacher);
+        super( time, codeExam, descForStudent, descForTeacher, teacher, "Manual");
         this.file=file;
     }
 
@@ -28,4 +28,8 @@ public class ManualExam  extends Exam implements Serializable{
         this.file = file;
     }
 
+//    public String getMyClass ()
+//    {
+//        return this.getClass().getName();
+//    }
 }

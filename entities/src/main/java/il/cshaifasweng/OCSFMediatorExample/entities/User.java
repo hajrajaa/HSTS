@@ -11,19 +11,20 @@ import java.util.ArrayList;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User implements Serializable{
 
-    public enum type{
-        Student,Teacher,Principal;
+    public enum UserType{
+        Student,Teacher,Princiaple;
     }
 
-    @Id
     private int id;
+
+    @Id
     private String userName;
 
     private  String password;
 
 
 
-    private type type;
+    private UserType type;
 
 
     private boolean isConnected=false;
@@ -31,7 +32,7 @@ public class User implements Serializable{
     public User() {
     }
 
-    public User(int id ,String username ,String password, type type)
+    public User(int id ,String username ,String password, UserType type)
     {
         super();
         this.id=id;
@@ -82,11 +83,11 @@ public class User implements Serializable{
     }
 
 
-    public User.type getType() {
+    public UserType getType() {
         return type;
     }
 
-    public void setType(User.type type) {
+    public void setType(UserType type) {
         this.type = type;
     }
 

@@ -1,7 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Exam;
 import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import il.cshaifasweng.OCSFMediatorExample.entities.User;
+import il.cshaifasweng.OCSFMediatorExample.entities.VirtualExam;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +24,13 @@ import org.greenrobot.eventbus.Subscribe;
 public class App extends Application {
 
     private static Scene scene;
-    private SimpleClient client;
+    public SimpleClient client;
 
 
-    private  User user;
+   public static User user;
+
+
+    public  static VirtualExam vexam;
 
     private   User getUser() {
         return user;
@@ -34,6 +39,15 @@ public class App extends Application {
     private   void setUser(User user) {
         this.user = user;
     }
+
+    public static VirtualExam getExam() {
+        return vexam;
+    }
+
+    public static void setExam(VirtualExam exam) {
+        App.vexam = exam;
+    }
+
 
 
     @Override
@@ -54,8 +68,6 @@ public class App extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
-    
-    
 
     @Override
 	public void stop() throws Exception {
@@ -81,25 +93,45 @@ public class App extends Application {
     public void loginEventfunc(loginEvent event)
     {
         setUser(event.getUser());
-        chnageScene();
+        changeScene();
 
     }
 
-    private void chnageScene()
+    @Subscribe
+    public  void solveExamEventfunc(SolveExamEvent event)
     {
-        String fxmlFile;
+        System.out.println("MEEEE");
+        setExam(event.getExam());
+        Platform.runLater(()->{
+                    try
+                    {
+                        //// change the page name
+                        scene.setRoot(loadFXML("solve_exam"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+
+    }
+
+    private void changeScene()
+    {
+        String fxmlFile1;
+
         switch (user.getType())
         {
             case Student:
-                fxmlFile="studentMain";
+                fxmlFile1="studentMain";
                 break;
 
             case Teacher:
-                fxmlFile="teacherMain";
+                fxmlFile1="teacherMain";
                 break;
 
-            case Principal:
-                fxmlFile="principalMain";
+            case Princiaple:
+                fxmlFile1="principalMain";
                 break;
             default:
                 return;
@@ -108,7 +140,7 @@ public class App extends Application {
         Platform.runLater(()->{
             try
             {
-                scene.setRoot(loadFXML(fxmlFile));
+                scene.setRoot(loadFXML(fxmlFile1));
             }catch (IOException e)
             {
                 e.printStackTrace();
