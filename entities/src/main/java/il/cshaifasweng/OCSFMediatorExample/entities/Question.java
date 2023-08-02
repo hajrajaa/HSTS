@@ -20,8 +20,13 @@ public class Question implements Serializable {
     private int correct_answer;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "question")
-    private List<Subject> subjects;
+   // @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "question")
+    //private List<Subject> subjects;
+
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "questions_courses",
@@ -35,7 +40,7 @@ public class Question implements Serializable {
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = new String[4];
-        this.subjects=new ArrayList<>();
+       // this.subjects=new ArrayList<>();
     }
 
     public Question() {

@@ -121,7 +121,8 @@ public class SimpleServer extends AbstractServer {
 
 	}
 
-	public static void connectToDate() {
+	public static void connectToDate()
+	{
 
 		try {
 			session.beginTransaction();
@@ -178,6 +179,11 @@ public class SimpleServer extends AbstractServer {
 
 			session.save(newExam);
 			session.flush();
+
+			List<Question> questions=new ArrayList<>();
+
+
+			//Subject subject1=new Subject("Computer Science",)
 
 			session.getTransaction().commit(); // Save everything.
 		} catch (Exception e1) {

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.TeacherMainController">
+   <children>
+      <Button fx:id="createQuestionButton" layoutX="579.0" layoutY="186.0" mnemonicParsing="false" onAction="#createQuestionButton" style="-fx-background-color: #FCC419;" text="Create Question" />
+      <Button fx:id="createExamButton" layoutX="579.0" layoutY="243.0" mnemonicParsing="false" onAction="#createExamButton" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #FCC419;" text="Create Exam" />
+      <Button fx:id="execExamButton" layoutX="579.0" layoutY="300.0" mnemonicParsing="false" onAction="#execExamButton" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #FCC419;" text="Execute Exam" />
+      <Button fx:id="seeStatisticsButton" layoutX="579.0" layoutY="370.0" mnemonicParsing="false" onAction="#seeStatisticsButton" prefHeight="25.0" prefWidth="102.0" style="-fx-background-color: #FCC419;" text="See Statistics" />
+   </children>
+</AnchorPane>
