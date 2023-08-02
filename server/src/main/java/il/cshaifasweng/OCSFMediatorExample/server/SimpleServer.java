@@ -321,6 +321,34 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 		}
+
+		else if (msgString.startsWith("#GetListOfStudents")){
+			session.beginTransaction();
+
+			List<Student> students = getAllObjects(Student.class);
+
+			try {
+				client.sendToClient(new Message("#ShowAllStudents", students));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		else if (msgString.startsWith("#GetListOfTeachers")) {
+
+			session.beginTransaction();
+
+			List<Teacher> teachers = getAllObjects(Teacher.class);
+			for (int i = 0; i < teachers.size(); i++) {
+				System.out.println("AAAAAAAA");
+				System.out.println(teachers.get(i).getUserName());
+			}
+			try {
+				client.sendToClient(new Message("#ShowAllTeachers", teachers));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private boolean validExamCode(String code) {

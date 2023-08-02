@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrincipleTeachersMenu">
+    <children>
+        <Button fx:id="p_back_btn" layoutX="750.0" layoutY="30.0" mnemonicParsing="false" onAction="#go_back" prefHeight="60.0" prefWidth="120.0" text="Back">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+        <TableView fx:id="p_teacher_list" layoutX="38.0" layoutY="85.0" prefHeight="482.0" prefWidth="311.0">
+            <columns>
+                <TableColumn fx:id="usernameCloumn" prefWidth="155.19995880126953" text="Name" />
+                <TableColumn fx:id="idCloumn" prefWidth="242.4000244140625" text="ID" />
+            </columns></TableView>
+        <TableView fx:id="p_teacher_list1" layoutX="415.0" layoutY="85.0" prefHeight="482.0" prefWidth="311.0">
+            <columns>
+                <TableColumn fx:id="usernameCloumn1" prefWidth="155.19995880126953" text="Name" />
+                <TableColumn fx:id="idCloumn1" prefWidth="242.4000244140625" text="ID" />
+            </columns>
+        </TableView>
+        <Button fx:id="p_view_teacher" layoutX="750.0" layoutY="510.0" mnemonicParsing="false" onAction="#view_teacher_stats" prefHeight="60.0" prefWidth="120.0" text="View">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+        <Label fx:id="teacher_lbl" layoutX="38.0" layoutY="45.0" prefHeight="18.0" prefWidth="432.0" text="List of teachers:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+    </children>
+</AnchorPane>
