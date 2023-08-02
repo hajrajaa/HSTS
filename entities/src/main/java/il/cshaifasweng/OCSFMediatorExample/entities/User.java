@@ -17,6 +17,8 @@ public class User implements Serializable{
 
     private int id;
 
+
+
     @Id
     private String userName;
 
@@ -56,13 +58,6 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    public String getName() {
-        return userName;
-    }
-
-    public void setName(String name) {
-        this.userName = name;
-    }
 
     public String getPassword() {
         return password;
@@ -71,7 +66,6 @@ public class User implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-
 
 
     public boolean isConnected() {
@@ -89,6 +83,14 @@ public class User implements Serializable{
 
     public void setType(UserType type) {
         this.type = type;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
 

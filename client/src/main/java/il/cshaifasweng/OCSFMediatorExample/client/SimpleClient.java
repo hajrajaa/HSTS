@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.EventBus;
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SimpleClient extends AbstractClient {
 	
@@ -59,6 +60,34 @@ public class SimpleClient extends AbstractClient {
 		{
 			Platform.runLater(()->{
 						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+
+		else if (messageSt.equals("#ShowAllStudents"))
+		{
+			List<Student> students=(List<Student>) message.getObject1();
+			for(int i=0;i<students.size();i++)
+			{
+				System.out.println(students.get(i).getUserName());
+			}
+			ShowStudentsEvent newEvent= new ShowStudentsEvent(students);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+
+		else if (messageSt.equals("#ShowAllTeachers"))
+		{
+			List<Teacher> teachers=(List<Teacher>) message.getObject1();
+			for(int i=0;i<teachers.size();i++)
+			{
+				System.out.println(teachers.get(i).getUserName());
+			}
+			ShowTeachersEvent newEvent= new ShowTeachersEvent(teachers);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
 					}
 			);
 		}

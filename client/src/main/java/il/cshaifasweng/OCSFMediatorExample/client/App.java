@@ -1,9 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Exam;
-import il.cshaifasweng.OCSFMediatorExample.entities.Student;
-import il.cshaifasweng.OCSFMediatorExample.entities.User;
-import il.cshaifasweng.OCSFMediatorExample.entities.VirtualExam;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -29,8 +27,27 @@ public class App extends Application {
 
    public static User user;
 
-
     public  static VirtualExam vexam;
+
+    public  static List<Student> studentList;
+
+    public  static List<Teacher> teacherList;
+
+    public static List<Student> getStudentList() {
+        return studentList;
+    }
+
+    public static void setStudentList(List<Student> studentList) {
+        App.studentList = studentList;
+    }
+
+    public static List<Teacher> getTeacherList() {
+        return teacherList;
+    }
+
+    public static void setTeacherList(List<Teacher> teacherList) {
+        App.teacherList = teacherList;
+    }
 
     private   User getUser() {
         return user;
@@ -116,6 +133,51 @@ public class App extends Application {
 
     }
 
+    @Subscribe
+    public void ShowStudentsEvent(ShowStudentsEvent event)
+    {
+        setStudentList(event.getStudentList());
+        List<Student> students=getStudentList();
+        System.out.println("AAAAAAAAA");
+        for(int i=0;i<students.size();i++)
+        {
+            System.out.println(students.get(i).getUserName());
+        }
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML("principle_student_menu"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+    @Subscribe
+    public void ShowTeachersEvent(ShowTeachersEvent event)
+    {
+        setTeacherList(event.getTeacherList());
+        List<Teacher> Teacher=getTeacherList();
+        System.out.println("AAAAAAAAA");
+        for(int i=0;i<Teacher.size();i++)
+        {
+            System.out.println(Teacher.get(i).getUserName());
+        }
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML("principle_teachers_menu"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+
     private void changeScene()
     {
         String fxmlFile1;
@@ -131,7 +193,7 @@ public class App extends Application {
                 break;
 
             case Princiaple:
-                fxmlFile1="principalMain";
+                fxmlFile1="principle_homepage";
                 break;
             default:
                 return;
