@@ -10,7 +10,6 @@ import java.util.List;
 public class Exam implements Serializable
 {
     private int time;
-
     @Id
     private int codeExam;
 
@@ -18,17 +17,20 @@ public class Exam implements Serializable
 
     private String descForTeacher;
 
-    String type;
+    //String type;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id2")
     private Teacher teacher;
 
 
-
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam")
     private List<ExecutedExam> executedExams;
+
+     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam" )
+    private List<ExamQuestion> examQuestion;
+
+
 
 
     public Exam() {
@@ -43,7 +45,7 @@ public class Exam implements Serializable
         this.descForStudent = descForStudent;
         this.descForTeacher = descForTeacher;
         setTeacher(teacher);
-        this.type = type;
+      //  this.type = type;
     }
 
     public int getTime() {
@@ -100,12 +102,10 @@ public class Exam implements Serializable
         return this.getClass().getName();
     }
 
-    public String getType() {
-        return type;
-    }
+//    public String getType() {
+//        return type;
+//    }
 
-
-    //TODO: check if need set for executedExams;
 
 
 }

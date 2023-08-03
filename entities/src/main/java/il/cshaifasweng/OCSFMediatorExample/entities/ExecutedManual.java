@@ -7,6 +7,7 @@ import java.io.Serializable;
 //@DiscriminatorValue("exacutedmanual")
 public class ExecutedManual extends ExecutedExam implements Serializable {
 
+
     String solutionFile;
 
 

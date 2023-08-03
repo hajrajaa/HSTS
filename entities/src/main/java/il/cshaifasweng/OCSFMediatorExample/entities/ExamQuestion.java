@@ -13,17 +13,23 @@ public class ExamQuestion extends Question implements Serializable{
     private String teacher_note;
     private String student_note;
 
-    //@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    //@JoinColumn(name = "virExam_id")
-    //private VirtualExam virtualExam;
+
+
+
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "exam_id")
+    private Exam exam;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id")
+    private Question question;
 
     public ExamQuestion(int id, int code, String question, int correct_answer, String[] answers, int points, String teacher_note, String student_note) {
         super(code, question, answers, correct_answer);
-//        this.id=id;
         this.points = points;
         this.teacher_note = teacher_note;
         this.student_note = student_note;
-       // this.virtualExam=virtualExam;
     }
 
     public ExamQuestion() {

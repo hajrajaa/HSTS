@@ -9,11 +9,15 @@ import java.io.Serializable;
 @Table(name = "Teachers")
 public class Teacher extends User implements Serializable {
 
+
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "teacher_course",
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> coursesList;
+
+
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "teacher_subject",
@@ -77,6 +81,23 @@ public class Teacher extends User implements Serializable {
 
     public void setCourseID(List<String> courseID) {
         this.courseID = courseID;
+    }
+
+
+    public List<Subject> getSubjectsList() {
+        return subjectsList;
+    }
+
+    public void setSubjectsList(List<Subject> subjectsList) {
+        this.subjectsList = subjectsList;
+    }
+
+    public List<Course> getCoursesList() {
+        return coursesList;
+    }
+
+    public void setCoursesList(List<Course> coursesList) {
+        this.coursesList = coursesList;
     }
 
 }

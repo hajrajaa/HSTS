@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrincipleHomepage">
    <children>
-      <Button fx:id="p_exit_btn" layoutX="750.0" layoutY="25.0" mnemonicParsing="false" onAction="#p_Exit" prefHeight="60.0" prefWidth="120.0" text="Exit">
+      <Button fx:id="logOutBtn" layoutX="750.0" layoutY="25.0" mnemonicParsing="false" onAction="#logOutBtn" prefHeight="60.0" prefWidth="120.0" text="LogOut">
          <font>
             <Font size="20.0" />
          </font></Button>
