@@ -15,11 +15,12 @@ public class User implements Serializable{
         Student,Teacher,Princiaple;
     }
 
+
     private int id;
 
 
-
     @Id
+
     private String userName;
 
     private  String password;

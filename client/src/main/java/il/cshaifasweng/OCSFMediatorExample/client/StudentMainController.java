@@ -6,11 +6,25 @@ import java.util.ResourceBundle;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Question;
+import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class StudentMainController {
+
+
+
+    public static User user1;
+
+    public static User getUser1() {
+        return user1;
+    }
+
+    public static void setUser1(User user) {
+        StudentMainController.user1 = user;
+    }
 
     @FXML
     private ResourceBundle resources;
@@ -20,6 +34,9 @@ public class StudentMainController {
 
     @FXML
     private TextField examCodeTxt;
+
+    @FXML
+    private Button logOutBtn;
 
     @FXML
     void GetExamCopyButton(ActionEvent event) {
@@ -56,8 +73,24 @@ public class StudentMainController {
     }
 
     @FXML
-    void initialize() {
+    void logOutBtn(ActionEvent event)
+    {
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#LogOut", user1));
+            App.setRoot("login1");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    void initialize()
+    {
+        setUser1(App.getUser());
         assert examCodeTxt != null : "fx:id=\"examCodeTxt\" was not injected: check your FXML file 'studentMain.fxml'.";
+        assert logOutBtn != null : "fx:id=\"logOutBtn\" was not injected: check your FXML file 'studentMain.fxml'.";
 
     }
 

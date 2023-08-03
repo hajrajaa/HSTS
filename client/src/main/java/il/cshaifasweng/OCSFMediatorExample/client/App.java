@@ -25,9 +25,10 @@ public class App extends Application {
     public SimpleClient client;
 
 
-   public static User user;
 
-    public  static VirtualExam vexam;
+    public static User user;
+
+    public  static xxxxxxxx vexam;
 
     public  static List<Student> studentList;
 
@@ -49,21 +50,23 @@ public class App extends Application {
         App.teacherList = teacherList;
     }
 
-    private   User getUser() {
-        return user;
-    }
 
-    private   void setUser(User user) {
-        this.user = user;
-    }
-
-    public static VirtualExam getExam() {
+    public static xxxxxxxx getExam() {
         return vexam;
     }
 
-    public static void setExam(VirtualExam exam) {
+    public static void setExam(xxxxxxxx exam) {
         App.vexam = exam;
     }
+
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        App.user = user;
+    }
+
 
 
 
@@ -117,7 +120,6 @@ public class App extends Application {
     @Subscribe
     public  void solveExamEventfunc(SolveExamEvent event)
     {
-        System.out.println("MEEEE");
         setExam(event.getExam());
         Platform.runLater(()->{
                     try
@@ -138,11 +140,6 @@ public class App extends Application {
     {
         setStudentList(event.getStudentList());
         List<Student> students=getStudentList();
-        System.out.println("AAAAAAAAA");
-        for(int i=0;i<students.size();i++)
-        {
-            System.out.println(students.get(i).getUserName());
-        }
         Platform.runLater(()->{
                     try
                     {
@@ -160,11 +157,6 @@ public class App extends Application {
     {
         setTeacherList(event.getTeacherList());
         List<Teacher> Teacher=getTeacherList();
-        System.out.println("AAAAAAAAA");
-        for(int i=0;i<Teacher.size();i++)
-        {
-            System.out.println(Teacher.get(i).getUserName());
-        }
         Platform.runLater(()->{
                     try
                     {

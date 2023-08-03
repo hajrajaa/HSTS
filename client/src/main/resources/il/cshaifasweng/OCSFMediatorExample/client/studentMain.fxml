@@ -22,5 +22,10 @@
          </font>
       </Text>
       <TextField fx:id="examCodeTxt" layoutX="280.0" layoutY="129.0" />
+      <Button fx:id="logOutBtn" layoutX="758.0" layoutY="37.0" mnemonicParsing="false" onAction="#logOutBtn" prefHeight="48.0" prefWidth="175.0" text="LogOut">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

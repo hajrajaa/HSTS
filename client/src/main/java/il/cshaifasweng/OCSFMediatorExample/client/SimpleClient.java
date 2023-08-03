@@ -1,16 +1,11 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
-import il.cshaifasweng.OCSFMediatorExample.client.loginEvent;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 
-import java.io.IOException;
 import java.util.List;
 
 public class SimpleClient extends AbstractClient {
@@ -37,6 +32,7 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
+
 		else if (messageSt.equals("#loginWarning"))
 		{
 			Platform.runLater(()->{
@@ -46,11 +42,10 @@ public class SimpleClient extends AbstractClient {
 		}
 		else if(messageSt.equals("#SolveExamResponse"))
 		{
-			System.out.println("MCCCC");
-			VirtualExam exam=(VirtualExam) message.getObject1();
+
+			xxxxxxxx exam=(xxxxxxxx) message.getObject1();
 			SolveExamEvent newEvent=new SolveExamEvent(exam);
 			Platform.runLater(()->{
-						System.out.println("MDDD");
 						EventBus.getDefault().post(newEvent);
 					}
 			);

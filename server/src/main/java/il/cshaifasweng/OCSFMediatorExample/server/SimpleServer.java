@@ -15,10 +15,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SimpleServer extends AbstractServer {
 
@@ -42,8 +40,8 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(ExecutedExamInfo.class);
 		configuration.addAnnotatedClass(ExamQuestion.class);
 		configuration.addAnnotatedClass(Question.class);
-		configuration.addAnnotatedClass(VirtualExam.class);
-		configuration.addAnnotatedClass(ManualExam.class);
+		configuration.addAnnotatedClass(xxxxxxxx.class);
+		configuration.addAnnotatedClass(yyyyyyyyyy.class);
 		configuration.addAnnotatedClass(ExecutedManual.class);
 		configuration.addAnnotatedClass(ExecutedVirtual.class);
 		configuration.addAnnotatedClass(Message.class);
@@ -175,12 +173,15 @@ public class SimpleServer extends AbstractServer {
 			session.save(exam);
 			session.flush();
 
-			VirtualExam newExam = new VirtualExam(89, 12345, "aaaaa", "bbbbbb", newTeacher1);
 
-			session.save(newExam);
-			session.flush();
+			//List<Question> questions=new ArrayList<>();
 
-			List<Question> questions=new ArrayList<>();
+//			Subject s1 = new Subject("Computer Science");
+//			Course c1s1 = new Course("Intro to CS", s1);
+//			Course c2s1 = new Course("OOP", s1);
+//			Course c3s1 = new Course("Data Structures", s1);
+			//session.save(newExam);
+			//session.flush();
 
 
 			//Subject subject1=new Subject("Computer Science",)
@@ -241,7 +242,22 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 
-		} else if (msgString.equals("#CreateQusetionRequest")) {
+		} else if(msgString.equals("#LogOut"))
+		{
+			try
+			{
+			session.beginTransaction();
+			User currUser=(User) message.getObject1();
+			currUser.setConnected(false);
+			session.merge(currUser);
+			session.getTransaction().commit();
+			}
+			catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		else if (msgString.equals("#CreateQusetionRequest")) {
 			try {
 				session.beginTransaction();
 				Question newQues = (Question) message.getObject1();
@@ -263,7 +279,7 @@ public class SimpleServer extends AbstractServer {
 				} else {
 					int Ncode = Integer.valueOf(examCode);
 					//Exam exam = session.find(Exam.class, Ncode);
-					VirtualExam vExam = session.find(VirtualExam.class, Ncode);
+					xxxxxxxx vExam = session.find(xxxxxxxx.class, Ncode);
 					//vExam.myPrint();
 					//System.out.println("vode"+vExam.getCodeExam());
 					//String examType = exam.getType();
@@ -290,7 +306,7 @@ public class SimpleServer extends AbstractServer {
 						//VirtualExam ee = new VirtualExam();
 						//VirtualExam ww = new VirtualExam(vExam);
 
-						client.sendToClient(new Message("#SolveExamResponse",(VirtualExam) vExam));
+						client.sendToClient(new Message("#SolveExamResponse",(xxxxxxxx) vExam));
 					}
 				}
 				session.getTransaction().commit();
