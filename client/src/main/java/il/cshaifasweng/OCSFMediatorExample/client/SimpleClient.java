@@ -32,11 +32,19 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
-
 		else if (messageSt.equals("#loginWarning"))
 		{
 			Platform.runLater(()->{
 			EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+		else if (messageSt.equals("#GetUserResponce"))
+		{
+			User user = (User) message.getObject1();
+			getUserEvent newEvent = new getUserEvent(user);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
 					}
 			);
 		}

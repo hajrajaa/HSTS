@@ -30,9 +30,6 @@ public class Exam implements Serializable
      @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam" )
     private List<ExamQuestion> examQuestion;
 
-
-
-
     public Exam() {
 
     }

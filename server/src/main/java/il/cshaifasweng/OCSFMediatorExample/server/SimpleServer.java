@@ -242,7 +242,39 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 
-		} else if(msgString.equals("#LogOut"))
+		}
+		else if (msgString.equals("#GetUserRequest")) {
+			Object[] newLogin = (Object[]) message.getObject1();
+
+			String userName = (String) newLogin[0];
+			String userPassword = (String) newLogin[1];
+
+			try {
+				session.beginTransaction();
+				User user = session.find(User.class, userName);
+				if (user == null) {
+					Warning warning = new Warning("User Name doesn't exist");
+					client.sendToClient(new Message("#loginWarning", warning));
+				} else {
+					if (!user.isConnected()) {
+						Warning warning = new Warning("User Not Connected");
+						client.sendToClient(new Message("#loginWarning", warning));
+					} else {
+						if (user.getPassword().equals(userPassword)) {
+							client.sendToClient(new Message("#GetUserResponce", user));
+						} else {
+							Warning warning = new Warning("password is not correct");
+							client.sendToClient(new Message("#loginWarning", warning));
+						}
+					}
+				}
+				session.getTransaction().commit();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+		}
+		else if(msgString.equals("#LogOut"))
 		{
 			try
 			{
@@ -365,6 +397,37 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+//		else if (msgString.equals("#GetGrade")) {
+//			int Ncode = (int) message.getObject1();
+//
+//			try {
+//				session.beginTransaction();
+//				ExecutedExam exam = getAllObjects(ExecutedExam.class);
+//				if (exam == null) {
+//					Warning warning = new Warning("Exam Dose Not Exist");
+//					client.sendToClient(new Message("#loginWarning", warning));
+//				} else {
+//					if (user.isConnected()) {
+//						Warning warning = new Warning("You're already connected ");
+//						client.sendToClient(new Message("#loginWarning", warning));
+//					} else {
+//						if (user.getPassword().equals(userPassword)) {
+//							user.setConnected(true);
+//							client.sendToClient(new Message("#LogInSuccessfully", user));
+//							session.update(user);
+//							session.flush();
+//						} else {
+//							Warning warning = new Warning("password is not correct");
+//							client.sendToClient(new Message("#loginWarning", warning));
+//						}
+//					}
+//				}
+//				session.getTransaction().commit();
+//			} catch (Exception e1) {
+//				e1.printStackTrace();
+//			}
+//
+//		}
 	}
 
 	private boolean validExamCode(String code) {

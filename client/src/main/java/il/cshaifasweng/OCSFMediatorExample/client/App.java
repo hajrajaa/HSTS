@@ -114,7 +114,6 @@ public class App extends Application {
     {
         setUser(event.getUser());
         changeScene();
-
     }
 
     @Subscribe
@@ -150,6 +149,14 @@ public class App extends Application {
                     }
                 }
         );
+    }
+
+    @Subscribe
+    public void getUserResponse(getUserEvent event)
+    {
+        setUser(event.getUser());
+        GetGradeController.hww(user);
+//        error_bar_text.setText("Hello " + user.getUserName());
     }
 
     @Subscribe
