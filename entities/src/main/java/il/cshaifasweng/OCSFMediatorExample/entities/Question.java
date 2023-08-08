@@ -28,12 +28,20 @@ public class Question implements Serializable {
     private List<ExamQuestion> examQuestions;
 
 
-    public Question(int code, String question, String[] answers, int correct_answer) {
+    public Question(int code, String question, int correct_answer) {
         super();
         this.code = code;
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = new String[4];
+    }
+
+    public Question(int code, String question, String[] answers, int correct_answer) {
+        super();
+        this.code = code;
+        this.question = question;
+        this.correct_answer = correct_answer;
+        this.answers = answers;
     }
 
     public Question() {

@@ -151,13 +151,12 @@ public class App extends Application {
         );
     }
 
-    @Subscribe
-    public void getUserResponse(getUserEvent event)
-    {
-        setUser(event.getUser());
-        GetGradeController.hww(user);
-//        error_bar_text.setText("Hello " + user.getUserName());
-    }
+//    @Subscribe
+//    public void getUserResponse(getUserEvent event)
+//    {
+//        setUser(event.getUser());
+//        GetGradeController.hww(user);
+//    }
 
     @Subscribe
     public void ShowTeachersEvent(ShowTeachersEvent event)

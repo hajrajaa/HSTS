@@ -94,6 +94,15 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
+		else if (messageSt.equals("#GetAllSubjectsResponce"))
+		{
+			List<Subject> allSubjects = (List<Subject>) message.getObject1();
+			EventGetAllSubjects newEvent = new EventGetAllSubjects(allSubjects);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
 
 	}
 	

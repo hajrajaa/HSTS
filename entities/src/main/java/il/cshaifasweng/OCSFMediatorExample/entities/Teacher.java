@@ -15,7 +15,7 @@ public class Teacher extends User implements Serializable {
     @JoinTable(name = "teacher_course",
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> coursesList;
+    private List<Course> teachersList;
 
 
 
@@ -93,11 +93,11 @@ public class Teacher extends User implements Serializable {
     }
 
     public List<Course> getCoursesList() {
-        return coursesList;
+        return teachersList;
     }
 
     public void setCoursesList(List<Course> coursesList) {
-        this.coursesList = coursesList;
+        this.teachersList = coursesList;
     }
 
 }

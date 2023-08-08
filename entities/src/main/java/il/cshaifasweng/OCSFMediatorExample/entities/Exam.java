@@ -13,6 +13,7 @@ public class Exam implements Serializable
     @Id
     private int codeExam;
 
+    private String title;
     private String descForStudent;
 
     private String descForTeacher;
@@ -27,8 +28,14 @@ public class Exam implements Serializable
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam")
     private List<ExecutedExam> executedExams;
 
-     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam" )
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam" )
     private List<ExamQuestion> examQuestion;
+
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(name = "examsList",
+//            joinColumns = @JoinColumn(name = "exam_id"),
+//            inverseJoinColumns = @JoinColumn(name = "course_id"))
+//    private List<Course> coursesList;
 
     public Exam() {
 
@@ -43,6 +50,24 @@ public class Exam implements Serializable
         this.descForTeacher = descForTeacher;
         setTeacher(teacher);
       //  this.type = type;
+    }
+
+    public Exam(int codeExam, String title, int time, String descForStudent, String descForTeacher, Teacher teacher, String type) {
+        super();
+        this.title = title;
+        this.codeExam = codeExam;
+        this.time = time;
+        this.descForStudent = descForStudent;
+        this.descForTeacher = descForTeacher;
+        setTeacher(teacher);
+        //  this.type = type;
+    }
+
+    public Exam(int codeExam, String title, List<ExamQuestion> list)
+    { // TODO DELETE
+        this.title = title;
+        this.codeExam = codeExam;
+        this.examQuestion = list;
     }
 
     public int getTime() {
@@ -80,6 +105,21 @@ public class Exam implements Serializable
         return teacher;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+//    public List<Course> getCoursesList() {
+//        return coursesList;
+//    }
+//
+//    public void setCoursesList(List<Course> coursesList) {
+//        this.coursesList = coursesList;
+//    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public void setTeacher(Teacher teacher) {
         if (this.teacher != null) {
@@ -88,6 +128,14 @@ public class Exam implements Serializable
 
         this.teacher = teacher;
         //teacher.getExams().add(this);
+    }
+
+    public List<ExamQuestion> getExamQuestion() {
+        return examQuestion;
+    }
+
+    public void setExamQuestion(List<ExamQuestion> examQuestion) {
+        this.examQuestion = examQuestion;
     }
 
     public List<ExecutedExam> getExecutedExams() {

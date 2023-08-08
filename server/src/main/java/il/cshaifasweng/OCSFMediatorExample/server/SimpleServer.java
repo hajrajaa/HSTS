@@ -183,11 +183,76 @@ public class SimpleServer extends AbstractServer {
 			//session.save(newExam);
 			//session.flush();
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////// Subjects and Courses ///////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
-			//Subject subject1=new Subject("Computer Science",)
+			Subject cs = new Subject(17, "Computer Science");
+			session.save(cs);
+			Subject mathematics = new Subject(26, "Mathematics");
+			session.save(mathematics);
+			Subject sports = new Subject(39, "Sports");
+			session.save(sports);
+			session.flush();
+
+			ArrayList<Course> cs_course = new ArrayList<>();
+			ArrayList<Course> math_course = new ArrayList<>();
+			ArrayList<Course> sports_course = new ArrayList<>();
+
+			Course newCourse = new Course(231, "Data Structure", cs);
+			cs_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(232, "Object Oriented Programming", cs);
+			cs_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+
+			newCourse = new Course(233, "C language", cs);
+			cs_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+//			cs.addCourse(newCourse);
+//			session.update(cs);
+//			session.flush();
+
+			newCourse = new Course(241, "Discrete Mathematics", mathematics);
+			math_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(242, "Calculus 1", mathematics);
+			math_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(243, "Algebra 1", mathematics);
+			math_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(251, "Fencing", sports);
+			sports_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(252, "Equestrianism", sports);
+			sports_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(253, "Rugby", sports);
+			sports_course.add(newCourse);
+			session.save(newCourse);
+			session.flush();
 
 			session.getTransaction().commit(); // Save everything.
-		} catch (Exception e1) {
+
+		}
+		catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -393,6 +458,18 @@ public class SimpleServer extends AbstractServer {
 			}
 			try {
 				client.sendToClient(new Message("#ShowAllTeachers", teachers));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		else if (msgString.startsWith("#GetAllSubjects")) {
+
+			session.beginTransaction();
+
+			List<Subject> allSubjects = getAllObjects(Subject.class);
+			try {
+				client.sendToClient(new Message("#GetAllSubjectsResponce", allSubjects));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

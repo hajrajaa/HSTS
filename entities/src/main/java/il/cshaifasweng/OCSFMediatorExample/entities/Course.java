@@ -17,18 +17,19 @@ public class Course implements Serializable
     @Id
     private  String courseName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentsList")
     private List<Student> studentList = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teachersList")
     private List<Teacher> teacherList = new ArrayList<>();
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "subject_id")
-   private Subject subject;
+    private Subject subject;
 
-
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "examsList")
+//    private List<Exam> examsList = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
     private List<Question> questions = new ArrayList<>();
@@ -41,6 +42,7 @@ public class Course implements Serializable
         this.id=id;
         this.courseName = courseName;
         this.subject=subject;
+//        this.subject.addCourse(this);
     }
 
 
@@ -92,25 +94,20 @@ public class Course implements Serializable
         }
     }
 
+//    public void addExam(Exam... exams) {
+//        for (Exam myExams: exams) {
+//            this.examsList.add(myExams);
+//            myExams.getCoursesList().add(this);
+//        }
+//    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//    public List<Exam> getExamsList() {
+//        return examsList;
+//    }
+//
+//    public void setExamsList(List<Exam> examsList) {
+//        this.examsList = examsList;
+//    }
 
 
 }
