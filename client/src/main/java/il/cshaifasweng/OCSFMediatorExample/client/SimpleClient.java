@@ -21,7 +21,7 @@ public class SimpleClient extends AbstractClient {
 	{
 		Message message = (Message) msg;
 		String messageSt = message.getMessage();
-		System.out.println("mesaageeee"+messageSt);
+		System.out.println("message: "+messageSt);
 
 		if (messageSt.equals("#LogInSuccessfully"))
 		{

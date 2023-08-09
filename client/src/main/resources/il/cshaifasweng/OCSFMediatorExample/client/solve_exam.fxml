@@ -2,48 +2,69 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SolveExamController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SolveExamController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="274.0" layoutX="39.0" layoutY="246.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="465.0" />
-        <Text fx:id="exam_name_text" fill="#abdbe3" layoutX="38.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Exam Name" wrappingWidth="294.77471923828125" />
-        <Button fx:id="finish_exam_button" layoutX="383.0" layoutY="540.0" mnemonicParsing="false" onAction="#finish_exam_click" prefHeight="31.0" prefWidth="120.0" style="-fx-background-color: #e28743;" text="Finish Exam" />
-        <Button fx:id="answer2_button" layoutX="279.0" layoutY="414.0" mnemonicParsing="false" onAction="#answer2_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
+      <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/paper.png" />
+         </image>
+      </ImageView>
+        <Text fx:id="exam_name_text" fill="#abdbe3" layoutX="24.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Exam Name" wrappingWidth="294.77471923828125" />
+        <Button fx:id="finish_exam_button" layoutX="839.0" layoutY="539.0" mnemonicParsing="false" onAction="#finish_exam_click" onMouseEntered="#msin" onMouseExited="#msout" prefHeight="31.0" prefWidth="120.0" style="-fx-background-color: #e28743;" text="Finish Exam" />
+        <Button fx:id="answer2_button" alignment="CENTER" layoutX="511.0" layoutY="376.0" mnemonicParsing="false" onAction="#answer2_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
          <font>
             <Font size="14.0" />
          </font></Button>
-        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="39.0" layoutY="562.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="348.77471923828125" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="38.0" layoutY="72.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="161.0" />
-        <Button fx:id="answer1_button" layoutX="58.0" layoutY="414.0" mnemonicParsing="false" onAction="#answer1_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
+        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="330.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="348.77471923828125" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="24.0" layoutY="78.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="148.0" />
+        <Button fx:id="answer1_button" alignment="CENTER" layoutX="290.0" layoutY="376.0" mnemonicParsing="false" onAction="#answer1_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
          <font>
             <Font size="14.0" />
          </font></Button>
-        <Button fx:id="answer4_button" layoutX="279.0" layoutY="465.0" mnemonicParsing="false" onAction="#answer4_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
+        <Button fx:id="answer4_button" alignment="CENTER" layoutX="511.0" layoutY="427.0" mnemonicParsing="false" onAction="#answer4_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
          <font>
             <Font size="14.0" />
          </font></Button>
-        <Button fx:id="answer3_button" layoutX="58.0" layoutY="465.0" mnemonicParsing="false" onAction="#answer3_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
+        <Button fx:id="answer3_button" alignment="CENTER" layoutX="290.0" layoutY="427.0" mnemonicParsing="false" onAction="#answer3_click" prefHeight="31.0" prefWidth="204.0" style="-fx-background-color: #a5a9ab;">
          <font>
             <Font size="14.0" />
          </font></Button>
-        <Text fx:id="date_text" fill="#abdbe3" layoutX="355.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="06/06/2023" textAlignment="RIGHT" wrappingWidth="147.99999818205833" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="83.0" layoutX="39.0" layoutY="139.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="465.0" />
-        <Text fx:id="question_number_text" layoutX="163.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Question 1/10" textAlignment="CENTER" wrappingWidth="223.77471923828125" />
-        <Button fx:id="next_button" layoutX="418.0" layoutY="152.0" mnemonicParsing="false" onAction="#next_button_click" prefHeight="57.0" prefWidth="65.0" style="-fx-background-color: #e28743;" text="&gt;">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <Button fx:id="prev_button" layoutX="58.0" layoutY="152.0" mnemonicParsing="false" onAction="#prev_button_click" prefHeight="57.0" prefWidth="65.0" style="-fx-background-color: #e28743;" text="&lt;">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-        <TextArea fx:id="question_text_area" layoutX="58.0" layoutY="265.0" prefHeight="97.0" prefWidth="428.0">
+        <Text fx:id="date_text" fill="#abdbe3" layoutX="811.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="06/06/2023" textAlignment="RIGHT" wrappingWidth="147.99999818205833" />
+        <Text fx:id="question_number_text" layoutX="388.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Question 1/10" textAlignment="CENTER" wrappingWidth="223.77471923828125" />
+        <TextArea fx:id="question_text_area" layoutX="290.0" layoutY="227.0" prefHeight="97.0" prefWidth="428.0">
          <font>
             <Font size="18.0" />
          </font></TextArea>
+      <ImageView fitHeight="65.0" fitWidth="70.0" layoutX="117.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/prev.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="65.0" fitWidth="70.0" layoutX="820.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/next.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="note_ImageView" fitHeight="212.0" fitWidth="204.0" layoutX="111.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/note.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="student_note_text" layoutX="147.0" layoutY="433.0" rotate="12.5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" textAlignment="CENTER" wrappingWidth="148.00000190734863" />
+        <Button fx:id="prev_button" layoutX="119.0" layoutY="285.0" mnemonicParsing="false" onAction="#prev_button_click" prefHeight="57.0" prefWidth="65.0" style="-fx-background-color: transparent;">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
+        <Button fx:id="next_button" layoutX="820.0" layoutY="285.0" mnemonicParsing="false" onAction="#next_button_click" prefHeight="57.0" prefWidth="65.0" style="-fx-background-color: transparent;">
+         <font>
+            <Font size="24.0" />
+         </font></Button>
     </children>
 </AnchorPane>

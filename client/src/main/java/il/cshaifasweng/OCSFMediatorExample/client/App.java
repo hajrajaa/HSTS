@@ -75,7 +75,7 @@ public class App extends Application {
     	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("login1"), 1000, 600);
+        scene = new Scene(loadFXML("solve_exam"), 1000, 600);
         stage.setScene(scene);
         stage.show();
     }

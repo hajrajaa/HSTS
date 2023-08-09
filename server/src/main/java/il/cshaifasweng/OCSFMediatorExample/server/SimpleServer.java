@@ -188,66 +188,85 @@ public class SimpleServer extends AbstractServer {
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Subject cs = new Subject(17, "Computer Science");
+
+			Course newCourse = new Course(999, "Intro");
+
+//			cs.getCourses().add(newCourse);
+
 			session.save(cs);
-			Subject mathematics = new Subject(26, "Mathematics");
-			session.save(mathematics);
-			Subject sports = new Subject(39, "Sports");
-			session.save(sports);
-			session.flush();
-
-			ArrayList<Course> cs_course = new ArrayList<>();
-			ArrayList<Course> math_course = new ArrayList<>();
-			ArrayList<Course> sports_course = new ArrayList<>();
-
-			Course newCourse = new Course(231, "Data Structure", cs);
-			cs_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
-
-			newCourse = new Course(232, "Object Oriented Programming", cs);
-			cs_course.add(newCourse);
 			session.save(newCourse);
 			session.flush();
 
 
-			newCourse = new Course(233, "C language", cs);
-			cs_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
-
-//			cs.addCourse(newCourse);
-//			session.update(cs);
+//			cs.setCourses(new ArrayList<Course>());
+//			session.save(cs);
 //			session.flush();
 
-			newCourse = new Course(241, "Discrete Mathematics", mathematics);
-			math_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
+			//Subject cs = new Subject(17, "Computer Science");
+//			cs.getCourses().add(newCourse);
+//			for(int i=0; i<cs.getCourses().size(); i++){
+//				System.out.println(cs.getCourses().get(i));
+//			}
 
-			newCourse = new Course(242, "Calculus 1", mathematics);
-			math_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
-
-			newCourse = new Course(243, "Algebra 1", mathematics);
-			math_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
-
-			newCourse = new Course(251, "Fencing", sports);
-			sports_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
-
-			newCourse = new Course(252, "Equestrianism", sports);
-			sports_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
-
-			newCourse = new Course(253, "Rugby", sports);
-			sports_course.add(newCourse);
-			session.save(newCourse);
-			session.flush();
+//			Subject mathematics = new Subject(26, "Mathematics");
+//			session.save(mathematics);
+//			Subject sports = new Subject(39, "Sports");
+//			session.save(sports);
+//			session.flush();
+//
+//			ArrayList<Course> cs_course = new ArrayList<>();
+//			ArrayList<Course> math_course = new ArrayList<>();
+//			ArrayList<Course> sports_course = new ArrayList<>();
+//
+//			newCourse = new Course(231, "Data Structure", cs);
+//			cs_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(232, "Object Oriented Programming", cs);
+//			cs_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//
+//			newCourse = new Course(233, "C language", cs);
+//			cs_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+////			cs.addCourse(newCourse);
+////			session.update(cs);
+////			session.flush();
+//
+//			newCourse = new Course(241, "Discrete Mathematics", mathematics);
+//			math_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(242, "Calculus 1", mathematics);
+//			math_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(243, "Algebra 1", mathematics);
+//			math_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(251, "Fencing", sports);
+//			sports_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(252, "Equestrianism", sports);
+//			sports_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(253, "Rugby", sports);
+//			sports_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
 
 			session.getTransaction().commit(); // Save everything.
 
@@ -462,7 +481,23 @@ public class SimpleServer extends AbstractServer {
 			session.beginTransaction();
 			System.out.println("AA1");
 			List<Subject> allSubjects = getAllObjects(Subject.class);
+//			System.out.println("Printing allSubjects list:");
+//			for(int i=0; i<allSubjects.size(); i++){
+//				System.out.println(allSubjects.get(i));
+//				for(int k=0; k<allSubjects.get(i).getCourses().size(); k++){
+//					System.out.println(allSubjects.get(i).getCourses().get(k));
+//				}
+//			}
 			try {
+//				Subject ss = new Subject();
+//				ss.setSubName(allSubjects.get(0).getSubName());
+//				ss.setCourses(allSubjects.get(0).getCourses());
+
+//				Subject w = new Subject(17, "w");
+//				Course ww = new Course(999, "www");
+//				w.getCourses().add(ww);
+
+
 				System.out.println("AA2");
 				client.sendToClient(new Message("#GetAllSubjectsResponce", allSubjects));
 			} catch (IOException e) {

@@ -12,38 +12,47 @@ import java.util.List;
 @Table(name = "courses")
 public class Course implements Serializable
 {
-    private int id;
+
+
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentsList")
+//    private List<Student> studentList;
+
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teachersList")
+//    private List<Teacher> teacherList;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "examsList")
+//    private List<Exam> examsList;
+
+    //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
+//    private List<Question> questions;
 
     @Id
+    private int id;
+
     private  String courseName;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentsList")
-    private List<Student> studentList = new ArrayList<>();
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teachersList")
-    private List<Teacher> teacherList = new ArrayList<>();
-
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "examsList")
-//    private List<Exam> examsList = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
-    private List<Question> questions = new ArrayList<>();
+    public Course() {}
 
-    public Course() {
+    public Course(int id ,String courseName)
+    {
+        this.id=id;
+        this.courseName = courseName;
     }
+
+
 
     public Course(int id ,String courseName,Subject subject)
     {
         this.id=id;
         this.courseName = courseName;
-        this.subject=subject;
-//        this.subject.addCourse(this);
+        setSubject(subject);
+//        setSubject(subject);
+   //   this.subject.addCourse(this);
     }
+
 
 
     public String getCourseName() {
@@ -54,45 +63,47 @@ public class Course implements Serializable
         this.courseName = courseName;
     }
 
-
     public Subject getSubject() {
         return subject;
     }
 
     public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
-
-    public List<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
-    }
-
-
-    public void addTeacher(Teacher... teachersList) {
-        for (Teacher  teacher: teachersList) {
-            this.teacherList.add(teacher);
-            teacher.getCoursesList().add(this);
+        if(subject != null){
+            this.subject = subject;
+            subject.getCourses().add(this);
         }
     }
 
-    public void addStudent(Student... students) {
-        for (Student  student: students) {
-            this.studentList.add(student);
-            student.getCoursesList().add(this);
-        }
-    }
+//    public List<Question> getQuestions() {
+//        return questions;
+//    }
+
+//    public void setQuestions(List<Question> questions) {
+//        this.questions = questions;
+//    }
 
 
-    public void addQuestion(Question... questions) {
-        for (Question question: questions) {
-            this.questions.add(question);
-            question.getCoursesList().add(this);
-        }
-    }
+//    public void addTeacher(Teacher... teachersList) {
+//        for (Teacher  teacher: teachersList) {
+//            this.teacherList.add(teacher);
+//            teacher.getCoursesList().add(this);
+//        }
+//    }
+
+//    public void addStudent(Student... students) {
+//        for (Student  student: students) {
+//            this.studentList.add(student);
+//            student.getCoursesList().add(this);
+//        }
+//    }
+
+
+//    public void addQuestion(Question... questions) {
+//        for (Question question: questions) {
+//            this.questions.add(question);
+//            question.getCoursesList().add(this);
+//        }
+//    }
 
 //    public void addExam(Exam... exams) {
 //        for (Exam myExams: exams) {

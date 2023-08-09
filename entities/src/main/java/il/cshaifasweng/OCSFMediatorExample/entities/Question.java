@@ -101,12 +101,12 @@ public class Question implements Serializable {
         this.coursesList = coursesList;
     }
 
-    public void addCourse(Course...coursesList ) {
-        for (Course  course: coursesList) {
-            this.coursesList.add(course);
-            course.getQuestions().add(this);
-        }
-    }
+//    public void addCourse(Course...coursesList ) {
+//        for (Course  course: coursesList) {
+//            this.coursesList.add(course);
+//            course.getQuestions().add(this);
+//        }
+//    }
 
 
 }
