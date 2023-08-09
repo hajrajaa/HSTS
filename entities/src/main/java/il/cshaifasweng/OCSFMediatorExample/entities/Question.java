@@ -17,7 +17,6 @@ public class Question implements Serializable {
 
     private int correct_answer;
 
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "questions_courses",
             joinColumns = @JoinColumn(name = "question_id"),
@@ -26,7 +25,6 @@ public class Question implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "question")
     private List<ExamQuestion> examQuestions;
-
 
     public Question(int code, String question, int correct_answer) {
         super();
@@ -42,6 +40,15 @@ public class Question implements Serializable {
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = answers;
+    }
+
+    public Question(int code, String question, String[] answers, int correct_answer, List<Course> coursesList) {
+        super();
+        this.code = code;
+        this.question = question;
+        this.correct_answer = correct_answer;
+        this.answers = answers;
+        this.coursesList = coursesList;
     }
 
     public Question() {

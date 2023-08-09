@@ -61,14 +61,14 @@ public class StudentMainController {
     }
 
     @FXML
-    void SolveExamButton(ActionEvent event) {
-        try {
-            SimpleClient.getClient().sendToServer(new Message("#SolveExam", examCodeTxt.getText()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-//        App.setRoot("s");
+    void SolveExamButton(ActionEvent event) throws IOException {
+//        try {
+//            SimpleClient.getClient().sendToServer(new Message("#SolveExam", examCodeTxt.getText()));
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+        App.setRoot("solve_exam_enter");
 
     }
 

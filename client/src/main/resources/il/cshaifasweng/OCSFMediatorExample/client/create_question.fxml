@@ -1,55 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="550.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.CreateQuestionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.CreateQuestionController">
     <children>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="121.0" layoutX="39.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="465.0" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="236.0" layoutX="38.0" layoutY="285.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="465.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="424.0" layoutX="524.0" layoutY="89.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="448.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="169.0" layoutX="39.0" layoutY="141.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="465.0" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="236.0" layoutX="39.0" layoutY="330.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="465.0" />
         <Text fill="#abdbe3" layoutX="38.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Create New Question:" wrappingWidth="294.77471923828125" />
-        <TextField fx:id="nameText" editable="false" layoutX="45.0" layoutY="141.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Question:">
+        <TextField fx:id="nameText" editable="false" layoutX="50.0" layoutY="141.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Question:">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <Button fx:id="Save_Button" layoutX="404.0" layoutY="540.0" mnemonicParsing="false" onAction="#save_click" prefWidth="99.0" style="-fx-background-color: #e28743;" text="Save" />
-        <TextArea fx:id="Question_TextArea" layoutX="54.0" layoutY="184.0" prefHeight="63.0" prefWidth="434.0" text="&#10;" />
-        <TextField fx:id="nameText1" editable="false" layoutX="45.0" layoutY="300.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 1:">
+        <Button fx:id="Save_Button" layoutX="865.0" layoutY="528.0" mnemonicParsing="false" onAction="#save_click" onMouseEntered="#save_in" onMouseExited="#save_out" prefHeight="43.0" prefWidth="107.0" style="-fx-background-color: #e28743;" text="Save">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+        <TextArea fx:id="Question_TextArea" layoutX="59.0" layoutY="184.0" prefHeight="103.0" prefWidth="434.0" />
+        <TextField fx:id="nameText1" editable="false" layoutX="46.0" layoutY="345.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 1:">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="Answer1_TextField" layoutX="146.0" layoutY="310.0" prefHeight="31.0" prefWidth="295.0" />
-        <TextField fx:id="nameText11" editable="false" layoutX="44.0" layoutY="351.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 2:">
+        <TextField fx:id="Answer1_TextField" layoutX="147.0" layoutY="355.0" prefHeight="31.0" prefWidth="295.0" />
+        <TextField fx:id="nameText11" editable="false" layoutX="45.0" layoutY="396.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 2:">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="nameText12" editable="false" layoutX="44.0" layoutY="403.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 3:">
+        <TextField fx:id="nameText12" editable="false" layoutX="45.0" layoutY="448.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 3:">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <TextField fx:id="nameText111" editable="false" layoutX="43.0" layoutY="454.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 4:">
+        <TextField fx:id="nameText111" editable="false" layoutX="44.0" layoutY="499.0" prefHeight="51.0" prefWidth="131.0" style="-fx-background-color: #0000;" text="Answer 4:">
             <font>
                 <Font size="18.0" />
             </font>
         </TextField>
-        <Button fx:id="Answer1_Button" layoutX="454.0" layoutY="310.0" mnemonicParsing="false" onAction="#answer1_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
-        <TextField fx:id="Answer2_TextField" layoutX="146.0" layoutY="361.0" prefHeight="31.0" prefWidth="295.0" />
-        <Button fx:id="Answer2_Button" layoutX="454.0" layoutY="361.0" mnemonicParsing="false" onAction="#answer2_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
-        <TextField fx:id="Answer3_TextField" layoutX="146.0" layoutY="413.0" prefHeight="31.0" prefWidth="295.0" />
-        <Button fx:id="Answer3_Button" layoutX="454.0" layoutY="413.0" mnemonicParsing="false" onAction="#answer3_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
-        <TextField fx:id="Answer4_TextField" layoutX="146.0" layoutY="464.0" prefHeight="31.0" prefWidth="295.0" />
-        <Button fx:id="Answer4_Button" layoutX="454.0" layoutY="464.0" mnemonicParsing="false" onAction="#answer4_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
+        <Button fx:id="Answer1_Button" layoutX="455.0" layoutY="355.0" mnemonicParsing="false" onAction="#answer1_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
+        <TextField fx:id="Answer2_TextField" layoutX="147.0" layoutY="406.0" prefHeight="31.0" prefWidth="295.0" />
+        <Button fx:id="Answer2_Button" layoutX="455.0" layoutY="406.0" mnemonicParsing="false" onAction="#answer2_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
+        <TextField fx:id="Answer3_TextField" layoutX="147.0" layoutY="458.0" prefHeight="31.0" prefWidth="295.0" />
+        <Button fx:id="Answer3_Button" layoutX="455.0" layoutY="458.0" mnemonicParsing="false" onAction="#answer3_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
+        <TextField fx:id="Answer4_TextField" layoutX="147.0" layoutY="509.0" prefHeight="31.0" prefWidth="295.0" />
+        <Button fx:id="Answer4_Button" layoutX="455.0" layoutY="509.0" mnemonicParsing="false" onAction="#answer4_click" prefHeight="31.0" prefWidth="31.0" style="-fx-background-color: #ff0404;" text="X" />
         <TextField fx:id="QuestionCode_TextField" layoutX="173.0" layoutY="89.0" prefHeight="31.0" prefWidth="329.0" />
         <Text fill="#abdbe3" layoutX="39.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Question Code:" wrappingWidth="155.77471923828125" />
-        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="39.0" layoutY="562.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="348.77471923828125" />
+        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="524.0" layoutY="556.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="320.9999922271818" />
+      <ComboBox fx:id="Subject_ComboBox" layoutX="541.0" layoutY="116.0" onAction="#SubjectSelected" prefHeight="31.0" prefWidth="414.0" promptText="Choose a Subject" style="-fx-background-color: #ffffff;" />
+      <TableView fx:id="Table" layoutX="541.0" layoutY="165.0" prefHeight="327.0" prefWidth="414.0">
+         <columns>
+            <TableColumn fx:id="Course_Column" prefWidth="327.0" text="Course" />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="65.0" fitWidth="70.0" layoutX="906.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/home_lblue.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="Home_Button" layoutX="906.0" layoutY="11.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: transparent;">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
