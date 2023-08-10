@@ -46,7 +46,7 @@ public class TeacherMainController {
 
     @FXML
     void createExamButton(ActionEvent event) throws IOException {
-        App.setRoot("create_exam1");
+        App.setRoot("create_exam");
     }
 
     @FXML
@@ -89,6 +89,9 @@ public class TeacherMainController {
 
     }
 
+    public void ExamDrawerClick(ActionEvent actionEvent) throws IOException {
+        App.setRoot("exams_drawer");
+    }
 }
 
 

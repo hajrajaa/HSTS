@@ -1,13 +1,16 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.Message;
-import il.cshaifasweng.OCSFMediatorExample.entities.Question;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
+import javafx.util.Callback;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,27 +21,49 @@ public class CreateQuestionController
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// Class Fields ///////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
+    public SimpleClient client;
     static int correctAnswerG=0;
+    private List<Subject> allSubjects;
+    private Subject selectedSubject;
+    private List<Course> allCourses;
+    private List<Course> chosenCourses;
     @FXML
-    private Button Answer1_Button, Answer2_Button, Answer3_Button, Answer4_Button;
+    private Button Answer1_Button, Answer2_Button, Answer3_Button, Answer4_Button, Save_Button;
     private Button [] answers;
     @FXML
     private TextField QuestionCode_TextField, Answer1_TextField, Answer2_TextField, Answer3_TextField, Answer4_TextField;
     @FXML
     private TextArea Question_TextArea;
-
     @FXML
     private Text error_bar_text;
+    @FXML
+    ComboBox Subject_ComboBox;
+    @FXML
+    TableView Table;
+    private boolean tableInitFlag;
+    @FXML
+    private TableColumn<Exam, String> Course_Column;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// Initialize ///////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
-    private void initialize ()
-    {
-//        EventBus.getDefault().register(this);
+    private void initialize () throws IOException {
+        EventBus.getDefault().register(this);
+        client = SimpleClient.getClient();
+        client.openConnection();
+
+        tableInitFlag = true;
         answers = new Button[4];
+        chosenCourses = new ArrayList<>();
         initializeButtons();
+
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetAllSubjects"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     private void initializeButtons ()
@@ -118,14 +143,97 @@ public class CreateQuestionController
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////// Talk To Server /////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// Server Replay //////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
+    @Subscribe
+    public void getAllSubjectsResponse(EventGetAllSubjects event)
+    {
+        allSubjects = event.getAllSubjects();
+        ArrayList<String> allSubjectsNames = new ArrayList<String>();
+        for (Subject subject : allSubjects)
+        {
+            allSubjectsNames.add(subject.getSubName());
+        }
+        ObservableList<String> basesList = FXCollections.observableArrayList(allSubjectsNames);
+        Subject_ComboBox.setItems(basesList);
 
+        error_bar_text.setText("Please Choose a Subject");
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// Table //////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void initTable ()
+    {
+        ObservableList<Course> allExamQuestions_OL = FXCollections.observableArrayList(allCourses);
+        Table.setItems(allExamQuestions_OL);
+
+        Course_Column.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+        if(tableInitFlag){
+            initSelectTableColumn();
+            tableInitFlag = false;
+        }
+    }
+
+    private void initSelectTableColumn() {
+        TableColumn<Course, Void> colBtn = new TableColumn("");
+
+        Callback<TableColumn<Course, Void>, TableCell<Course, Void>> cellFactory = new Callback<TableColumn<Course, Void>, TableCell<Course, Void>>() {
+            @Override
+            public TableCell<Course, Void> call(final TableColumn<Course, Void> param) {
+                final TableCell<Course, Void> cell = new TableCell<Course, Void>() {
+
+                    private final Button btn = new Button("Select");
+                    {
+                        setButtonColor(btn, "orange");
+
+                        btn.setOnAction((ActionEvent event) ->
+                        {
+                            Course select_course = getTableView().getItems().get(getIndex());
+                            if(btn.getText().toString().equals("Select")){
+                                btn.setText("Selected");
+                                setButtonColor(btn, "green");
+                                chosenCourses.add(select_course);
+                            }
+                            else {
+                                btn.setText("Select");
+                                setButtonColor(btn, "orange");
+                                chosenCourses.remove(select_course);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        Table.getColumns().add(colBtn);
+    }
+
+    private void initData ()
+    {
+        allCourses = new ArrayList<>();
+
+        Course c1 = new Course(241, "Discrete Mathematics", selectedSubject);
+        allCourses.add(c1);
+
+        Course c2 = new Course(242, "Calculus 1", selectedSubject);
+        allCourses.add(c2);
+
+        Course c3 = new Course(243, "Algebra 1", selectedSubject);
+        allCourses.add(c3);
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////// On Action Functions ///////////////////////////////////////
@@ -147,8 +255,11 @@ public class CreateQuestionController
         setCorrectAnswer(4);
     }
 
-    public void save_click(ActionEvent actionEvent)
-    {
+    public void save_click(ActionEvent actionEvent) throws IOException {
+        System.out.println("Chosen Courses:");
+        for (int i=0; i<chosenCourses.size(); i++){
+            System.out.println(chosenCourses.get(i));
+        }
         String s_question_code = QuestionCode_TextField.getText().toString();
         String s_question = Question_TextArea.getText().toString();
         String s_answer1 = Answer1_TextField.getText().toString();
@@ -186,6 +297,12 @@ public class CreateQuestionController
         {
             error_bar_text.setText("Please Choose a Correct Answers");
         }
+        else if (selectedSubject == null){
+            error_bar_text.setText("Please Choose a Subject");
+        }
+        else if (chosenCourses.size() == 0){
+            error_bar_text.setText("Please Choose at least one Course");
+        }
         else
         {
             error_bar_text.setText("Saving Question...");
@@ -196,10 +313,39 @@ public class CreateQuestionController
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-//
-//            sendMessage("add new question", question);
+            App.setRoot("teacherMain");
         }
-
     }
 
+    public void SubjectSelected(ActionEvent actionEvent)
+    {
+        String selectedSubjectName = Subject_ComboBox.getValue().toString();
+        for (Subject subject : allSubjects)
+        {
+            if(subject.getSubName().equals(selectedSubjectName)){
+                selectedSubject = subject;
+                break;
+            }
+        }
+//        allCourses = selectedSubject.getCourses();
+//        ArrayList<String> allCoursesNames = new ArrayList<String>();
+//        for (Course course : allCourses)
+//        {
+//            allCoursesNames.add(course.getCourseName());
+//        }
+        initData ();
+        error_bar_text.setText("Please Select Courses");
+        initTable();
+    }
+
+    public void Home_Click(ActionEvent actionEvent) throws IOException {
+        App.setRoot("teacherMain");
+    }
+
+    public void save_in() {
+        setButtonColor(Save_Button,"green");
+    }
+    public void save_out() {
+        setButtonColor(Save_Button,"orange");
+    }
 }

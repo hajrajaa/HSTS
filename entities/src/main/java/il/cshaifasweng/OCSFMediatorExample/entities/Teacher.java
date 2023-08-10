@@ -15,22 +15,20 @@ public class Teacher extends User implements Serializable {
     @JoinTable(name = "teacher_course",
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> coursesList;
+    private List<Course> teachersList;
 
-
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "teacher_subject",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    private List<Subject> subjectsList ;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(name = "teacher_subject",
+//            joinColumns = @JoinColumn(name = "teacher_id"),
+//            inverseJoinColumns = @JoinColumn(name = "subject_id"))
+//    private List<Subject> subjectsList ;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "teacher")
     private List<Exam> exams;
 
-    @Column
-    @ElementCollection(targetClass = String.class)
-    private List<String> courseID;
+//    @Column
+//    @ElementCollection(targetClass = String.class)
+//    private List<String> courseID;
 
     public Teacher(int id, String username, String password) {
         super(id, username, password, UserType.Teacher);
@@ -68,37 +66,37 @@ public class Teacher extends User implements Serializable {
     public List<Exam> getExams() {
         return exams;
     }
-
-    public void setExams(List<Exam> exams) {
-        this.exams = exams;
-    }
-
-
-
-    public List<String> getCourseID() {
-        return courseID;
-    }
-
-    public void setCourseID(List<String> courseID) {
-        this.courseID = courseID;
-    }
-
-
-    public List<Subject> getSubjectsList() {
-        return subjectsList;
-    }
-
-    public void setSubjectsList(List<Subject> subjectsList) {
-        this.subjectsList = subjectsList;
-    }
-
-    public List<Course> getCoursesList() {
-        return coursesList;
-    }
-
-    public void setCoursesList(List<Course> coursesList) {
-        this.coursesList = coursesList;
-    }
+//
+//    public void setExams(List<Exam> exams) {
+//        this.exams = exams;
+//    }
+//
+//
+//
+//    public List<String> getCourseID() {
+//        return courseID;
+//    }
+//
+//    public void setCourseID(List<String> courseID) {
+//        this.courseID = courseID;
+//    }
+//
+//
+//    public List<Subject> getSubjectsList() {
+//        return subjectsList;
+//    }
+//
+//    public void setSubjectsList(List<Subject> subjectsList) {
+//        this.subjectsList = subjectsList;
+//    }
+//
+//    public List<Course> getCoursesList() {
+//        return teachersList;
+//    }
+//
+//    public void setCoursesList(List<Course> coursesList) {
+//        this.teachersList = coursesList;
+//    }
 
 }
 

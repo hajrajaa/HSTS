@@ -183,11 +183,95 @@ public class SimpleServer extends AbstractServer {
 			//session.save(newExam);
 			//session.flush();
 
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////// Subjects and Courses ///////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
-			//Subject subject1=new Subject("Computer Science",)
+			Subject cs = new Subject(17, "Computer Science");
+
+			Course newCourse = new Course(999, "Intro");
+
+//			cs.getCourses().add(newCourse);
+
+			session.save(cs);
+			session.save(newCourse);
+			session.flush();
+
+
+//			cs.setCourses(new ArrayList<Course>());
+//			session.save(cs);
+//			session.flush();
+
+			//Subject cs = new Subject(17, "Computer Science");
+//			cs.getCourses().add(newCourse);
+//			for(int i=0; i<cs.getCourses().size(); i++){
+//				System.out.println(cs.getCourses().get(i));
+//			}
+
+//			Subject mathematics = new Subject(26, "Mathematics");
+//			session.save(mathematics);
+//			Subject sports = new Subject(39, "Sports");
+//			session.save(sports);
+//			session.flush();
+//
+//			ArrayList<Course> cs_course = new ArrayList<>();
+//			ArrayList<Course> math_course = new ArrayList<>();
+//			ArrayList<Course> sports_course = new ArrayList<>();
+//
+//			newCourse = new Course(231, "Data Structure", cs);
+//			cs_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(232, "Object Oriented Programming", cs);
+//			cs_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//
+//			newCourse = new Course(233, "C language", cs);
+//			cs_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+////			cs.addCourse(newCourse);
+////			session.update(cs);
+////			session.flush();
+//
+//			newCourse = new Course(241, "Discrete Mathematics", mathematics);
+//			math_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(242, "Calculus 1", mathematics);
+//			math_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(243, "Algebra 1", mathematics);
+//			math_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(251, "Fencing", sports);
+//			sports_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(252, "Equestrianism", sports);
+//			sports_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
+//
+//			newCourse = new Course(253, "Rugby", sports);
+//			sports_course.add(newCourse);
+//			session.save(newCourse);
+//			session.flush();
 
 			session.getTransaction().commit(); // Save everything.
-		} catch (Exception e1) {
+
+		}
+		catch (Exception e1) {
 			e1.printStackTrace();
 		}
 
@@ -197,10 +281,9 @@ public class SimpleServer extends AbstractServer {
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client)
 	{
 		Message message = (Message) msg;
-		String msgString = ((Message) msg).getMessage();
-
+		String msgString = message.getMessage();
+		System.out.println("MessageFromClient: " + msgString);
 		//session.beginTransaction();
-
 
 		if (msgString.startsWith("#warning")) {
 			Warning warning = new Warning("Warning from server!");
@@ -242,7 +325,39 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 
-		} else if(msgString.equals("#LogOut"))
+		}
+		else if (msgString.equals("#GetUserRequest")) {
+			Object[] newLogin = (Object[]) message.getObject1();
+
+			String userName = (String) newLogin[0];
+			String userPassword = (String) newLogin[1];
+
+			try {
+				session.beginTransaction();
+				User user = session.find(User.class, userName);
+				if (user == null) {
+					Warning warning = new Warning("User Name doesn't exist");
+					client.sendToClient(new Message("#loginWarning", warning));
+				} else {
+					if (!user.isConnected()) {
+						Warning warning = new Warning("User Not Connected");
+						client.sendToClient(new Message("#loginWarning", warning));
+					} else {
+						if (user.getPassword().equals(userPassword)) {
+							client.sendToClient(new Message("#GetUserResponce", user));
+						} else {
+							Warning warning = new Warning("password is not correct");
+							client.sendToClient(new Message("#loginWarning", warning));
+						}
+					}
+				}
+				session.getTransaction().commit();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+		}
+		else if(msgString.equals("#LogOut"))
 		{
 			try
 			{
@@ -256,7 +371,6 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 		}
-
 		else if (msgString.equals("#CreateQusetionRequest")) {
 			try {
 				session.beginTransaction();
@@ -264,55 +378,54 @@ public class SimpleServer extends AbstractServer {
 				session.save(newQues);
 				session.flush();
 				session.getTransaction().commit();
-
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		} else if (msgString.equals("#SolveExam")) {
-			try {
-				session.beginTransaction();
-				String examCode = (String) message.getObject1();
-				if (!validExamCode(examCode)) {
-					// invalid exam code
-					Warning warning = new Warning("Invalid Exam Code");
-					client.sendToClient(new Message("#SolveExamWarning", warning));
-				} else {
-					int Ncode = Integer.valueOf(examCode);
-					//Exam exam = session.find(Exam.class, Ncode);
-					xxxxxxxx vExam = session.find(xxxxxxxx.class, Ncode);
-					//vExam.myPrint();
-					//System.out.println("vode"+vExam.getCodeExam());
-					//String examType = exam.getType();
-
-					if (vExam == null) {
-						// there is no exam that have this code
-						Warning warning = new Warning("Exam Code Dose Not Exist");
-						client.sendToClient(new Message("#SolveExamWarning", warning));
-					}
-					// manual exam add
-					//else if(!(exam instanceof VirtualExam))
-					//	{
-
-					//Warning warning = new Warning("Manual Exam Code");
-					//client.sendToClient(new Message("#SolveExamWarning", warning));
-
-
-					//}
-
-					else {
-						System.out.println("BBBBBB");
-						vExam.myPrint();
-						//VirtualExam virtualExam=(VirtualExam)exam;
-						//VirtualExam ee = new VirtualExam();
-						//VirtualExam ww = new VirtualExam(vExam);
-
-						client.sendToClient(new Message("#SolveExamResponse",(xxxxxxxx) vExam));
-					}
-				}
-				session.getTransaction().commit();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-			}
+//			try {
+//				session.beginTransaction();
+//				String examCode = (String) message.getObject1();
+//				if (!validExamCode(examCode)) {
+//					// invalid exam code
+//					Warning warning = new Warning("Invalid Exam Code");
+//					client.sendToClient(new Message("#SolveExamWarning", warning));
+//				} else {
+//					int Ncode = Integer.valueOf(examCode);
+//					//Exam exam = session.find(Exam.class, Ncode);
+//					xxxxxxxx vExam = session.find(xxxxxxxx.class, Ncode);
+//					//vExam.myPrint();
+//					//System.out.println("vode"+vExam.getCodeExam());
+//					//String examType = exam.getType();
+//
+//					if (vExam == null) {
+//						// there is no exam that have this code
+//						Warning warning = new Warning("Exam Code Dose Not Exist");
+//						client.sendToClient(new Message("#SolveExamWarning", warning));
+//					}
+//					// manual exam add
+//					//else if(!(exam instanceof VirtualExam))
+//					//	{
+//
+//					//Warning warning = new Warning("Manual Exam Code");
+//					//client.sendToClient(new Message("#SolveExamWarning", warning));
+//
+//
+//					//}
+//
+//					else {
+//						System.out.println("BBBBBB");
+//						vExam.myPrint();
+//						//VirtualExam virtualExam=(VirtualExam)exam;
+//						//VirtualExam ee = new VirtualExam();
+//						//VirtualExam ww = new VirtualExam(vExam);
+//
+//						client.sendToClient(new Message("#SolveExamResponse",(xxxxxxxx) vExam));
+//					}
+//				}
+//				session.getTransaction().commit();
+//			} catch (Exception e1) {
+//				e1.printStackTrace();
+//			}
 
 		} else if (msgString.equals("#GetExamCopy")) {
 			try {
@@ -337,7 +450,6 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 		}
-
 		else if (msgString.startsWith("#GetListOfStudents")){
 			session.beginTransaction();
 
@@ -349,9 +461,8 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-
-		else if (msgString.startsWith("#GetListOfTeachers")) {
-
+		else if (msgString.startsWith("#GetListOfTeachers"))
+		{
 			session.beginTransaction();
 
 			List<Teacher> teachers = getAllObjects(Teacher.class);
@@ -365,6 +476,36 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.equals("#GetAllSubjects"))
+		{
+			session.beginTransaction();
+			System.out.println("AA1");
+			List<Subject> allSubjects = getAllObjects(Subject.class);
+//			System.out.println("Printing allSubjects list:");
+//			for(int i=0; i<allSubjects.size(); i++){
+//				System.out.println(allSubjects.get(i));
+//				for(int k=0; k<allSubjects.get(i).getCourses().size(); k++){
+//					System.out.println(allSubjects.get(i).getCourses().get(k));
+//				}
+//			}
+			try {
+//				Subject ss = new Subject();
+//				ss.setSubName(allSubjects.get(0).getSubName());
+//				ss.setCourses(allSubjects.get(0).getCourses());
+
+//				Subject w = new Subject(17, "w");
+//				Course ww = new Course(999, "www");
+//				w.getCourses().add(ww);
+
+
+				System.out.println("AA2");
+				client.sendToClient(new Message("#GetAllSubjectsResponce", allSubjects));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			session.getTransaction().commit();
+		}
+		System.out.println("AAx");
 	}
 
 	private boolean validExamCode(String code) {

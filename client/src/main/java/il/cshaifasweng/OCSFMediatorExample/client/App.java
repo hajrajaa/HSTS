@@ -75,12 +75,13 @@ public class App extends Application {
     	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("login1"), 1000, 600);
+        scene = new Scene(loadFXML("solve_exam"), 1000, 600);
         stage.setScene(scene);
         stage.show();
     }
 
     static void setRoot(String fxml) throws IOException {
+
         scene.setRoot(loadFXML(fxml));
     }
 
@@ -114,7 +115,6 @@ public class App extends Application {
     {
         setUser(event.getUser());
         changeScene();
-
     }
 
     @Subscribe
@@ -151,6 +151,13 @@ public class App extends Application {
                 }
         );
     }
+
+//    @Subscribe
+//    public void getUserResponse(getUserEvent event)
+//    {
+//        setUser(event.getUser());
+//        GetGradeController.hww(user);
+//    }
 
     @Subscribe
     public void ShowTeachersEvent(ShowTeachersEvent event)

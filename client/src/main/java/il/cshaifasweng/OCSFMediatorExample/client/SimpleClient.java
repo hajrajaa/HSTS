@@ -21,7 +21,7 @@ public class SimpleClient extends AbstractClient {
 	{
 		Message message = (Message) msg;
 		String messageSt = message.getMessage();
-		System.out.println("mesaageeee"+messageSt);
+		System.out.println("message: "+messageSt);
 
 		if (messageSt.equals("#LogInSuccessfully"))
 		{
@@ -32,11 +32,19 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
-
 		else if (messageSt.equals("#loginWarning"))
 		{
 			Platform.runLater(()->{
 			EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+		else if (messageSt.equals("#GetUserResponce"))
+		{
+			User user = (User) message.getObject1();
+			getUserEvent newEvent = new getUserEvent(user);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
 					}
 			);
 		}
@@ -81,6 +89,15 @@ public class SimpleClient extends AbstractClient {
 				System.out.println(teachers.get(i).getUserName());
 			}
 			ShowTeachersEvent newEvent= new ShowTeachersEvent(teachers);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if (messageSt.equals("#GetAllSubjectsResponce"))
+		{
+			List<Subject> allSubjects = (List<Subject>) message.getObject1();
+			EventGetAllSubjects newEvent = new EventGetAllSubjects(allSubjects);
 			Platform.runLater(()->{
 						EventBus.getDefault().post(newEvent);
 					}

@@ -13,10 +13,6 @@ public class ExamQuestion extends Question implements Serializable{
     private String teacher_note;
     private String student_note;
 
-
-
-
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
@@ -32,9 +28,21 @@ public class ExamQuestion extends Question implements Serializable{
         this.student_note = student_note;
     }
 
-    public ExamQuestion() {
+//    public ExamQuestion(int code, String question, String[] answers, int correct_answer, int points, String teacher_note, String student_note) {
+//        super(code, question, answers, correct_answer);
+//        this.points = points;
+//        this.teacher_note = teacher_note;
+//        this.student_note = student_note;
+//    }
 
+    public ExamQuestion(Question question, int points, String teacher_note, String student_note) {
+        super(question.getCode(), question.getQuestion(), question.getAnswers(), question.getCorrect_answer());
+        this.points = points;
+        this.teacher_note = teacher_note;
+        this.student_note = student_note;
     }
+
+    public ExamQuestion() {}
 
 //    public int getId() {
 //        return id;
