@@ -127,7 +127,7 @@ public class SimpleServer extends AbstractServer {
 
 			ArrayList<Student> studentsList = new ArrayList<>();
 
-			Student newStudent1 = new Student(0, "ManarZoabi", "manar123");
+			Student newStudent1 = new Student(0, "Manar Zoabi", "manar123");
 			studentsList.add(newStudent1);
 			session.save(newStudent1);
 			session.flush();
@@ -145,7 +145,7 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 
 
-			Teacher newTeacher2 = new Teacher(1, "a", "3");
+			Teacher newTeacher2 = new Teacher(1, "Ms. Tina", "123");
 			teachersList.add(newTeacher2);
 			session.save(newTeacher2);
 			session.flush();
@@ -164,7 +164,7 @@ public class SimpleServer extends AbstractServer {
 			session.save(principle);
 			session.flush();
 
-			Princiaple p = new Princiaple(545, "malki", "121");
+			Princiaple p = new Princiaple(545, "Principle Malki", "121");
 			session.save(p);
 			session.flush();
 

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,8 +24,6 @@ public class App extends Application {
 
     private static Scene scene;
     public SimpleClient client;
-
-
 
     public static User user;
 
@@ -67,7 +66,26 @@ public class App extends Application {
         App.user = user;
     }
 
-
+    public static void setButtonColor(Button B, String color)
+    {
+        String colorID = "#ffffff"; // default white
+        if(color.equals("black")){
+            colorID = "#000000";
+        } else if (color.equals("orange")) {
+            colorID = "#e28743";
+        } else if (color.equals("dblue")) {
+            colorID = "#063970";
+        } else if (color.equals("lblue")) {
+            colorID = "#abdbe3";
+        } else if (color.equals("green")) {
+            colorID = "#34b048";
+        } else if (color.equals("red")) {
+            colorID = "#ff0404";
+        } else if (color.equals("gray")) {
+            colorID = "#c5c5c5";
+        }
+        B.setStyle("-fx-background-color: " + colorID);
+    }
 
 
     @Override
@@ -75,7 +93,7 @@ public class App extends Application {
     	EventBus.getDefault().register(this);
     	client = SimpleClient.getClient();
     	client.openConnection();
-        scene = new Scene(loadFXML("solve_exam"), 1000, 600);
+        scene = new Scene(loadFXML("login1"), 1000, 600);
         stage.setScene(scene);
         stage.show();
     }
