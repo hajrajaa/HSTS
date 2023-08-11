@@ -150,6 +150,11 @@ public class SimpleServer extends AbstractServer {
 			session.save(newTeacher2);
 			session.flush();
 
+			Teacher newTeacherX = new Teacher(33, "a", "3");
+			teachersList.add(newTeacherX);
+			session.save(newTeacherX);
+			session.flush();
+
 			Teacher newTeacher3 = new Teacher(7, "1", "2");
 			teachersList.add(newTeacher3);
 			session.save(newTeacher3);
@@ -189,9 +194,10 @@ public class SimpleServer extends AbstractServer {
 
 			Subject cs = new Subject(17, "Computer Science");
 
-			Course newCourse = new Course(999, "Intro");
+			Course newCourse = new Course(999, "Intro", cs);
 
 //			cs.getCourses().add(newCourse);
+//			newCourse.setSubject(cs);
 
 			session.save(cs);
 			session.save(newCourse);
@@ -361,11 +367,11 @@ public class SimpleServer extends AbstractServer {
 		{
 			try
 			{
-			session.beginTransaction();
-			User currUser=(User) message.getObject1();
-			currUser.setConnected(false);
-			session.merge(currUser);
-			session.getTransaction().commit();
+				session.beginTransaction();
+				User currUser=(User) message.getObject1();
+				currUser.setConnected(false);
+				session.merge(currUser);
+				session.getTransaction().commit();
 			}
 			catch (Exception e1) {
 				e1.printStackTrace();
@@ -481,13 +487,17 @@ public class SimpleServer extends AbstractServer {
 			session.beginTransaction();
 			System.out.println("AA1");
 			List<Subject> allSubjects = getAllObjects(Subject.class);
-//			System.out.println("Printing allSubjects list:");
-//			for(int i=0; i<allSubjects.size(); i++){
-//				System.out.println(allSubjects.get(i));
-//				for(int k=0; k<allSubjects.get(i).getCourses().size(); k++){
-//					System.out.println(allSubjects.get(i).getCourses().get(k));
-//				}
-//			}
+
+			System.out.println("Printing allSubjects list:");
+			for(int i=0; i<allSubjects.size(); i++){
+				System.out.println(allSubjects.get(i).toString());
+				if(allSubjects.get(i).getCourses() != null){
+					for(int k=0; k<allSubjects.get(i).getCourses().size(); k++){
+						System.out.println(allSubjects.get(i).getCourses().get(k).getCourseName());
+					}
+				}
+
+			}
 			try {
 //				Subject ss = new Subject();
 //				ss.setSubName(allSubjects.get(0).getSubName());
@@ -498,14 +508,40 @@ public class SimpleServer extends AbstractServer {
 //				w.getCourses().add(ww);
 
 
+//				allSub.add(w);
+//				allSub.add(allSubjects)
+
 				System.out.println("AA2");
-				client.sendToClient(new Message("#GetAllSubjectsResponce", allSubjects));
+				ArrayList<Subject> myAllSubjects = new ArrayList<>();
+				for (int i=0; i<allSubjects.size(); i++){
+					myAllSubjects.add(copySubject(allSubjects.get(i)));
+				}
+				Message myMessage = new Message("#GetAllSubjectsResponce", myAllSubjects);
+				client.sendToClient(myMessage);
+				session.getTransaction().commit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			session.getTransaction().commit();
 		}
+
 		System.out.println("AAx");
+	}
+
+	public Course copyCourse (Course c)
+	{
+		Course newCourse = new Course (c.getId(), c.getCourseName(), c.getSubject());
+		return newCourse;
+	}
+
+	public Subject copySubject (Subject s)
+	{
+		Subject newSubject = new Subject (s.getId(), s.getSubName());
+		if(s.getCourses() != null){
+			for(int i=0; i<s.getCourses().size(); i++){
+				newSubject.addCourse(copyCourse(s.getCourses().get(i)));
+			}
+		}
+		return newSubject;
 	}
 
 	private boolean validExamCode(String code) {

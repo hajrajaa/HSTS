@@ -17,11 +17,11 @@ public class Question implements Serializable {
 
     private int correct_answer;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "questions_courses",
-            joinColumns = @JoinColumn(name = "question_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> coursesList;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(name = "questions_courses",
+//            joinColumns = @JoinColumn(name = "question_id"),
+//            inverseJoinColumns = @JoinColumn(name = "course_id"))
+//    private List<Course> coursesList;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "question")
     private List<ExamQuestion> examQuestions;
@@ -48,7 +48,7 @@ public class Question implements Serializable {
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = answers;
-        this.coursesList = coursesList;
+//        this.coursesList = coursesList;
     }
 
     public Question() {
@@ -93,13 +93,13 @@ public class Question implements Serializable {
 
 //
 
-    public List<Course> getCoursesList() {
-        return coursesList;
-    }
-
-    public void setCoursesList(List<Course> coursesList) {
-        this.coursesList = coursesList;
-    }
+//    public List<Course> getCoursesList() {
+//        return coursesList;
+//    }
+//
+//    public void setCoursesList(List<Course> coursesList) {
+//        this.coursesList = coursesList;
+//    }
 
 //    public void addCourse(Course...coursesList ) {
 //        for (Course  course: coursesList) {

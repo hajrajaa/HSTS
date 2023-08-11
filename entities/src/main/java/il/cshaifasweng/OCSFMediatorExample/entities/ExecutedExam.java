@@ -12,6 +12,8 @@ public class ExecutedExam implements Serializable {
     @Id
     private int examNum;
 
+    private int infoID;
+
     private String examDate;
 
     private  String startime;
@@ -48,6 +50,10 @@ public class ExecutedExam implements Serializable {
         this.grade=grade;
         this.submitInTime=submitInTime;
     }
+
+    public int getInfoID() { return infoID; }
+
+    public void setInfoID(int infoID) { this.infoID = infoID; }
 
     public int getExamNum() {return examNum;}
 

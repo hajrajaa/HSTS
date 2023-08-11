@@ -15,28 +15,37 @@ public class Subject  implements Serializable
 //        this.courses = courses;
 //    }
 
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subjectsList")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subjectsList")
 //    private List<Teacher> teachersList;
 //
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "subjectsList")
 //    private List<Student> students ;
     @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private  String subName;
 
     public Subject() {}
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subject")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "subject")
     private List<Course> courses;
 
     public Subject(int id ,String subName) {
         this.id = id;
         this.subName = subName;
-
 //        this.courses=new ArrayList<Course>();
-      //  this.courses = new ArrayList<Course>();
-       // this.courses.add(new Course(123,"ABC"));
+
+        this.courses = new ArrayList<Course>();
+        this.courses.add(new Course(123,"ABC",this));
 //        this.teachersList = new ArrayList<Teacher>();
 //        this.students = new ArrayList<Student>();
     }
@@ -56,11 +65,11 @@ public class Subject  implements Serializable
         this.subName = subName;
     }
 
-    public List<Course> getCourses() {
-        return courses;
-    }
+//    public List<Course> getCourses() {
+//        return courses;
+//    }
 
-     public void addCourse(Course... courses) {
+     public void addCourses(Course... courses) {
        for (Course  course: courses)
        {
            this.courses.add(course);
@@ -68,13 +77,13 @@ public class Subject  implements Serializable
         }
      }
 
-//    public void addCourse(Course c) {
-//        if (this.courses == null){
-//            this.courses = new ArrayList<>();
-//        }
-//        this.courses.add(c);
-//        c.setSubject(this);
-//    }
+    public void addCourse(Course c) {
+        if (this.courses == null){
+            this.courses = new ArrayList<>();
+        }
+        this.courses.add(c);
+        c.setSubject(this);
+    }
 
 //    public void addTeacher(Teacher... teachersList) {
 //        for (Teacher  teacher: teachersList) {
@@ -90,16 +99,24 @@ public class Subject  implements Serializable
 //        }
 //    }
 
-    public void setCourses(List<Course> courses)
-    {
-        if(courses!=null)
-        {
-            this.courses=courses;
-            for(Course course:courses)
-            {
-                course.setSubject(this);
-            }
-        }
+//    public void setCourses(List<Course> courses)
+//    {
+//        if(courses!=null)
+//        {
+//            this.courses=courses;
+//            for(Course course:courses)
+//            {
+//                course.setSubject(this);
+//            }
+//        }
+//    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
 }

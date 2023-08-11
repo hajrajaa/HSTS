@@ -23,7 +23,11 @@ public class ExecutedVirtual extends ExecutedExam implements Serializable {
         this.solutions=new ArrayList<String>();
     }
 
-    public ExecutedVirtual() {
+    public ExecutedVirtual() {}
+
+    public ExecutedVirtual(Exam exam, Student student, String startTime)
+    {
+        // TODO IMPLEMENT
     }
 
 

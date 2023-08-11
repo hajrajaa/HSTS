@@ -66,5 +66,51 @@
          <font>
             <Font size="24.0" />
          </font></Button>
+      <Text fx:id="clock_text" fill="#063970" layoutX="66.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="00:00:00" textAlignment="CENTER" wrappingWidth="101.77471923828125" />
+      <ImageView fx:id="clock_0" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_0.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_1" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_1.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_2" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_2.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_3" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_3.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_4" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_4.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_5" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_5.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_6" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_6.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_7" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_7.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clock_8" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/clock_8.png" />
+         </image>
+      </ImageView>
     </children>
 </AnchorPane>

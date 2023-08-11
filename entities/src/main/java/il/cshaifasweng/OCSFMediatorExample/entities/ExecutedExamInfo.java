@@ -14,6 +14,8 @@ public class ExecutedExamInfo implements Serializable {
 
     private String code;
     private String password;
+
+    private int overtime;
     private double average;
     private double median;
 
@@ -29,6 +31,7 @@ public class ExecutedExamInfo implements Serializable {
     public ExecutedExamInfo(String code, String password, double average, double median) {
         this.code = code;
         this.password = password;
+        this.overtime = 0;
         this.average = average;
         this.median = median;
         this.hist = new int[10];
@@ -45,6 +48,8 @@ public class ExecutedExamInfo implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+
+    public void setOvertime (int d) { this.overtime = d;}
 
     public String getPassword() {
         return password;

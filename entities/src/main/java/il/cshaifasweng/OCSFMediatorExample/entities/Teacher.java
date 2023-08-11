@@ -11,11 +11,11 @@ public class Teacher extends User implements Serializable {
 
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "teacher_course",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> teachersList;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(name = "teacher_course",
+//            joinColumns = @JoinColumn(name = "teacher_id"),
+//            inverseJoinColumns = @JoinColumn(name = "course_id"))
+//    private List<Course> teachersList;
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinTable(name = "teacher_subject",

@@ -25,14 +25,22 @@ public class Course implements Serializable
     //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
 //    private List<Question> questions;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private  String courseName;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id")
     private Subject subject;
-
 
     public Course() {}
 
@@ -53,6 +61,13 @@ public class Course implements Serializable
    //   this.subject.addCourse(this);
     }
 
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
 
 
     public String getCourseName() {
@@ -63,16 +78,16 @@ public class Course implements Serializable
         this.courseName = courseName;
     }
 
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        if(subject != null){
-            this.subject = subject;
-            subject.getCourses().add(this);
-        }
-    }
+//    public Subject getSubject() {
+//        return subject;
+//    }
+//
+//    public void setSubject(Subject subject) {
+//        if(subject != null){
+//            this.subject = subject;
+//            subject.getCourses().add(this);
+//        }
+//    }
 
 //    public List<Question> getQuestions() {
 //        return questions;
