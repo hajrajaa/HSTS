@@ -64,7 +64,7 @@ public class ExamsDrawerController
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     @FXML
-    private void initialize () throws IOException {
+    private void initialize() throws IOException {
         EventBus.getDefault().register(this);
         client = SimpleClient.getClient();
         client.openConnection();
@@ -76,32 +76,29 @@ public class ExamsDrawerController
 
         Course_ComboBox.setDisable(true);
         try {
-            SimpleClient.getClient().sendToServer(new Message("#GetAllSubjects"));
+            SimpleClient.getClient().sendToServer(new Message("#GetAllSubjectsNames"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-//        initData();
-//        initTable();
     }
 
     private void initializeButtons ()
     {
         Answer1.setDisable(false);
-        setButtonColor(Answer1, "orange");
+        App.setButtonColor(Answer1, "orange");
         answersButtons[0] = Answer1;
 
         Answer2.setDisable(false);
-        setButtonColor(Answer2, "orange");
+        App.setButtonColor(Answer2, "orange");
         answersButtons[1] = Answer2;
 
         Answer3.setDisable(false);
-        setButtonColor(Answer3, "orange");
+        App.setButtonColor(Answer3, "orange");
         answersButtons[2] = Answer3;
 
         Answer4.setDisable(false);
-        setButtonColor(Answer4, "orange");
+        App.setButtonColor(Answer4, "orange");
         answersButtons[3] = Answer4;
 
     }
@@ -110,25 +107,36 @@ public class ExamsDrawerController
     ///////////////////////////////////////////// Common /////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void setButtonColor (Button B, String color)
+    private void loadExam (Exam exam)
     {
-        String colorID = "#ffffff"; // default white
-        if(color.equals("black")){
-            colorID = "#000000";
-        } else if (color.equals("orange")) {
-            colorID = "#e28743";
-        } else if (color.equals("dblue")) {
-            colorID = "#063970";
-        } else if (color.equals("lblue")) {
-            colorID = "#abdbe3";
-        } else if (color.equals("green")) {
-            colorID = "#34b048";
-        } else if (color.equals("red")) {
-            colorID = "#ff0404";
-        } else if (color.equals("gray")) {
-            colorID = "#c5c5c5";
+        Exam_text.setText(exam.getTitle());
+        currentQuestionNumber = 0;
+        allExamQuestions = exam.getExamQuestion();
+        examLength = allExamQuestions.size();
+        loadNewQuestion(currentQuestionNumber);
+        error_bar_text.setText("Exam Loaded");
+    }
+
+    private void loadNewQuestion (int questionNumber)
+    {
+        currentQuestion = allExamQuestions.get(questionNumber);
+        initializeButtons();
+
+        int correctAnswerNumber = currentQuestion.getCorrect_answer() - 1;
+        App.setButtonColor(answersButtons[correctAnswerNumber], "green");
+
+        question_text_area.setText(currentQuestion.getQuestion());
+        for(int i=0; i<answersButtons.length; i++)
+        {
+            String tempAnswer = currentQuestion.getAnswers()[i];
+            answersButtons[i].setText(tempAnswer);
         }
-        B.setStyle("-fx-background-color: " + colorID);
+
+        String myQuestionNumber = "Question ";
+        myQuestionNumber += Integer.toString(questionNumber+1);
+        myQuestionNumber += "/";
+        myQuestionNumber += Integer.toString(examLength);
+        question_number_text.setText(myQuestionNumber);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +158,36 @@ public class ExamsDrawerController
         error_bar_text.setText("Please Choose a Subject");
     }
 
+    @Subscribe
+    public void getAllSubjectsNames_Replay(EventGetAllSubjectsNames event)
+    {
+        ArrayList<String> allSubjectsNames = new ArrayList<>(event.getAllSubjectsNames());
+        ObservableList<String> basesList = FXCollections.observableArrayList(allSubjectsNames);
+        Subject_ComboBox.setItems(basesList);
+        error_bar_text.setText("Please Choose a Subject");
+    }
+
+    @Subscribe
+    public void GetAllCoursesBySubject_Replay(EventGetAllCoursesBySubject event)
+    {
+        ArrayList<String> allNames = new ArrayList<>(event.getAllCoursesNames());
+        ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
+        Course_ComboBox.setDisable(false);
+        Course_ComboBox.setItems(basesList);
+        error_bar_text.setText("All Courses Loaded");
+    }
+
+    @Subscribe
+    public void GetAllExamsByCourse_Replay(EventGetAllExamsByCourse event)
+    {
+        allExams = event.getAllExams();
+        initTable();
+//        ArrayList<String> allNames = new ArrayList<>(event.getAllExamsNames());
+//        ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
+//        Course_ComboBox.setItems(basesList);
+//        error_bar_text.setText("All Courses Loaded");
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////// Table //////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +197,6 @@ public class ExamsDrawerController
         ObservableList<Exam> allExamQuestions_OL = FXCollections.observableArrayList(allExams);
         Table.setItems(allExamQuestions_OL);
 
-        Code_Column.setCellValueFactory(new PropertyValueFactory<>("codeExam"));
         Exam_Column.setCellValueFactory(new PropertyValueFactory<>("title"));
         if(tableInitFlag){
             initViewTableColumn();
@@ -268,38 +305,6 @@ public class ExamsDrawerController
         Table.getColumns().add(colBtn);
     }
 
-    private void loadExam (Exam exam)
-    {
-        Exam_text.setText(exam.getTitle());
-        currentQuestionNumber = 0;
-        allExamQuestions = exam.getExamQuestion();
-        examLength = allExamQuestions.size();
-        loadNewQuestion(currentQuestionNumber);
-        error_bar_text.setText("Exam Loaded");
-    }
-
-    private void loadNewQuestion (int questionNumber)
-    {
-        currentQuestion = allExamQuestions.get(questionNumber);
-        initializeButtons();
-
-        int correctAnswerNumber = currentQuestion.getCorrect_answer() - 1;
-        setButtonColor(answersButtons[correctAnswerNumber], "green");
-
-        question_text_area.setText(currentQuestion.getQuestion());
-        for(int i=0; i<answersButtons.length; i++)
-        {
-            String tempAnswer = currentQuestion.getAnswers()[i];
-            answersButtons[i].setText(tempAnswer);
-        }
-
-        String myQuestionNumber = "Question ";
-        myQuestionNumber += Integer.toString(questionNumber+1);
-        myQuestionNumber += "/";
-        myQuestionNumber += Integer.toString(examLength);
-        question_number_text.setText(myQuestionNumber);
-    }
-
     private void initData ()
     {
         String [] s1 = {"1","2","100","pi"};
@@ -327,6 +332,10 @@ public class ExamsDrawerController
         allExams = eee;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// On Action //////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
     public void prev_button_click(ActionEvent actionEvent)
     {
         currentQuestionNumber = (currentQuestionNumber + examLength - 1) % examLength;
@@ -340,49 +349,31 @@ public class ExamsDrawerController
 
     public void SubjectSelected(ActionEvent actionEvent)
     {
-        String selectedSubjectName = Subject_ComboBox.getValue().toString();
-        for (Subject subject : allSubjects)
-        {
-            if(subject.getSubName().equals(selectedSubjectName)){
-                selectedSubject = subject;
-                break;
-            }
-        }
-        allCourses = selectedSubject.getCourses();
-        ArrayList<String> allCoursesNames = new ArrayList<String>();
-        for (Course course : allCourses)
-        {
-            allCoursesNames.add(course.getCourseName());
-        }
-        ObservableList<String> basesList = FXCollections.observableArrayList(allCoursesNames);
-        Course_ComboBox.setItems(basesList);
+        if(Subject_ComboBox.getValue() == null) {return;}
+        String subjectName = Subject_ComboBox.getValue().toString();
 
-        Course_ComboBox.setDisable(false);
-        error_bar_text.setText("Please Choose a Course");
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetAllCoursesBySubject", subjectName));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void CourseSelected(ActionEvent actionEvent)
     {
-        String selectedCourseName = Course_ComboBox.getValue().toString();
-        for (Course course : allCourses)
-        {
-            if(course.getCourseName().equals(selectedCourseName)){
-                selectedCourse = course;
-                break;
-            }
+        if(Course_ComboBox.getValue() == null) {return;}
+        String courseName = Course_ComboBox.getValue().toString();
+
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetAllExamsByCourse", courseName));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-//        allExams = new ArrayList<>();
-//        for (Exam exam : selectedCourse.getExamsList())
-//        {
-//            allExams.add(exam);
-//        }
-//        initTable();
-//        error_bar_text.setText("All Exams Loaded");
     }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
-//        client.closeConnection();
-//        EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }
 }

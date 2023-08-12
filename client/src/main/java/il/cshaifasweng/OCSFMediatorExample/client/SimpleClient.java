@@ -51,7 +51,7 @@ public class SimpleClient extends AbstractClient {
 		else if(messageSt.equals("#SolveExamResponse"))
 		{
 
-			xxxxxxxx exam=(xxxxxxxx) message.getObject1();
+			Exam exam=(Exam) message.getObject1();
 			SolveExamEvent newEvent=new SolveExamEvent(exam);
 			Platform.runLater(()->{
 						EventBus.getDefault().post(newEvent);
@@ -102,6 +102,24 @@ public class SimpleClient extends AbstractClient {
 						EventBus.getDefault().post(newEvent);
 					}
 			);
+		}
+		else if (messageSt.equals("#getAllSubjectsNames_Replay"))
+		{
+			List<String> list = (List<String>) message.getObject1();
+			EventGetAllSubjectsNames newEvent = new EventGetAllSubjectsNames(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
+		else if (messageSt.equals("#GetAllCoursesBySubject_Replay"))
+		{
+			List<String> list = (List<String>) message.getObject1();
+			EventGetAllCoursesBySubject newEvent = new EventGetAllCoursesBySubject(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
+		else if (messageSt.equals("#GetAllExamsByCourse_Replay"))
+		{
+			List<Exam> list = (List<Exam>) message.getObject1();
+			EventGetAllExamsByCourse newEvent = new EventGetAllExamsByCourse(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
 
 	}

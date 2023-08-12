@@ -27,7 +27,7 @@ public class App extends Application {
 
     public static User user;
 
-    public  static xxxxxxxx vexam;
+    public  static Exam exam;
 
     public  static List<Student> studentList;
 
@@ -50,12 +50,12 @@ public class App extends Application {
     }
 
 
-    public static xxxxxxxx getExam() {
-        return vexam;
+    public static Exam getExam() {
+        return exam;
     }
 
-    public static void setExam(xxxxxxxx exam) {
-        App.vexam = exam;
+    public static void setExam(Exam ex) {
+        App.exam = ex;
     }
 
     public static User getUser() {
@@ -135,23 +135,23 @@ public class App extends Application {
         changeScene();
     }
 
-    @Subscribe
-    public  void solveExamEventfunc(SolveExamEvent event)
-    {
-        setExam(event.getExam());
-        Platform.runLater(()->{
-                    try
-                    {
-                        //// change the page name
-                        scene.setRoot(loadFXML("solve_exam"));
-                    }catch (IOException e)
-                    {
-                        e.printStackTrace();
-                    }
-                }
-        );
-
-    }
+//    @Subscribe
+//    public  void solveExamEventfunc(SolveExamEvent event)
+//    {
+//        setExam(event.getExam());
+//        Platform.runLater(()->{
+//                    try
+//                    {
+//                        //// change the page name
+//                        scene.setRoot(loadFXML("solve_exam"));
+//                    }catch (IOException e)
+//                    {
+//                        e.printStackTrace();
+//                    }
+//                }
+//        );
+//
+//    }
 
     @Subscribe
     public void ShowStudentsEvent(ShowStudentsEvent event)

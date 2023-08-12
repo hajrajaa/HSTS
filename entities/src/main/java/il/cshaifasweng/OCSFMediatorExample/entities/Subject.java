@@ -42,10 +42,7 @@ public class Subject  implements Serializable
     public Subject(int id ,String subName) {
         this.id = id;
         this.subName = subName;
-//        this.courses=new ArrayList<Course>();
-
         this.courses = new ArrayList<Course>();
-        this.courses.add(new Course(123,"ABC",this));
 //        this.teachersList = new ArrayList<Teacher>();
 //        this.students = new ArrayList<Student>();
     }
@@ -60,14 +57,14 @@ public class Subject  implements Serializable
     public String getSubName() {
         return subName;
     }
-
     public void setSubName(String subName) {
         this.subName = subName;
     }
 
-//    public List<Course> getCourses() {
-//        return courses;
-//    }
+    public List<Course> getCourses() {return courses;}
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
 
      public void addCourses(Course... courses) {
        for (Course  course: courses)
@@ -82,7 +79,6 @@ public class Subject  implements Serializable
             this.courses = new ArrayList<>();
         }
         this.courses.add(c);
-        c.setSubject(this);
     }
 
 //    public void addTeacher(Teacher... teachersList) {
@@ -110,13 +106,5 @@ public class Subject  implements Serializable
 //            }
 //        }
 //    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
 
 }

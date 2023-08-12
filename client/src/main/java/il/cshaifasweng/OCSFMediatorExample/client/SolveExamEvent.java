@@ -1,22 +1,22 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.xxxxxxxx;
+import il.cshaifasweng.OCSFMediatorExample.entities.Exam;
 
 
 public class SolveExamEvent {
 
-    xxxxxxxx exam;
+    Exam exam;
 
-    public SolveExamEvent(xxxxxxxx exam)
+    public SolveExamEvent(Exam exam)
     {
        this.exam=exam;
     }
 
-    public xxxxxxxx getExam() {
+    public Exam getExam() {
         return exam;
     }
 
-    public void setExam(xxxxxxxx exam) {
+    public void setExam(Exam exam) {
         this.exam = exam;
     }
 

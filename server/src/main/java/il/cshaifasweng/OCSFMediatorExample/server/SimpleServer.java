@@ -10,6 +10,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -40,8 +41,8 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(ExecutedExamInfo.class);
 		configuration.addAnnotatedClass(ExamQuestion.class);
 		configuration.addAnnotatedClass(Question.class);
-		configuration.addAnnotatedClass(xxxxxxxx.class);
-		configuration.addAnnotatedClass(yyyyyyyyyy.class);
+//		configuration.addAnnotatedClass(xxxxxxxx.class);
+//		configuration.addAnnotatedClass(yyyyyyyyyy.class);
 		configuration.addAnnotatedClass(ExecutedManual.class);
 		configuration.addAnnotatedClass(ExecutedVirtual.class);
 		configuration.addAnnotatedClass(Message.class);
@@ -174,9 +175,9 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 
 
-			Exam exam = new Exam(9, 12312, "student", "teacher", newTeacher2, "Virtual");
-			session.save(exam);
-			session.flush();
+//			Exam exam = new Exam(9, 12312, "student", "teacher", newTeacher2, "Virtual");
+//			session.save(exam);
+//			session.flush();
 
 
 			//List<Question> questions=new ArrayList<>();
@@ -193,89 +194,65 @@ public class SimpleServer extends AbstractServer {
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
 			Subject cs = new Subject(17, "Computer Science");
-
-			Course newCourse = new Course(999, "Intro", cs);
-
-//			cs.getCourses().add(newCourse);
-//			newCourse.setSubject(cs);
-
+			Subject math = new Subject(26, "Mathematics");
+			Subject sports = new Subject(39, "Sports");
 			session.save(cs);
+			session.save(math);
+			session.save(sports);
+			session.flush();
+
+			///////////////////////////////////// CS Courses ///////////////////////////////////////
+
+			Course newCourse = new Course(231, "C language", cs);
 			session.save(newCourse);
 			session.flush();
 
+			newCourse = new Course(232, "Data Structure", cs);
+			session.save(newCourse);
+			session.flush();
 
-//			cs.setCourses(new ArrayList<Course>());
-//			session.save(cs);
-//			session.flush();
+			newCourse = new Course(233, "Object Oriented Programming", cs);
+			session.save(newCourse);
+			session.flush();
 
-			//Subject cs = new Subject(17, "Computer Science");
-//			cs.getCourses().add(newCourse);
-//			for(int i=0; i<cs.getCourses().size(); i++){
-//				System.out.println(cs.getCourses().get(i));
-//			}
+			///////////////////////////////////// Math Courses ///////////////////////////////////////
 
-//			Subject mathematics = new Subject(26, "Mathematics");
-//			session.save(mathematics);
-//			Subject sports = new Subject(39, "Sports");
-//			session.save(sports);
-//			session.flush();
-//
-//			ArrayList<Course> cs_course = new ArrayList<>();
-//			ArrayList<Course> math_course = new ArrayList<>();
-//			ArrayList<Course> sports_course = new ArrayList<>();
-//
-//			newCourse = new Course(231, "Data Structure", cs);
-//			cs_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-//			newCourse = new Course(232, "Object Oriented Programming", cs);
-//			cs_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-//
-//			newCourse = new Course(233, "C language", cs);
-//			cs_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-////			cs.addCourse(newCourse);
-////			session.update(cs);
-////			session.flush();
-//
-//			newCourse = new Course(241, "Discrete Mathematics", mathematics);
-//			math_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-//			newCourse = new Course(242, "Calculus 1", mathematics);
-//			math_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-//			newCourse = new Course(243, "Algebra 1", mathematics);
-//			math_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-//			newCourse = new Course(251, "Fencing", sports);
-//			sports_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-//			newCourse = new Course(252, "Equestrianism", sports);
-//			sports_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
-//
-//			newCourse = new Course(253, "Rugby", sports);
-//			sports_course.add(newCourse);
-//			session.save(newCourse);
-//			session.flush();
+			newCourse = new Course(241, "Discrete Mathematics", math);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(242, "Calculus 1", math);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(243, "Algebra 1", math);
+			session.save(newCourse);
+			session.flush();
+
+			///////////////////////////////////// Sports Courses ///////////////////////////////////////
+
+			newCourse = new Course(251, "Fencing", sports);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(252, "Equestrianism", sports);
+			session.save(newCourse);
+			session.flush();
+
+			newCourse = new Course(253, "Rugby", sports);
+			session.save(newCourse);
+			session.flush();
+
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////// Exams //////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+
+			Exam e = new Exam(10, "Test", 30, "", "", newTeacherX, cs.getCourses().get(0));
+			session.save(e);
+			session.flush();
+
 
 			session.getTransaction().commit(); // Save everything.
-
 		}
 		catch (Exception e1) {
 			e1.printStackTrace();
@@ -317,7 +294,7 @@ public class SimpleServer extends AbstractServer {
 					} else {
 						if (user.getPassword().equals(userPassword)) {
 							user.setConnected(true);
-							client.sendToClient(new Message("#LogInSuccessfully", user));
+							client.sendToClient(new Message("#LogInSuccessfully", copyUser(user)));
 							session.update(user);
 							session.flush();
 						} else {
@@ -485,51 +462,122 @@ public class SimpleServer extends AbstractServer {
 		else if (msgString.equals("#GetAllSubjects"))
 		{
 			session.beginTransaction();
-			System.out.println("AA1");
 			List<Subject> allSubjects = getAllObjects(Subject.class);
 
-			System.out.println("Printing allSubjects list:");
-			for(int i=0; i<allSubjects.size(); i++){
-				System.out.println(allSubjects.get(i).toString());
-				if(allSubjects.get(i).getCourses() != null){
-					for(int k=0; k<allSubjects.get(i).getCourses().size(); k++){
-						System.out.println(allSubjects.get(i).getCourses().get(k).getCourseName());
-					}
-				}
-
-			}
 			try {
-//				Subject ss = new Subject();
-//				ss.setSubName(allSubjects.get(0).getSubName());
-//				ss.setCourses(allSubjects.get(0).getCourses());
-
-//				Subject w = new Subject(17, "w");
-//				Course ww = new Course(999, "www");
-//				w.getCourses().add(ww);
-
-
-//				allSub.add(w);
-//				allSub.add(allSubjects)
-
-				System.out.println("AA2");
 				ArrayList<Subject> myAllSubjects = new ArrayList<>();
 				for (int i=0; i<allSubjects.size(); i++){
 					myAllSubjects.add(copySubject(allSubjects.get(i)));
 				}
-				Message myMessage = new Message("#GetAllSubjectsResponce", myAllSubjects);
-				client.sendToClient(myMessage);
+
+				client.sendToClient(new Message("#GetAllSubjectsResponce", myAllSubjects));
+				session.getTransaction().commit();
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#GetAllSubjectsNames")) ///
+		{
+			session.beginTransaction();
+			List<Subject> list = getAllObjects(Subject.class);
+
+			try {
+				ArrayList<String> allNames = new ArrayList<>();
+				for (Subject s : list){
+					allNames.add(s.getSubName());
+				}
+				client.sendToClient(new Message("#getAllSubjectsNames_Replay", allNames));
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#GetAllCoursesBySubject")) ///
+		{
+			session.beginTransaction();
+			String name = (String) message.getObject1();
+			List<Subject> list = getAllObjects(Subject.class);
+			Subject subject = null;
+			for(Subject s : list){
+				if(s.getSubName().equals(name)){
+					subject = s;
+					break;
+				}
+			}
+			try {
+				if(subject != null){
+					ArrayList<String> allNames = new ArrayList<>();
+					for (Course c : subject.getCourses()){
+						allNames.add(c.getCourseName());
+					}
+					client.sendToClient(new Message("#GetAllCoursesBySubject_Replay", allNames));
+				}else{
+					Warning warning = new Warning("Subject Name doesn't exist");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#GetAllExamsByCourse")) ///
+		{
+			session.beginTransaction();
+			String name = (String) message.getObject1();
+			List<Course> list = getAllObjects(Course.class);
+			Course course = null;
+			for(Course c : list){
+				if(c.getCourseName().equals(name)){
+					course = c;
+					break;
+				}
+			}
+			try {
+				if(course != null){
+					ArrayList<Exam> allExams = new ArrayList<>();
+					for (Exam e : course.getExamsList()){
+						allExams.add(new Exam(e));
+					}
+					client.sendToClient(new Message("#GetAllExamsByCourse_Replay", allExams));
+				}else{
+					Warning warning = new Warning("Course Name doesn't exist");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}
 				session.getTransaction().commit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 
-		System.out.println("AAx");
+	}
+
+	public User copyUser (User u)
+	{
+		User temp;
+		if(u.getType() == User.UserType.Student)
+		{
+			temp = new Student(u.getId(), u.getUserName(), u.getPassword());
+		}
+		else if(u.getType() == User.UserType.Teacher)
+		{
+			temp = new Teacher(u.getId(), u.getUserName(), u.getPassword());
+			temp.setConnected(u.isConnected());
+
+		}
+		else if(u.getType() == User.UserType.Princiaple)
+		{
+			temp = new Princiaple(u.getId(), u.getUserName(), u.getPassword());
+		}
+		else {
+			temp = new User();
+		}
+		return temp;
 	}
 
 	public Course copyCourse (Course c)
 	{
-		Course newCourse = new Course (c.getId(), c.getCourseName(), c.getSubject());
+		Course newCourse = new Course (c.getId(), c.getCourseName());
 		return newCourse;
 	}
 
@@ -538,7 +586,8 @@ public class SimpleServer extends AbstractServer {
 		Subject newSubject = new Subject (s.getId(), s.getSubName());
 		if(s.getCourses() != null){
 			for(int i=0; i<s.getCourses().size(); i++){
-				newSubject.addCourse(copyCourse(s.getCourses().get(i)));
+				Course c = copyCourse(s.getCourses().get(i));
+				c.setSubject(newSubject);
 			}
 		}
 		return newSubject;

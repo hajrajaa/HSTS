@@ -15,25 +15,18 @@ public class User implements Serializable{
         Student,Teacher,Princiaple;
     }
 
-
     private int id;
 
-
     @Id
-
     private String userName;
 
     private  String password;
 
-
-
     private UserType type;
-
 
     private boolean isConnected=false;
 
-    public User() {
-    }
+    public User() {}
 
     public User(int id ,String username ,String password, UserType type)
     {
@@ -93,7 +86,5 @@ public class User implements Serializable{
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-
 
 }

@@ -13,30 +13,21 @@ import java.util.List;
 public class Course implements Serializable
 {
 
-
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "studentsList")
 //    private List<Student> studentList;
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "teachersList")
 //    private List<Teacher> teacherList;
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "examsList")
-//    private List<Exam> examsList;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
+    private List<Exam> examsList;
 
     //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
 //    private List<Question> questions;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private  String courseName;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_id")
@@ -48,32 +39,35 @@ public class Course implements Serializable
     {
         this.id=id;
         this.courseName = courseName;
+        this.examsList = new ArrayList<>();
     }
 
-
-
-    public Course(int id ,String courseName,Subject subject)
+    public Course(int id, String courseName, Subject subject)
     {
-        this.id=id;
+        this.id = id;
         this.courseName = courseName;
-        setSubject(subject);
-//        setSubject(subject);
-   //   this.subject.addCourse(this);
+
+        this.subject = subject;
+        subject.addCourse(this);
+
+        this.examsList = new ArrayList<>();
     }
+
+    public int getId() {return id;}
+    public void setId(int id) {this.id = id;}
 
     public Subject getSubject() {
         return subject;
     }
-
-    public void setSubject(Subject subject) {
+    public void setSubject(Subject subject)
+    {
         this.subject = subject;
+        this.subject.addCourse(this);
     }
-
 
     public String getCourseName() {
         return courseName;
     }
-
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
@@ -127,13 +121,12 @@ public class Course implements Serializable
 //        }
 //    }
 
-//    public List<Exam> getExamsList() {
-//        return examsList;
-//    }
-//
-//    public void setExamsList(List<Exam> examsList) {
-//        this.examsList = examsList;
-//    }
+    public List<Exam> getExamsList() {
+        return examsList;
+    }
 
+    public void setExamsList(List<Exam> examsList) {
+        this.examsList = examsList;
+    }
 
 }
