@@ -24,7 +24,7 @@ public class Exam implements Serializable
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam")
     private List<ExecutedExam> executedExams;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam" )
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="exam" )
     private List<ExamQuestion> examQuestion;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -70,6 +70,10 @@ public class Exam implements Serializable
         this.descForStudent = exam.getDescForStudent();
         this.descForTeacher = exam.getDescForTeacher();
 
+        this.examQuestion = new ArrayList<>();
+        for (ExamQuestion eq : exam.getExamQuestion()){
+            this.examQuestion.add(new ExamQuestion(eq));
+        }
 //        this.coursesList = new ArrayList<>();
 //
 //        this.teacher = exam.getTeacher();
@@ -149,6 +153,14 @@ public class Exam implements Serializable
 
     public void setExamQuestion(List<ExamQuestion> examQuestion) {
         this.examQuestion = examQuestion;
+    }
+
+    public void addExamQuestion (ExamQuestion e){
+        if(this.examQuestion == null){
+            this.examQuestion = new ArrayList<>();
+        }
+        this.examQuestion.add(e);
+        e.setExam(this);
     }
 
     public List<ExecutedExam> getExecutedExams() {

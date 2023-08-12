@@ -203,35 +203,35 @@ public class SimpleServer extends AbstractServer {
 
 			///////////////////////////////////// CS Courses ///////////////////////////////////////
 
-			Course newCourse = new Course(231, "C language", cs);
-			session.save(newCourse);
+			Course C_language = new Course(231, "C language", cs);
+			session.save(C_language);
 			session.flush();
 
-			newCourse = new Course(232, "Data Structure", cs);
-			session.save(newCourse);
+			Course DS = new Course(232, "Data Structure", cs);
+			session.save(DS);
 			session.flush();
 
-			newCourse = new Course(233, "Object Oriented Programming", cs);
-			session.save(newCourse);
+			Course OOP = new Course(233, "Object Oriented Programming", cs);
+			session.save(OOP);
 			session.flush();
 
 			///////////////////////////////////// Math Courses ///////////////////////////////////////
 
-			newCourse = new Course(241, "Discrete Mathematics", math);
-			session.save(newCourse);
+			Course dmath = new Course(241, "Discrete Mathematics", math);
+			session.save(dmath);
 			session.flush();
 
-			newCourse = new Course(242, "Calculus 1", math);
-			session.save(newCourse);
+			Course calculus = new Course(242, "Calculus 1", math);
+			session.save(calculus);
 			session.flush();
 
-			newCourse = new Course(243, "Algebra 1", math);
-			session.save(newCourse);
+			Course algebra = new Course(243, "Algebra 1", math);
+			session.save(algebra);
 			session.flush();
 
 			///////////////////////////////////// Sports Courses ///////////////////////////////////////
 
-			newCourse = new Course(251, "Fencing", sports);
+			Course newCourse = new Course(251, "Fencing", sports);
 			session.save(newCourse);
 			session.flush();
 
@@ -244,13 +244,94 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////
-			///////////////////////////////////////////// Exams //////////////////////////////////////////////
+			/////////////////////////////////////////// Questions ////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 
-			Exam e = new Exam(10, "Test", 30, "", "", newTeacherX, cs.getCourses().get(0));
-			session.save(e);
+			//////////////////////////////////////// Data Structures /////////////////////////////////////////
+
+			ArrayList<Course> DS_Courses = new ArrayList<>();
+			DS_Courses.add(C_language);
+			DS_Courses.add(DS);
+			String[] DataStructures1 = {"LinkedList", "Stack", "Queue", "Array"};
+			Question q1 = new Question(001, "Which data structure allows elements to be stored in a linear order and accessed using an index?", DataStructures1, 3, DS_Courses);
+			session.save(q1);
+
+			String[] DataStructures2 = {"Graph", "Tree", "Heap", "Array"};
+			Question q2 = new Question(002, "Which data structure represents a hierarchical structure with a root node and child nodes?", DataStructures2, 1, DS);
+			session.save(q2);
+
+			String[] DataStructures3 = {"LIFO", "FIFO", "LILO", "FILO"};
+			Question q3 = new Question(003, "What is the characteristic property of a Stack data structure?", DataStructures3, 0, DS);
+			session.save(q3);
+
 			session.flush();
 
+			////////////////////////////////////////// C language ///////////////////////////////////////////
+
+			String[] C1 = {"float", "int", "string", "char"};
+			Question q11 = new Question(100, "Which data type is used to store real numbers with decimal points in C?", C1, 0, C_language);
+			session.save(q11);
+
+			String[] C2 = {"for", "while", "do-while", "loop"};
+			Question q12 = new Question(101, "Which loop is used to execute a block of code repeatedly as long as a condition is true?", C2, 1, C_language);
+			session.save(q12);
+
+			String[] C3 = {"input", "printf", "scanf", "output"};
+			Question q13 = new Question(102, "Which function is used to take input from the user in C?", C3, 2, C_language);
+			session.save(q13);
+
+			String[] C4 = {"if", "case", "when", "switch"};
+			Question q14 = new Question(103, "Which keyword is used to implement a decision-making statement in C?", C4, 3, C_language);
+			session.save(q14);
+
+			ArrayList<Course> list2 = new ArrayList();
+			list2.add(C_language);
+			list2.add(OOP);
+			String[] C5 = {"malloc", "new", "allocate", "create"};
+			Question q15 = new Question(104, "Which function is used to dynamically allocate memory in C?", C5, 0, list2);
+			session.save(q15);
+
+			session.flush();
+
+			////////////////////////////////////////////// OOP ///////////////////////////////////////////////
+
+			ArrayList<Course> list3 = new ArrayList();
+			list3.add(C_language);
+			list3.add(OOP);
+			list3.add(DS);
+			String[] C6 = {"O(1)", "O(log n)", "O(n log n)", "O(n)"};
+			Question q20 = new Question(2000, "What is the best Time Complexity in witch we can Sort an Array?", C6, 2, list3);
+			session.save(q20);
+
+			session.flush();
+
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////// Exams //////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+//			ExamQuestion eeeee = new ExamQuestion();
+//			session.save(eeeee);
+//			session.flush();
+//
+			ExamQuestion eq1 = new ExamQuestion(q11, 10, "", "We learned this in the first lecture");
+			ExamQuestion eq2 = new ExamQuestion(q13, 15, "from OOP", "");
+			ExamQuestion eq3 = new ExamQuestion(q1, 20, "from DS", "");
+			ExamQuestion eq4 = new ExamQuestion(q20, 30, "from DS and OOP", "You learned this in many courses");
+			ExamQuestion eq5 = new ExamQuestion(q15, 25, "", "");
+
+			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", newTeacherX, cs.getCourses().get(0));
+			exam1.addExamQuestion(eq1);
+			exam1.addExamQuestion(eq2);
+			exam1.addExamQuestion(eq3);
+			exam1.addExamQuestion(eq4);
+			exam1.addExamQuestion(eq5);
+
+			session.save(eq1);
+			session.save(eq2);
+			session.save(eq3);
+			session.save(eq4);
+			session.save(eq5);
+			session.save(exam1);
+			session.flush();
 
 			session.getTransaction().commit(); // Save everything.
 		}
@@ -459,6 +540,15 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+
+		////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////// Michel //////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////
+
 		else if (msgString.equals("#GetAllSubjects"))
 		{
 			session.beginTransaction();

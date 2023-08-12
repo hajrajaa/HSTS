@@ -7,8 +7,11 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="examQuestions")
-public class ExamQuestion extends Question implements Serializable{
+public class ExamQuestion implements Serializable{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private int points;
     private String teacher_note;
     private String student_note;
@@ -21,12 +24,12 @@ public class ExamQuestion extends Question implements Serializable{
     @JoinColumn(name = "question_id")
     private Question question;
 
-    public ExamQuestion(int id, int code, String question, int correct_answer, String[] answers, int points, String teacher_note, String student_note) {
-        super(code, question, answers, correct_answer);
-        this.points = points;
-        this.teacher_note = teacher_note;
-        this.student_note = student_note;
-    }
+//    public ExamQuestion(int id, int code, String question, int correct_answer, String[] answers, int points, String teacher_note, String student_note) {
+//        super(code, question, answers, correct_answer);
+//        this.points = points;
+//        this.teacher_note = teacher_note;
+//        this.student_note = student_note;
+//    }
 
 //    public ExamQuestion(int code, String question, String[] answers, int correct_answer, int points, String teacher_note, String student_note) {
 //        super(code, question, answers, correct_answer);
@@ -35,11 +38,28 @@ public class ExamQuestion extends Question implements Serializable{
 //        this.student_note = student_note;
 //    }
 
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
     public ExamQuestion(Question question, int points, String teacher_note, String student_note) {
-        super(question.getCode(), question.getQuestion(), question.getAnswers(), question.getCorrect_answer());
+//        super(question.getCode(), question.getQuestion(), question.getAnswers(), question.getCorrect_answer());
+        this.question=question;
+        question.addExamQuestion(this);
         this.points = points;
         this.teacher_note = teacher_note;
         this.student_note = student_note;
+    }
+
+    public ExamQuestion(ExamQuestion examQuestion) {
+        this.question = new Question(examQuestion.getQuestion());
+        this.points = examQuestion.getPoints();
+        this.teacher_note = examQuestion.getTeacher_note();
+        this.student_note = examQuestion.getStudent_note();
     }
 
     public ExamQuestion() {}
@@ -70,5 +90,9 @@ public class ExamQuestion extends Question implements Serializable{
 
     public void setStudent_note(String student_note) {
         this.student_note = student_note;
+    }
+
+    public void setExam (Exam e){
+        this.exam = e;
     }
 }

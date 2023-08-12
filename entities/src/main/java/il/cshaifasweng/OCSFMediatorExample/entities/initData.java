@@ -226,20 +226,20 @@
 //            session.beginTransaction();
 //            //Subject: Computer Sci ,code: 11
 //            //DataSt::::::::::::::::::::::::::::::::::::::::::::::::::::;
-//            SString[] DataStructures1 = {"Array", "LinkedList", "Stack", "Queue"};
-//            Question q1 = new Question(00111, "Which data structure allows elements to be stored in a linear order and accessed using an index?", DataStructures1, 1);
+//            String[] DataStructures1 = {"LinkedList", "Stack", "Queue", "Array"};
+//            Question q1 = new Question(001, "Which data structure allows elements to be stored in a linear order and accessed using an index?", DataStructures1, 4);
 //
 //            String[] DataStructures2 = {"Graph", "Tree", "Heap", "Array"};
-//            Question q2 = new Question(00211, "Which data structure represents a hierarchical structure with a root node and child nodes?", DataStructures2, 1);
+//            Question q2 = new Question(002, "Which data structure represents a hierarchical structure with a root node and child nodes?", DataStructures2, 1);
 //
 //            String[] DataStructures3 = {"LIFO", "FIFO", "LILO", "FILO"};
-//            Question q3 = new Question(00311, "What is the characteristic property of a stack data structure?", DataStructures3, 0);
+//            Question q3 = new Question(003, "What is the characteristic property of a Stack data structure?", DataStructures3, 0);
 //
 //            String[] DataStructures4 = {"Binary Search Tree", "Hash Table", "Heap", "Queue"};
-//            Question q4 = new Question(00411, "Which data structure is used to maintain a dynamic set of distinct elements?", DataStructures4, 1);
+//            Question q4 = new Question(004, "Which data structure is used to maintain a dynamic set of distinct elements?", DataStructures4, 1);
 //
 //            String[] DataStructures5 = {"First-In-First-Out", "Last-In-First-Out", "First-In-Last-Out", "Last-In-Last-Out"};
-//            Question q5 = new Question(00511, "What does FIFO stand for in the context of data structures?", DataStructures5, 0);
+//            Question q5 = new Question(005, "What does FIFO stand for in the context of data structures?", DataStructures5, 0);
 //
 //
 ////OOP:::::::::::::::::::::::::::::
@@ -261,19 +261,19 @@
 //
 //            //C language Questions::::::::::::::::::::::::::::
 //            String[] C1 = {"float", "int", "string", "char"};
-//            Question q11 = new Question(01111, "Which data type is used to store real numbers with decimal points in C?", C1, 1);
+//            Question q11 = new Question(100, "Which data type is used to store real numbers with decimal points in C?", C1, 1);
 //
 //            String[] C2 = {"for", "while", "do-while", "loop"};
-//            Question q12 = new Question(01211, "Which loop is used to execute a block of code repeatedly as long as a condition is true?", C2, 2);
+//            Question q12 = new Question(101, "Which loop is used to execute a block of code repeatedly as long as a condition is true?", C2, 2);
 //
 //            String[] C3 = {"scanf", "printf", "input", "output"};
-//            Question q13 = new Question(01311, "Which function is used to take input from the user in C?", C3, 1);
+//            Question q13 = new Question(102, "Which function is used to take input from the user in C?", C3, 1);
 //
 //            String[] C4 = {"if", "case", "when", "switch"};
-//            Question q14 = new Question(01411, "Which keyword is used to implement a decision-making statement in C?", C4, 4);
+//            Question q14 = new Question(103, "Which keyword is used to implement a decision-making statement in C?", C4, 4);
 //
 //            String[] C5 = {"malloc", "new", "allocate", "create"};
-//            Question q15 = new Question(01511, "Which function is used to dynamically allocate memory in C?", C5, 1);
+//            Question q15 = new Question(104, "Which function is used to dynamically allocate memory in C?", C5, 1);
 //
 //
 //            //Subject: Math, code: 22

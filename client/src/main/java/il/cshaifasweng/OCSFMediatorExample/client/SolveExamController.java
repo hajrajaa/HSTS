@@ -144,10 +144,10 @@ public class SolveExamController
             setCorrectAnswer(examAnswers.get(questionNumber));
         }
 
-        question_text_area.setText(currentQuestion.getQuestion());
+        question_text_area.setText(currentQuestion.getQuestion().getQuestion());
         for(int i=0; i<answersButtons.length; i++)
         {
-            String tempAnswer = currentQuestion.getAnswers()[i];
+            String tempAnswer = currentQuestion.getQuestion().getAnswers()[i];
             answersButtons[i].setText(tempAnswer);
         }
 

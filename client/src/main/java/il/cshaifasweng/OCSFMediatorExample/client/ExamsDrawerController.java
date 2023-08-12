@@ -112,9 +112,11 @@ public class ExamsDrawerController
         Exam_text.setText(exam.getTitle());
         currentQuestionNumber = 0;
         allExamQuestions = exam.getExamQuestion();
-        examLength = allExamQuestions.size();
-        loadNewQuestion(currentQuestionNumber);
-        error_bar_text.setText("Exam Loaded");
+        if(allExamQuestions != null){
+            examLength = allExamQuestions.size();
+            loadNewQuestion(currentQuestionNumber);
+            error_bar_text.setText("Exam Loaded");
+        }
     }
 
     private void loadNewQuestion (int questionNumber)
@@ -122,13 +124,13 @@ public class ExamsDrawerController
         currentQuestion = allExamQuestions.get(questionNumber);
         initializeButtons();
 
-        int correctAnswerNumber = currentQuestion.getCorrect_answer() - 1;
+        int correctAnswerNumber = currentQuestion.getQuestion().getCorrect_answer() - 1;
         App.setButtonColor(answersButtons[correctAnswerNumber], "green");
 
-        question_text_area.setText(currentQuestion.getQuestion());
+        question_text_area.setText(currentQuestion.getQuestion().getQuestion());
         for(int i=0; i<answersButtons.length; i++)
         {
-            String tempAnswer = currentQuestion.getAnswers()[i];
+            String tempAnswer = currentQuestion.getQuestion().getAnswers()[i];
             answersButtons[i].setText(tempAnswer);
         }
 
@@ -181,7 +183,12 @@ public class ExamsDrawerController
     public void GetAllExamsByCourse_Replay(EventGetAllExamsByCourse event)
     {
         allExams = event.getAllExams();
-        initTable();
+        if(allExams == null) {
+            error_bar_text.setText("No Exams Found");
+        }
+        else {
+            initTable();
+        }
 //        ArrayList<String> allNames = new ArrayList<>(event.getAllExamsNames());
 //        ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
 //        Course_ComboBox.setItems(basesList);
@@ -307,29 +314,29 @@ public class ExamsDrawerController
 
     private void initData ()
     {
-        String [] s1 = {"1","2","100","pi"};
-        ExamQuestion e1 = new ExamQuestion(1, 11, "1+1=?", 2, s1, 10, "", "");
-
-        String [] s2 = {"blue","green","black","red"};
-        ExamQuestion e2 = new ExamQuestion(2, 22, "Apples are ____ ?", 4, s2, 10, "", "");
-
-        String [] s3 = {"0","10","100","1000"};
-        ExamQuestion e3 = new ExamQuestion(3, 33, "100*0=?", 1, s3, 10, "", "");
-
-        ArrayList<ExamQuestion> qqq = new ArrayList<ExamQuestion>();
-        qqq.add(e1);
-        qqq.add(e3);
-
-        ArrayList<ExamQuestion> rrr = new ArrayList<ExamQuestion>();
-        rrr.add(e2);
-
-        Exam exam1 = new Exam(123, "Math Exam", qqq);
-        Exam exam2 = new Exam(456, "Colors Exam", rrr);
-        ArrayList<Exam> eee = new ArrayList<Exam>();
-        eee.add(exam1);
-        eee.add(exam2);
-
-        allExams = eee;
+//        String [] s1 = {"1","2","100","pi"};
+//        ExamQuestion e1 = new ExamQuestion(1, 11, "1+1=?", 2, s1, 10, "", "");
+//
+//        String [] s2 = {"blue","green","black","red"};
+//        ExamQuestion e2 = new ExamQuestion(2, 22, "Apples are ____ ?", 4, s2, 10, "", "");
+//
+//        String [] s3 = {"0","10","100","1000"};
+//        ExamQuestion e3 = new ExamQuestion(3, 33, "100*0=?", 1, s3, 10, "", "");
+//
+//        ArrayList<ExamQuestion> qqq = new ArrayList<ExamQuestion>();
+//        qqq.add(e1);
+//        qqq.add(e3);
+//
+//        ArrayList<ExamQuestion> rrr = new ArrayList<ExamQuestion>();
+//        rrr.add(e2);
+//
+//        Exam exam1 = new Exam(123, "Math Exam", qqq);
+//        Exam exam2 = new Exam(456, "Colors Exam", rrr);
+//        ArrayList<Exam> eee = new ArrayList<Exam>();
+//        eee.add(exam1);
+//        eee.add(exam2);
+//
+//        allExams = eee;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////

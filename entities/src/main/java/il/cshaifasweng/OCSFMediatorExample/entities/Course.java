@@ -21,8 +21,8 @@ public class Course implements Serializable
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
     private List<Exam> examsList;
 
-    //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
-//    private List<Question> questions;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
+    private List<Question> questions;
 
 
     @Id
@@ -40,6 +40,7 @@ public class Course implements Serializable
         this.id=id;
         this.courseName = courseName;
         this.examsList = new ArrayList<>();
+        this.questions = new ArrayList<>();
     }
 
     public Course(int id, String courseName, Subject subject)
@@ -72,20 +73,16 @@ public class Course implements Serializable
         this.courseName = courseName;
     }
 
-//    public Subject getSubject() {
-//        return subject;
-//    }
-//
-//    public void setSubject(Subject subject) {
-//        if(subject != null){
-//            this.subject = subject;
-//            subject.getCourses().add(this);
-//        }
-//    }
+    public List<Question> getQuestions() {
+        return questions;
+    }
 
-//    public List<Question> getQuestions() {
-//        return questions;
-//    }
+    public void addQuestion (Question q) {
+        if(this.questions == null){
+            this.questions = new ArrayList<>();
+        }
+        this.questions.add(q);
+    }
 
 //    public void setQuestions(List<Question> questions) {
 //        this.questions = questions;
