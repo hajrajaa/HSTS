@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,10 +27,20 @@ public class PrincipleStatMenu {
 
     @FXML
     public void view_students(ActionEvent actionEvent) throws IOException {
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetListOfStudents"));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         App.setRoot("principle_student_menu");
     }
     @FXML
     public void view_teachers(ActionEvent actionEvent) throws IOException {
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetListOfTeachers"));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         setRoot("principle_teachers_menu");
     }
 
