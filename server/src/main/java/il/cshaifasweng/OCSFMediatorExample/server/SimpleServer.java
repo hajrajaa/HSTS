@@ -700,7 +700,45 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.equals("#CreateNewQusetion")) ///
+		{
+			session.beginTransaction();
+			Question question = (Question) message.getObject1();
+			ArrayList<Course> courses = new ArrayList<>(question.getCoursesList());
 
+			List<Course> allCoursesList = getAllObjects(Course.class);
+			for(Course c : allCoursesList){ // get all courses from copies
+				int index = findCourseIndex(courses, c.getCourseName());
+				if(index != -1){
+					courses.set(index, c);
+				}
+			}
+			question.resetCoursesList();
+			for(Course c : courses){question.addCourse(c);}
+
+			session.save(question);
+			session.flush();
+
+			for(Course c : courses){
+				session.merge(c);
+				session.flush();
+			}
+
+			session.getTransaction().commit();
+		}
+
+	} /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private int findCourseIndex (ArrayList<Course> list, String courseName)
+	{
+		int index = -1;
+		for(Course c : list){
+			index++;
+			if(c.getCourseName().equals(courseName)){
+				return index;
+			}
+		}
+		return index;
 	}
 
 	public User copyUser (User u)

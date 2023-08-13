@@ -138,7 +138,6 @@ public class TeacherExcuteController {
         manualTypeBtn.setToggleGroup(radioGroup);
         virtualTypeBtn.setToggleGroup(radioGroup);
 
-
     }
 
 }

@@ -55,7 +55,7 @@ public class ExamsDrawerController
     private boolean tableInitFlag;
     private int examLength;
 
-    public int getExecutedExamCode() {
+    public static int getExecutedExamCode() {
         return executedExamCode;
     }
 

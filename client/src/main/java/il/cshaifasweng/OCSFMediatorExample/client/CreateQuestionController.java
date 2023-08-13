@@ -227,10 +227,10 @@ public class CreateQuestionController
     }
 
     public void save_click(ActionEvent actionEvent) throws IOException {
-        System.out.println("Chosen Courses:");
-        for (int i=0; i<chosenCourses.size(); i++){
-            System.out.println(chosenCourses.get(i).getCourseName());
-        }
+//        System.out.println("Chosen Courses:");
+//        for (int i=0; i<chosenCourses.size(); i++){
+//            System.out.println(chosenCourses.get(i).getCourseName());
+//        }
         String s_question_code = QuestionCode_TextField.getText().toString();
         String s_question = Question_TextArea.getText().toString();
         String s_answer1 = Answer1_TextField.getText().toString();
@@ -247,9 +247,9 @@ public class CreateQuestionController
         {
             error_bar_text.setText("Please Fill Question Code");
         }
-        else if(s_question_code.length() != 6)
+        else if(s_question_code.length() != 2)
         {
-            error_bar_text.setText("Question Code Must Be 6 Digits");
+            error_bar_text.setText("Question Code Must Be 2 Digits");
         }
         else if(!isNumber(s_question_code))
         {
@@ -277,9 +277,9 @@ public class CreateQuestionController
         else
         {
             error_bar_text.setText("Saving Question...");
-            Question question = new Question (Integer.valueOf(s_question_code), s_question, l_answers.toArray(new String[0]), correctAnswerG);
+            Question question = new Question (Integer.valueOf(s_question_code), s_question, l_answers.toArray(new String[0]), correctAnswerG, chosenCourses);
             try {
-                SimpleClient.getClient().sendToServer(new Message("#CreateQusetionRequest", question));
+                SimpleClient.getClient().sendToServer(new Message("#CreateNewQusetion", question));
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
