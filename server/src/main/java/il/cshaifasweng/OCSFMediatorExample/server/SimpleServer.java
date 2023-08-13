@@ -545,6 +545,19 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if(msgString.equals("#ExecuteExamRequest"))
+		{
+			try {
+				session.beginTransaction();
+				ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
+				session.save(newExecExam);
+				session.flush();
+				session.getTransaction().commit();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+		}
 
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
