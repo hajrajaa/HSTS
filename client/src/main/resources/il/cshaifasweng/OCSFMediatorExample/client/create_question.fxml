@@ -66,12 +66,12 @@
             <TableColumn fx:id="Course_Column" prefWidth="327.0" text="Course" />
          </columns>
       </TableView>
-      <ImageView fitHeight="65.0" fitWidth="70.0" layoutX="906.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="51.0" fitWidth="55.0" layoutX="916.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/home_lblue.png" />
          </image>
       </ImageView>
-      <Button fx:id="Home_Button" layoutX="906.0" layoutY="11.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: transparent;">
+      <Button fx:id="Home_Button" layoutX="916.0" layoutY="15.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: transparent;">
          <font>
             <Font size="18.0" />
          </font>

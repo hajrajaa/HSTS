@@ -32,6 +32,10 @@ public class ExecutedExam implements Serializable {
 
     private boolean submitInTime;
 
+    public void setExecutedExamInfo(ExecutedExamInfo testDate) {
+        this.testDate = testDate;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "testDate_id")
     private ExecutedExamInfo testDate;
@@ -136,4 +140,6 @@ public class ExecutedExam implements Serializable {
             exam.getExecutedExams().add(this);
         }
     }
+
+
 }
