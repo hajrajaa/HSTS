@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.temporal.TemporalAccessor;
+import java.util.*;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import javafx.animation.Animation;
@@ -34,7 +33,6 @@ public class SolveExamController
     //////////////////////////////////////////////////////////////////////////////////////////////////
     private List<Integer> examAnswers;
     private int examLength = 0;
-
     private ExamQuestion currentQuestion;
     private static int currentQuestionNumber;
     private Exam exam;
@@ -48,12 +46,10 @@ public class SolveExamController
     private Text exam_name_text, date_text, question_number_text, note_text, student_note_text, clock_text;
     @FXML
     ImageView note_ImageView;
-
     @FXML
     ImageView clock_0,clock_1,clock_2,clock_3,clock_4,clock_5,clock_6,clock_7,clock_8;
     ImageView[] clks;
     private int clks_counter;
-
     private LocalTime startTime;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +58,9 @@ public class SolveExamController
     @FXML
     private void initialize ()
     {
-        exam = App.getExam(); // TODO: need to load the exam from solve_exam_enter
+        exam = App.getExam();
+        exam_name_text.setText(exam.getTitle());
+        date_text.setText(App.getDate());
         startTime = LocalTime.now();
         vexam = new ExecutedVirtual(exam, (Student)App.getUser(), startTime.toString());
 
@@ -167,25 +165,8 @@ public class SolveExamController
 
     private ArrayList<ExamQuestion> getQuestions ()
     {
-        String [] s1 = {"1","2","100","pi"};
-        Question q1 = new Question(111,"1+1=?", s1,2);
-        ExamQuestion e1 = new ExamQuestion(q1, 25, "", "");
-
-        String [] s2 = {"blue","green","black","red"};
-        Question q2 = new Question(222,"Apples are ____", s2,4);
-        ExamQuestion e2 = new ExamQuestion(q2, 25, "", "Choose The Best Answer");
-
-        String [] s3 = {"0","10","100","1000"};
-        Question q3 = new Question(333,"100*0=?", s3,1);
-        ExamQuestion e3 = new ExamQuestion(q3, 25, "", "");
-
-        ArrayList<ExamQuestion> eee = new ArrayList<ExamQuestion>();
-        eee.add(e1);
-        eee.add(e2);
-        eee.add(e3);
-        return eee;
-//        ArrayList<ExamQuestion> allQuestions = new ArrayList<ExamQuestion>(exam.getQuestions());
-//        return allQuestions;
+        ArrayList<ExamQuestion> allQuestions = new ArrayList<ExamQuestion>(exam.getExamQuestion());
+        return allQuestions;
     }
 
 

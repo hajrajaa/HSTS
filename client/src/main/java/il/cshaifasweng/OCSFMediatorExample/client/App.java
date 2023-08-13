@@ -12,6 +12,11 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -100,6 +105,13 @@ public class App extends Application {
         B.setStyle("-fx-background-color: " + colorID);
     }
 
+    public static String getDate()
+    {
+        Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/M/yyyy");
+        return formatter.format(today);
+    }
+
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -164,12 +176,13 @@ public class App extends Application {
         switch (getExamType())
         {
             case Virtual:
-                fxmlFile1="solve_manual_exam";
+                fxmlFile1="solve_exam";
                 break;
 
             case Manual:
                 fxmlFile1="solve_manual_exam";
                 break;
+
             default:
                 return;
         }

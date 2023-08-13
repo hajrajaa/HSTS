@@ -560,7 +560,6 @@ public class SimpleServer extends AbstractServer {
 		}
 		else if(msgString.equals("#StartSolveExam"))
 		{
-
 			Object[] newExecExam = (Object[]) message.getObject1();
 			int examCode = (int) Integer.valueOf((String) newExecExam[0]);
 			String examPassword = (String) newExecExam[1];
