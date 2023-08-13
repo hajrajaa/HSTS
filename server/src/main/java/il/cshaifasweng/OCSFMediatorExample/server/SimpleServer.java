@@ -308,10 +308,7 @@ public class SimpleServer extends AbstractServer {
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 			///////////////////////////////////////////// Exams //////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////////////////////////////////
-//			ExamQuestion eeeee = new ExamQuestion();
-//			session.save(eeeee);
-//			session.flush();
-//
+
 			ExamQuestion eq1 = new ExamQuestion(q11, 10, "", "We learned this in the first lecture");
 			ExamQuestion eq2 = new ExamQuestion(q13, 15, "from OOP", "");
 			ExamQuestion eq3 = new ExamQuestion(q1, 20, "from DS", "");
@@ -426,9 +423,17 @@ public class SimpleServer extends AbstractServer {
 			try
 			{
 				session.beginTransaction();
-				User currUser=(User) message.getObject1();
-				currUser.setConnected(false);
-				session.merge(currUser);
+				User currUser = (User) message.getObject1();
+				String userName = currUser.getUserName();
+				User user = session.find(User.class, userName);
+				if(user != null){
+					user.setConnected(false);
+					session.merge(user);
+				}else{
+					Warning warning = new Warning("Can't Log Out");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}
+
 				session.getTransaction().commit();
 			}
 			catch (Exception e1) {

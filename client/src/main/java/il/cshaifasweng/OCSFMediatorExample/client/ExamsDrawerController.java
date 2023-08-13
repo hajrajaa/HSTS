@@ -55,6 +55,16 @@ public class ExamsDrawerController
     private boolean tableInitFlag;
     private int examLength;
 
+    public int getExecutedExamCode() {
+        return executedExamCode;
+    }
+
+    public void setExecutedExamCode(int executedExamCode) {
+        this.executedExamCode = executedExamCode;
+    }
+
+    public int executedExamCode;
+
     private ExamQuestion currentQuestion;
     private List<ExamQuestion> allExamQuestions;
     private static int currentQuestionNumber;
@@ -257,8 +267,13 @@ public class ExamsDrawerController
                     private final Button btn = new Button("Execute");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            Exam view_exam = getTableView().getItems().get(getIndex());
-                            loadExam(view_exam);
+                            Exam exe_exam = getTableView().getItems().get(getIndex());
+                            setExecutedExamCode(exe_exam.getCodeExam());
+                            try {
+                                App.setRoot("execute_exam");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         });
                     }
 
