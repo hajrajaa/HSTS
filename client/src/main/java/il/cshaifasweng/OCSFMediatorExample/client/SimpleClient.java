@@ -59,6 +59,30 @@ public class SimpleClient extends AbstractClient {
 			);
 
 		}
+
+		else if(messageSt.equals("#StartSolveSuccessfully"))
+		{
+
+			Object[] obj = (Object[]) message.getObject1();
+
+			Exam exam=(Exam)obj[0];
+			ExecutedExamInfo.ExamType examType=(ExecutedExamInfo.ExamType)obj[1];
+
+			StartSolveExamEvent newEvent=new StartSolveExamEvent(exam,examType);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+
+		}
+	else if (messageSt.equals("#StartSolveWarning"))
+	{
+		Platform.runLater(()->{
+					EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+				}
+		);
+	}
+
 		else if (messageSt.equals("#SolveExamWarning"))
 		{
 			Platform.runLater(()->{

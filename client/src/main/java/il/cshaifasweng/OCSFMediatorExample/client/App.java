@@ -29,6 +29,10 @@ public class App extends Application {
 
     public  static Exam exam;
 
+
+    public static ExecutedExamInfo.ExamType examType;
+
+
     public  static List<Student> studentList;
 
     public  static List<Teacher> teacherList;
@@ -65,6 +69,15 @@ public class App extends Application {
     public static void setUser(User user) {
         App.user = user;
     }
+
+    public static ExecutedExamInfo.ExamType getExamType() {
+        return examType;
+    }
+
+    public static void setExamType1(ExecutedExamInfo.ExamType examType) {
+        App.examType = examType;
+    }
+
 
     public static void setButtonColor(Button B, String color)
     {
@@ -134,6 +147,47 @@ public class App extends Application {
         setUser(event.getUser());
         changeScene();
     }
+
+    @Subscribe
+    public void startSolveExamEvent(StartSolveExamEvent event)
+    {
+        setExam(event.getExam());
+        setExamType1(event.getExamType());
+        changeScene1();
+    }
+
+    private void changeScene1()
+    {
+        System.out.println(getExamType().toString());
+        String fxmlFile1;
+
+        switch (getExamType())
+        {
+            case Virtual:
+                fxmlFile1="solve_manual_exam";
+                break;
+
+            case Manual:
+                fxmlFile1="solve_manual_exam";
+                break;
+            default:
+                return;
+        }
+
+
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML(fxmlFile1));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+
 
 //    @Subscribe
 //    public  void solveExamEventfunc(SolveExamEvent event)

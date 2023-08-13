@@ -96,8 +96,10 @@ public class SolveExamEnter
 
         if(ecode.equals("")){error_bar_text.setText("Please Enter The Exam Code");}
         else if(!isNumber(ecode)){error_bar_text.setText("Exam Code Must Be a Number");}
-        else if(ecode.length() != 5){error_bar_text.setText("Exam Code Must 5 Digits");}
+        //else if(ecode.length() != 5){error_bar_text.setText("Exam Code Must Be 5 Digits");}
         else if(pass.equals("")){error_bar_text.setText("Please Enter The Exam Password");}
+        else if(!isNumber(pass)){error_bar_text.setText("Exam Password Must Be a Number");}
+        else if(pass.length() != 4){error_bar_text.setText("Exam Password Must Be 4 Digits");}
         else {
             Object[] obj = {ecode, pass};
             try {
