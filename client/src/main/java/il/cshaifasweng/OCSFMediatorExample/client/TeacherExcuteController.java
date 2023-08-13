@@ -58,7 +58,8 @@ public class TeacherExcuteController {
 
     @FXML
     void executeBtn(ActionEvent event) {
-        
+
+        error_bar_text.setText("");
 
         String ExecPassword=execCodeTxt.getText().toString();
         if(ExecPassword== null)
@@ -79,7 +80,8 @@ public class TeacherExcuteController {
             {
                 selectedType= ExecutedExamInfo.ExamType.Virtual;
             }
-            ExecutedExamInfo exeExam= new ExecutedExamInfo(getExamCode1(),ExecPassword,selectedType);
+            ExecutedExamInfo exeExam= new ExecutedExamInfo(ExamCode,ExecPassword,selectedType);
+            System.out.println(getExamCode1());
 
             try {
                 SimpleClient.getClient().sendToServer(new Message("#ExecuteExamRequest",exeExam));
@@ -108,7 +110,11 @@ public class TeacherExcuteController {
     @FXML
     void initialize() {
 
-        setExamCode1(ExamsDrawerController.getExamCode());
+        error_bar_text.setText("");
+
+        setExamCode1(ExamsDrawerController.getExecutedExamCode());
+
+        System.out.println(ExamsDrawerController.getExecutedExamCode());
 
         assert coursesBox != null : "fx:id=\"coursesBox\" was not injected: check your FXML file 'execute_exam.fxml'.";
         assert error_bar_text != null : "fx:id=\"error_bar_text\" was not injected: check your FXML file 'execute_exam.fxml'.";
