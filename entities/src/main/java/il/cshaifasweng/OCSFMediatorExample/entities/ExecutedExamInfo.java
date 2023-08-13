@@ -132,4 +132,12 @@ public class ExecutedExamInfo implements Serializable {
 //        this.executingTeacher = teacher;
 //        teacher.getExamsInfo().add(this);
 //    }
+
+    public void addExecutedExam (ExecutedExam ex){
+        if(this.executedExamList == null){
+            this.executedExamList = new ArrayList<>();
+        }
+        this.executedExamList.add(ex);
+        ex.setExecutedExamInfo(this);
+    }
 }

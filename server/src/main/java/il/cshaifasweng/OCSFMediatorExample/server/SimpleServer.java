@@ -203,43 +203,43 @@ public class SimpleServer extends AbstractServer {
 
 			///////////////////////////////////// CS Courses ///////////////////////////////////////
 
-			Course C_language = new Course(231, "C language", cs);
+			Course C_language = new Course(31, "C language", cs);
 			session.save(C_language);
 			session.flush();
 
-			Course DS = new Course(232, "Data Structure", cs);
+			Course DS = new Course(32, "Data Structure", cs);
 			session.save(DS);
 			session.flush();
 
-			Course OOP = new Course(233, "Object Oriented Programming", cs);
+			Course OOP = new Course(33, "Object Oriented Programming", cs);
 			session.save(OOP);
 			session.flush();
 
 			///////////////////////////////////// Math Courses ///////////////////////////////////////
 
-			Course dmath = new Course(241, "Discrete Mathematics", math);
+			Course dmath = new Course(41, "Discrete Mathematics", math);
 			session.save(dmath);
 			session.flush();
 
-			Course calculus = new Course(242, "Calculus 1", math);
+			Course calculus = new Course(42, "Calculus 1", math);
 			session.save(calculus);
 			session.flush();
 
-			Course algebra = new Course(243, "Algebra 1", math);
+			Course algebra = new Course(43, "Algebra 1", math);
 			session.save(algebra);
 			session.flush();
 
 			///////////////////////////////////// Sports Courses ///////////////////////////////////////
 
-			Course newCourse = new Course(251, "Fencing", sports);
+			Course newCourse = new Course(51, "Fencing", sports);
 			session.save(newCourse);
 			session.flush();
 
-			newCourse = new Course(252, "Equestrianism", sports);
+			newCourse = new Course(52, "Equestrianism", sports);
 			session.save(newCourse);
 			session.flush();
 
-			newCourse = new Course(253, "Rugby", sports);
+			newCourse = new Course(53, "Rugby", sports);
 			session.save(newCourse);
 			session.flush();
 
@@ -253,15 +253,15 @@ public class SimpleServer extends AbstractServer {
 			DS_Courses.add(C_language);
 			DS_Courses.add(DS);
 			String[] DataStructures1 = {"LinkedList", "Stack", "Queue", "Array"};
-			Question q1 = new Question(001, "Which data structure allows elements to be stored in a linear order and accessed using an index?", DataStructures1, 3, DS_Courses);
+			Question q1 = new Question(001, "Which data structure allows elements to be stored in a linear order and accessed using an index?", DataStructures1, 4, DS_Courses);
 			session.save(q1);
 
 			String[] DataStructures2 = {"Graph", "Tree", "Heap", "Array"};
-			Question q2 = new Question(002, "Which data structure represents a hierarchical structure with a root node and child nodes?", DataStructures2, 1, DS);
+			Question q2 = new Question(002, "Which data structure represents a hierarchical structure with a root node and child nodes?", DataStructures2, 2, DS);
 			session.save(q2);
 
 			String[] DataStructures3 = {"LIFO", "FIFO", "LILO", "FILO"};
-			Question q3 = new Question(003, "What is the characteristic property of a Stack data structure?", DataStructures3, 0, DS);
+			Question q3 = new Question(003, "What is the characteristic property of a Stack data structure?", DataStructures3, 1, DS);
 			session.save(q3);
 
 			session.flush();
@@ -269,26 +269,26 @@ public class SimpleServer extends AbstractServer {
 			////////////////////////////////////////// C language ///////////////////////////////////////////
 
 			String[] C1 = {"float", "int", "string", "char"};
-			Question q11 = new Question(100, "Which data type is used to store real numbers with decimal points in C?", C1, 0, C_language);
+			Question q11 = new Question(100, "Which data type is used to store real numbers with decimal points in C?", C1, 1, C_language);
 			session.save(q11);
 
 			String[] C2 = {"for", "while", "do-while", "loop"};
-			Question q12 = new Question(101, "Which loop is used to execute a block of code repeatedly as long as a condition is true?", C2, 1, C_language);
+			Question q12 = new Question(101, "Which loop is used to execute a block of code repeatedly as long as a condition is true?", C2, 2, C_language);
 			session.save(q12);
 
 			String[] C3 = {"input", "printf", "scanf", "output"};
-			Question q13 = new Question(102, "Which function is used to take input from the user in C?", C3, 2, C_language);
+			Question q13 = new Question(102, "Which function is used to take input from the user in C?", C3, 3, C_language);
 			session.save(q13);
 
 			String[] C4 = {"if", "case", "when", "switch"};
-			Question q14 = new Question(103, "Which keyword is used to implement a decision-making statement in C?", C4, 3, C_language);
+			Question q14 = new Question(103, "Which keyword is used to implement a decision-making statement in C?", C4, 4, C_language);
 			session.save(q14);
 
 			ArrayList<Course> list2 = new ArrayList();
 			list2.add(C_language);
 			list2.add(OOP);
 			String[] C5 = {"malloc", "new", "allocate", "create"};
-			Question q15 = new Question(104, "Which function is used to dynamically allocate memory in C?", C5, 0, list2);
+			Question q15 = new Question(104, "Which function is used to dynamically allocate memory in C?", C5, 1, list2);
 			session.save(q15);
 
 			session.flush();
@@ -300,7 +300,7 @@ public class SimpleServer extends AbstractServer {
 			list3.add(OOP);
 			list3.add(DS);
 			String[] C6 = {"O(1)", "O(log n)", "O(n log n)", "O(n)"};
-			Question q20 = new Question(2000, "What is the best Time Complexity in witch we can Sort an Array?", C6, 2, list3);
+			Question q20 = new Question(222, "What is the best Time Complexity in witch we can Sort an Array?", C6, 3, list3);
 			session.save(q20);
 
 			session.flush();
@@ -315,7 +315,7 @@ public class SimpleServer extends AbstractServer {
 			ExamQuestion eq4 = new ExamQuestion(q20, 30, "from DS and OOP", "You learned this in many courses");
 			ExamQuestion eq5 = new ExamQuestion(q15, 25, "", "");
 
-			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", newTeacherX, cs.getCourses().get(0));
+			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", newTeacherX, C_language);
 			exam1.addExamQuestion(eq1);
 			exam1.addExamQuestion(eq2);
 			exam1.addExamQuestion(eq3);

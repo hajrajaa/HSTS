@@ -1,6 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +29,8 @@ public class CreateQuestionController
     private List<Subject> allSubjects;
     private Subject selectedSubject;
     private List<Course> allCourses;
+
+//    private ArrayList<String> allCoursesNames;
     private List<Course> chosenCourses;
     @FXML
     private Button Answer1_Button, Answer2_Button, Answer3_Button, Answer4_Button, Save_Button;
@@ -42,7 +47,7 @@ public class CreateQuestionController
     TableView Table;
     private boolean tableInitFlag;
     @FXML
-    private TableColumn<Exam, String> Course_Column;
+    private TableColumn<Course, String> Course_Column;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// Initialize ///////////////////////////////////////////
@@ -70,49 +75,28 @@ public class CreateQuestionController
     {
         Answer1_Button.setDisable(false);
         Answer1_Button.setText("X");
-        setButtonColor(Answer1_Button, "red");
+        App.setButtonColor(Answer1_Button, "red");
         answers[0] = Answer1_Button;
 
         Answer2_Button.setDisable(false);
         Answer2_Button.setText("X");
-        setButtonColor(Answer2_Button, "red");
+        App.setButtonColor(Answer2_Button, "red");
         answers[1] = Answer2_Button;
 
         Answer3_Button.setDisable(false);
         Answer3_Button.setText("X");
-        setButtonColor(Answer3_Button, "red");
+        App.setButtonColor(Answer3_Button, "red");
         answers[2] = Answer3_Button;
 
         Answer4_Button.setDisable(false);
         Answer4_Button.setText("X");
-        setButtonColor(Answer4_Button, "red");
+        App.setButtonColor(Answer4_Button, "red");
         answers[3] = Answer4_Button;
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////// Common /////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void setButtonColor (Button B, String color)
-    {
-        String colorID = "#ffffff"; // default white
-        if(color.equals("black")){
-            colorID = "#000000";
-        } else if (color.equals("orange")) {
-            colorID = "#e28743";
-        } else if (color.equals("dblue")) {
-            colorID = "#063970";
-        } else if (color.equals("lblue")) {
-            colorID = "#abdbe3";
-        } else if (color.equals("green")) {
-            colorID = "#34b048";
-        } else if (color.equals("red")) {
-            colorID = "#ff0404";
-        } else if (color.equals("gray")) {
-            colorID = "#c5c5c5";
-        }
-        B.setStyle("-fx-background-color: " + colorID);
-    }
 
     private void setCorrectAnswer (int n)
     {
@@ -121,12 +105,12 @@ public class CreateQuestionController
         {
             if(i == correctAnswerNumber){
                 answers[i].setText("V");
-                setButtonColor(answers[i], "green");
+                App.setButtonColor(answers[i], "green");
                 correctAnswerG = n;
             }
             else {
                 answers[i].setText("X");
-                setButtonColor(answers[i], "red");
+                App.setButtonColor(answers[i], "red");
             }
         }
     }
@@ -145,8 +129,9 @@ public class CreateQuestionController
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// Server Replay //////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Subscribe
-    public void getAllSubjectsResponse(EventGetAllSubjects event)
+    public void getAllSubjectsNames_Replay(EventGetAllSubjects event)
     {
         allSubjects = event.getAllSubjects();
         ArrayList<String> allSubjectsNames = new ArrayList<String>();
@@ -156,7 +141,6 @@ public class CreateQuestionController
         }
         ObservableList<String> basesList = FXCollections.observableArrayList(allSubjectsNames);
         Subject_ComboBox.setItems(basesList);
-
         error_bar_text.setText("Please Choose a Subject");
     }
 
@@ -164,12 +148,13 @@ public class CreateQuestionController
     ///////////////////////////////////////////// Table //////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private void initTable ()
+    private void initTable()
     {
         ObservableList<Course> allExamQuestions_OL = FXCollections.observableArrayList(allCourses);
         Table.setItems(allExamQuestions_OL);
 
         Course_Column.setCellValueFactory(new PropertyValueFactory<>("courseName"));
+
         if(tableInitFlag){
             initSelectTableColumn();
             tableInitFlag = false;
@@ -186,19 +171,19 @@ public class CreateQuestionController
 
                     private final Button btn = new Button("Select");
                     {
-                        setButtonColor(btn, "orange");
+                        App.setButtonColor(btn, "orange");
 
                         btn.setOnAction((ActionEvent event) ->
                         {
                             Course select_course = getTableView().getItems().get(getIndex());
                             if(btn.getText().toString().equals("Select")){
                                 btn.setText("Selected");
-                                setButtonColor(btn, "green");
+                                App.setButtonColor(btn, "green");
                                 chosenCourses.add(select_course);
                             }
                             else {
                                 btn.setText("Select");
-                                setButtonColor(btn, "orange");
+                                App.setButtonColor(btn, "orange");
                                 chosenCourses.remove(select_course);
                             }
                         });
@@ -219,20 +204,6 @@ public class CreateQuestionController
         };
         colBtn.setCellFactory(cellFactory);
         Table.getColumns().add(colBtn);
-    }
-
-    private void initData ()
-    {
-        allCourses = new ArrayList<>();
-
-        Course c1 = new Course(241, "Discrete Mathematics", selectedSubject);
-        allCourses.add(c1);
-
-        Course c2 = new Course(242, "Calculus 1", selectedSubject);
-        allCourses.add(c2);
-
-        Course c3 = new Course(243, "Algebra 1", selectedSubject);
-        allCourses.add(c3);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +229,7 @@ public class CreateQuestionController
     public void save_click(ActionEvent actionEvent) throws IOException {
         System.out.println("Chosen Courses:");
         for (int i=0; i<chosenCourses.size(); i++){
-            System.out.println(chosenCourses.get(i));
+            System.out.println(chosenCourses.get(i).getCourseName());
         }
         String s_question_code = QuestionCode_TextField.getText().toString();
         String s_question = Question_TextArea.getText().toString();
@@ -319,33 +290,52 @@ public class CreateQuestionController
 
     public void SubjectSelected(ActionEvent actionEvent)
     {
-        String selectedSubjectName = Subject_ComboBox.getValue().toString();
-        for (Subject subject : allSubjects)
-        {
-            if(subject.getSubName().equals(selectedSubjectName)){
-                selectedSubject = subject;
+        if(Subject_ComboBox.getValue() == null) {return;}
+        String subjectName = Subject_ComboBox.getValue().toString();
+        selectedSubject = null;
+
+        for(Subject s : allSubjects){
+            if(s.getSubName().equals(subjectName)){
+                selectedSubject = s;
                 break;
             }
         }
-//        allCourses = selectedSubject.getCourses();
-//        ArrayList<String> allCoursesNames = new ArrayList<String>();
-//        for (Course course : allCourses)
-//        {
-//            allCoursesNames.add(course.getCourseName());
-//        }
-        initData ();
-        error_bar_text.setText("Please Select Courses");
+
+        if(selectedSubject != null){
+            allCourses = selectedSubject.getCourses();
+        }
         initTable();
     }
+
+//    public void SubjectSelected(ActionEvent actionEvent)
+//    {
+//        String selectedSubjectName = Subject_ComboBox.getValue().toString();
+//        for (Subject subject : allSubjects)
+//        {
+//            if(subject.getSubName().equals(selectedSubjectName)){
+//                selectedSubject = subject;
+//                break;
+//            }
+//        }
+////        allCourses = selectedSubject.getCourses();
+////        ArrayList<String> allCoursesNames = new ArrayList<String>();
+////        for (Course course : allCourses)
+////        {
+////            allCoursesNames.add(course.getCourseName());
+////        }
+//        initData ();
+//        error_bar_text.setText("Please Select Courses");
+//        initTable();
+//    }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
         App.setRoot("teacherMain");
     }
 
     public void save_in() {
-        setButtonColor(Save_Button,"green");
+        App.setButtonColor(Save_Button,"green");
     }
     public void save_out() {
-        setButtonColor(Save_Button,"orange");
+        App.setButtonColor(Save_Button,"orange");
     }
 }
