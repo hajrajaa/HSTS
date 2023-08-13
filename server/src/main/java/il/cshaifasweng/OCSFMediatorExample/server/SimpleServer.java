@@ -558,7 +558,50 @@ public class SimpleServer extends AbstractServer {
 			}
 
 		}
+		else if(msgString.equals("#StartSolveExam"))
+		{
 
+			Object[] newExecExam = (Object[]) message.getObject1();
+			int examCode = (int) Integer.valueOf((String) newExecExam[0]);
+			String examPassword = (String) newExecExam[1];
+
+			boolean codeExist=false;
+			try {
+				session.beginTransaction();
+				List<ExecutedExamInfo> executedExamInfoList=getAllObjects(ExecutedExamInfo.class);
+
+				for (ExecutedExamInfo ex : executedExamInfoList){
+					if(ex.getCode() == examCode)
+					{
+						System.out.println("AAAAAAAA");
+						if(ex.getPassword().equals(examPassword))
+						{
+							codeExist=true;
+							System.out.println("BBBBBBBB");
+							Exam currExam=session.find(Exam.class,examCode);
+							Exam newExam= new Exam(currExam);
+							ExecutedExamInfo.ExamType examType=ex.getType();
+							System.out.println(examType);
+							Object[] obj = {newExam,examType};
+							client.sendToClient(new Message("#StartSolveSuccessfully",obj));
+
+						}
+						else {
+							Warning warning = new Warning("Exam Password Is Not Correct");
+							client.sendToClient(new Message("#StartSolveWarning", warning));
+						}
+					}
+				}
+				if(!codeExist)
+				{
+					Warning warning = new Warning("Exam Code Doesn't Exist");
+					client.sendToClient(new Message("#StartSolveWarning", warning));
+				}
+
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////

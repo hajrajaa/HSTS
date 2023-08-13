@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import org.greenrobot.eventbus.EventBus;
 
 
 public class TeacherExcuteController {
@@ -27,8 +28,6 @@ public class TeacherExcuteController {
     }
 
     public int ExamCode;
-
-
 
     private ToggleGroup radioGroup = new ToggleGroup();
 
@@ -51,10 +50,22 @@ public class TeacherExcuteController {
     private Button executeBtn;
 
     @FXML
+    private Button homeBtn;
+
+    @FXML
     private RadioButton manualTypeBtn;
 
     @FXML
     private RadioButton virtualTypeBtn;
+
+    @FXML
+    void homeBtn(ActionEvent event) throws IOException {
+
+        App.setRoot("teacherMain");
+
+    }
+
+
 
     @FXML
     void executeBtn(ActionEvent event) {
@@ -121,6 +132,7 @@ public class TeacherExcuteController {
         assert execCodeTxt != null : "fx:id=\"execCodeTxt\" was not injected: check your FXML file 'execute_exam.fxml'.";
         assert executeBtn != null : "fx:id=\"executeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
         assert manualTypeBtn != null : "fx:id=\"manualTypeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
+        assert homeBtn != null : "fx:id=\"homeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
         assert virtualTypeBtn != null : "fx:id=\"virtualTypeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
 
         manualTypeBtn.setToggleGroup(radioGroup);
