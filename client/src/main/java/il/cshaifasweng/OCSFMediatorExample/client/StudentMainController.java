@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 public class StudentMainController {
 
@@ -27,25 +29,19 @@ public class StudentMainController {
     }
 
     @FXML
-    private ResourceBundle resources;
+    Text welcome_text;
 
     @FXML
-    private URL location;
-
-    @FXML
-    private TextField examCodeTxt;
-
-    @FXML
-    private Button logOutBtn;
+    private Button solveExam_Button, getGrade_Button, examCopy_Button, logOutBtn;
 
     @FXML
     void GetExamCopyButton(ActionEvent event) {
-        try {
-            SimpleClient.getClient().sendToServer(new Message("#GetExamCopy", examCodeTxt.getText()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        try {
+//            SimpleClient.getClient().sendToServer(new Message("#GetExamCopy", examCodeTxt.getText()));
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -75,6 +71,7 @@ public class StudentMainController {
     @FXML
     void logOutBtn(ActionEvent event)
     {
+
         try {
             SimpleClient.getClient().sendToServer(new Message("#LogOut", user1));
             App.setRoot("login1");
@@ -88,10 +85,32 @@ public class StudentMainController {
     @FXML
     void initialize()
     {
+        welcome_text.setText("Welcome\n" + App.getUser().getUserName());
+
         setUser1(App.getUser());
-        assert examCodeTxt != null : "fx:id=\"examCodeTxt\" was not injected: check your FXML file 'studentMain.fxml'.";
         assert logOutBtn != null : "fx:id=\"logOutBtn\" was not injected: check your FXML file 'studentMain.fxml'.";
 
+    }
+
+    public void solve_exam_in(MouseEvent mouseEvent) {
+        App.setButtonColor(solveExam_Button, "green");
+    }
+    public void solve_exam_out(MouseEvent mouseEvent) {
+        App.setButtonColor(solveExam_Button, "orange");
+    }
+
+    public void get_grade_in(MouseEvent mouseEvent) {
+        App.setButtonColor(getGrade_Button, "green");
+    }
+    public void get_grade_out(MouseEvent mouseEvent) {
+        App.setButtonColor(getGrade_Button, "orange");
+    }
+
+    public void exam_copy_in(MouseEvent mouseEvent) {
+        App.setButtonColor(examCopy_Button, "green");
+    }
+    public void exam_copy_out(MouseEvent mouseEvent) {
+        App.setButtonColor(examCopy_Button, "orange");
     }
 
 }

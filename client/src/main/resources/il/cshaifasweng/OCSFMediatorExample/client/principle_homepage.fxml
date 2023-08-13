@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrincipleHomepage">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrincipleHomepage">
    <children>
-      <Button fx:id="logOutBtn" layoutX="750.0" layoutY="25.0" mnemonicParsing="false" onAction="#logOutBtn" prefHeight="60.0" prefWidth="120.0" text="LogOut">
+      <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/principle_wallpaper.png" />
+         </image>
+      </ImageView>
+      <Button id="p_stat_btn" fx:id="p_stat_btn" layoutX="600.0" layoutY="318.0" mnemonicParsing="false" onAction="#go_to_p_stat" onMouseEntered="#st_in" onMouseExited="#st_out" prefHeight="54.0" prefWidth="206.0" style="-fx-background-color: e28743;" text="See Statistics">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button id="p_stat_btn" fx:id="p_stat_btn" layoutX="650.0" layoutY="405.0" mnemonicParsing="false" onAction="#go_to_p_stat" prefHeight="60.0" prefWidth="120.0" text="Statistics">
+      <Button fx:id="p_req_btn" layoutX="600.0" layoutY="229.0" mnemonicParsing="false" onAction="#go_to_p_req" onMouseEntered="#or_in" onMouseExited="#or_out" prefHeight="54.0" prefWidth="206.0" style="-fx-background-color: e28743;" text="Overtime Requests">
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button fx:id="p_req_btn" layoutX="150.0" layoutY="405.0" mnemonicParsing="false" onAction="#go_to_p_req" prefHeight="60.0" prefWidth="120.0" text="Requests">
+      <Text fx:id="welcome_text" fill="#abdbe3" layoutX="33.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome " wrappingWidth="269.00001192092896">
          <font>
-            <Font size="20.0" />
-         </font></Button>
-      <Label fx:id="p_hi_msg" layoutX="200.0" layoutY="126.0" prefHeight="110.0" prefWidth="543.0" text="Hello" textAlignment="CENTER">
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Button fx:id="logOutBtn" layoutX="894.0" layoutY="25.0" mnemonicParsing="false" onAction="#logOutBtn" prefHeight="34.0" prefWidth="91.0" style="-fx-background-color: #063970;" text="LogOut" textFill="WHITE">
          <font>
-            <Font size="30.0" />
-         </font></Label>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

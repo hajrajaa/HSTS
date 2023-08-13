@@ -25,8 +25,7 @@
             <children>
                 <TableView fx:id="Table" prefHeight="420.0" prefWidth="475.0">
                     <columns>
-                        <TableColumn fx:id="Code_Column" prefWidth="55.33331298828125" text="Code" />
-                        <TableColumn fx:id="Exam_Column" prefWidth="244.0" text="Exam" />
+                        <TableColumn fx:id="Exam_Column" prefWidth="272.0" text="Exam" />
                     </columns>
                 </TableView>
             </children></VBox>
@@ -37,8 +36,8 @@
         <Button fx:id="Answer3" alignment="TOP_LEFT" layoutX="565.0" layoutY="497.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="182.0" style="-fx-background-color: #e28743;" text="Answer 3" />
         <Button fx:id="Answer4" alignment="TOP_LEFT" layoutX="757.0" layoutY="497.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="182.0" style="-fx-background-color: #e28743;" text="Answer 4" />
         <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="545.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="error_bar" wrappingWidth="415.0000065565109" />
-        <Text fx:id="question_number_text11" layoutX="552.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Course:" wrappingWidth="85.10799968242645" />
-        <ComboBox fx:id="Subject_ComboBox" layoutX="127.0" layoutY="85.0" onAction="#SubjectSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Subject" style="-fx-background-color: #ffffff;" />
+        <Text fx:id="question_number_text11" layoutX="550.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Course:" wrappingWidth="85.10799968242645" />
+        <ComboBox fx:id="Subject_ComboBox" layoutX="127.0" layoutY="89.0" onAction="#SubjectSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Subject" style="-fx-background-color: #ffffff;" />
         <ComboBox fx:id="Course_ComboBox" layoutX="624.0" layoutY="88.0" onAction="#CourseSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Course" style="-fx-background-color: #ffffff;" />
       <TextArea fx:id="question_text_area" editable="false" layoutX="566.0" layoutY="337.0" prefHeight="97.0" prefWidth="375.0">
          <font>

@@ -9,6 +9,8 @@ import il.cshaifasweng.OCSFMediatorExample.entities.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 public class TeacherMainController {
 
@@ -23,47 +25,13 @@ public class TeacherMainController {
     }
 
     @FXML
-    private ResourceBundle resources;
+    Text welcome_text;
 
     @FXML
-    private URL location;
-
-    @FXML
-    private Button createExamButton;
-
-    @FXML
-    private Button createQuestionButton;
-
-    @FXML
-    private Button execExamButton;
-
-    @FXML
-    private Button seeStatisticsButton;
-
+    private Button createQuestionButton, createExamButton, ExamsDrawerButton, seeStatisticsButton;
 
     @FXML
     private Button logOutBtn;
-
-    @FXML
-    void createExamButton(ActionEvent event) throws IOException {
-        App.setRoot("create_exam");
-    }
-
-    @FXML
-    void createQuestionButton(ActionEvent event) throws IOException {
-
-        App.setRoot("create_question");
-    }
-
-    @FXML
-    void execExamButton(ActionEvent event) throws IOException {
-        App.setRoot("execute_exam");
-    }
-
-    @FXML
-    void seeStatisticsButton(ActionEvent event) {
-
-    }
 
     @FXML
     void logOutBtn(ActionEvent event)
@@ -78,20 +46,62 @@ public class TeacherMainController {
     }
 
     @FXML
-    void initialize() {
+    void initialize()
+    {
+        welcome_text.setText("Welcome\n" + App.getUser().getUserName());
 
         setUser1(App.getUser());
         assert createExamButton != null : "fx:id=\"createExamButton\" was not injected: check your FXML file 'teacherMain.fxml'.";
         assert createQuestionButton != null : "fx:id=\"createQuestionButton\" was not injected: check your FXML file 'teacherMain.fxml'.";
-        assert execExamButton != null : "fx:id=\"execExamButton\" was not injected: check your FXML file 'teacherMain.fxml'.";
         assert logOutBtn != null : "fx:id=\"logOutBtn\" was not injected: check your FXML file 'teacherMain.fxml'.";
         assert seeStatisticsButton != null : "fx:id=\"seeStatisticsButton\" was not injected: check your FXML file 'teacherMain.fxml'.";
 
     }
 
+    @FXML
+    void createQuestionButton(ActionEvent event) throws IOException {
+        App.setRoot("create_question");
+    }
+
+    @FXML
+    void createExamButton(ActionEvent event) throws IOException {
+        App.setRoot("create_exam");
+    }
+
     public void ExamDrawerClick(ActionEvent actionEvent) throws IOException {
         App.setRoot("exams_drawer");
     }
+
+    @FXML
+    void seeStatisticsButton(ActionEvent event) {
+
+    }
+
+    public void create_question_in(MouseEvent mouseEvent) {
+        App.setButtonColor(createQuestionButton, "green");
+    }
+    public void create_question_out(MouseEvent mouseEvent) {
+        App.setButtonColor(createQuestionButton, "orange");
+    }
+
+    public void create_exam_in(MouseEvent mouseEvent) {
+        App.setButtonColor(createExamButton, "green");
+    }
+    public void create_exam_out(MouseEvent mouseEvent) {
+        App.setButtonColor(createExamButton, "orange");
+    }
+
+    public void statistics_in(MouseEvent mouseEvent) {
+        App.setButtonColor(seeStatisticsButton, "green");
+    }
+    public void statistics_out(MouseEvent mouseEvent) {
+        App.setButtonColor(seeStatisticsButton, "orange");
+    }
+
+    public void exams_drawer_in(MouseEvent mouseEvent) {
+        App.setButtonColor(ExamsDrawerButton, "green");
+    }
+    public void exams_drawer_out(MouseEvent mouseEvent) {
+        App.setButtonColor(ExamsDrawerButton, "orange");
+    }
 }
-
-

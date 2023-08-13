@@ -11,11 +11,11 @@ public class Teacher extends User implements Serializable {
 
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "teacher_course",
-            joinColumns = @JoinColumn(name = "teacher_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private List<Course> teachersList;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinTable(name = "teacher_course",
+//            joinColumns = @JoinColumn(name = "teacher_id"),
+//            inverseJoinColumns = @JoinColumn(name = "course_id"))
+//    private List<Course> teachersList;
 
 //    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinTable(name = "teacher_subject",
@@ -33,13 +33,12 @@ public class Teacher extends User implements Serializable {
     public Teacher(int id, String username, String password) {
         super(id, username, password, UserType.Teacher);
         //this.examsInfo = new ArrayList<ExecutedExamInfo>();
-       // this.exams=new ArrayList<>();
+        this.exams = new ArrayList<>();
        //this.courseID = new ArrayList<String>();
     }
 
 
-    public Teacher() {
-    }
+    public Teacher() {}
 
 
 //    public List<ExecutedExamInfo> getExamsInfo() {

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 @Table(name="questions")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Question implements Serializable {
     @Id
     private int code;
@@ -32,6 +32,7 @@ public class Question implements Serializable {
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = new String[4];
+        this.coursesList = new ArrayList<>();
     }
 
     public Question(int code, String question, String[] answers, int correct_answer) {
@@ -40,6 +41,7 @@ public class Question implements Serializable {
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = answers;
+        this.coursesList = new ArrayList<>();
     }
 
     public Question(int code, String question, String[] answers, int correct_answer, List<Course> coursesList) {
@@ -48,7 +50,40 @@ public class Question implements Serializable {
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = answers;
-        this.coursesList = coursesList;
+        this.coursesList = new ArrayList<>();
+        for(Course c : coursesList){
+            this.coursesList.add(c);
+            c.addQuestion(this);
+        }
+    }
+
+    public Question(int code, String question, String[] answers, int correct_answer, Course course) {
+        super();
+        this.code = generateExamQuestion(code);
+        this.question = question;
+        this.correct_answer = correct_answer;
+        this.answers = answers;
+        this.coursesList = new ArrayList<>();
+        this.coursesList.add(course);
+        course.addQuestion(this);
+    }
+
+    public Question(Question question) {
+        super();
+        this.code = question.getCode();
+        this.question = question.getQuestion();
+        this.correct_answer = question.getCorrect_answer();
+        this.answers = question.getAnswers();
+        this.coursesList = new ArrayList<>();
+    }
+
+    private int generateExamQuestion (int code){
+        int scode = 11;
+        if(this.coursesList != null){
+            scode = this.coursesList.get(0).getSubject().getId();
+        }
+        int finalCode = scode*1000 + code;
+        return finalCode;
     }
 
     public Question() {
@@ -80,8 +115,6 @@ public class Question implements Serializable {
     }
 
 
-
-
     public int getCorrect_answer() {
         return correct_answer;
     }
@@ -90,16 +123,23 @@ public class Question implements Serializable {
         this.correct_answer = correct_answer;
     }
 
+    public void addExamQuestion (ExamQuestion e){
+        if(this.examQuestions == null){
+            this.examQuestions = new ArrayList<>();
+        }
+        this.examQuestions.add(e);
+    }
+
 
 //
 
-    public List<Course> getCoursesList() {
-        return coursesList;
-    }
-
-    public void setCoursesList(List<Course> coursesList) {
-        this.coursesList = coursesList;
-    }
+//    public List<Course> getCoursesList() {
+//        return coursesList;
+//    }
+//
+//    public void setCoursesList(List<Course> coursesList) {
+//        this.coursesList = coursesList;
+//    }
 
 //    public void addCourse(Course...coursesList ) {
 //        for (Course  course: coursesList) {

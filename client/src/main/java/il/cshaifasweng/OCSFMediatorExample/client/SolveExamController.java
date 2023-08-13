@@ -1,13 +1,17 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.ExamQuestion;
-import il.cshaifasweng.OCSFMediatorExample.entities.Exam;
-import il.cshaifasweng.OCSFMediatorExample.entities.Question;
+import il.cshaifasweng.OCSFMediatorExample.entities.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,8 +20,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+import org.greenrobot.eventbus.Subscribe;
 
 
 public class SolveExamController
@@ -31,15 +38,23 @@ public class SolveExamController
     private ExamQuestion currentQuestion;
     private static int currentQuestionNumber;
     private Exam exam;
+    private ExecutedVirtual vexam;
     @FXML
     private Button answer1_button, answer2_button, answer3_button, answer4_button, finish_exam_button;
     private Button [] answersButtons;
     @FXML
     private TextArea question_text_area;
     @FXML
-    private Text exam_name_text, date_text, question_number_text, note_text, student_note_text;
+    private Text exam_name_text, date_text, question_number_text, note_text, student_note_text, clock_text;
     @FXML
     ImageView note_ImageView;
+
+    @FXML
+    ImageView clock_0,clock_1,clock_2,clock_3,clock_4,clock_5,clock_6,clock_7,clock_8;
+    ImageView[] clks;
+    private int clks_counter;
+
+    private LocalTime startTime;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// Initialize ///////////////////////////////////////////
@@ -47,10 +62,13 @@ public class SolveExamController
     @FXML
     private void initialize ()
     {
-        exam = App.getExam();
+        exam = App.getExam(); // TODO: need to load the exam from solve_exam_enter
+        startTime = LocalTime.now();
+        vexam = new ExecutedVirtual(exam, (Student)App.getUser(), startTime.toString());
+
+        initClock(exam.getTime());
 
         answersButtons = new Button[4];
-
         examAnswers = new ArrayList<Integer>();
         examLength = getQuestions().size();
         for(int i=0; i<examLength; i++)
@@ -62,6 +80,61 @@ public class SolveExamController
         loadNewQuestion(currentQuestionNumber);
     }
 
+    private void initClock(int duration)
+    {
+        initClockImages();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        LocalTime endTime = startTime.plusMinutes(duration);
+
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            loadNextClk();
+
+            LocalTime currentTime = LocalTime.now();
+            long diff = currentTime.until(endTime, ChronoUnit.SECONDS);
+
+            LocalTime defaultTime = LocalTime.parse("00:00:00");
+            if(diff<=0){
+                exam_name_text.setText("FINISHED");
+                clock_text.setText(defaultTime.format(dtf));
+            }else{
+                LocalTime remaining = defaultTime.plusSeconds(diff);
+                clock_text.setText(remaining.format(dtf));
+            }
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+    }
+
+    private void initClockImages()
+    {
+        clks_counter = 0;
+        clks = new ImageView[9];
+
+        clks[0] = clock_0;
+        clks[1] = clock_1;
+        clks[2] = clock_2;
+        clks[3] = clock_3;
+        clks[4] = clock_4;
+        clks[5] = clock_5;
+        clks[6] = clock_6;
+        clks[7] = clock_7;
+        clks[8] = clock_8;
+
+        for (int i=0; i< clks.length; i++){
+            clks[i].setVisible(false);
+        }
+    }
+
+    private void loadNextClk()
+    {
+        clks[clks_counter].setVisible(false);
+        clks_counter = (clks_counter+1)%9;
+        clks[clks_counter].setVisible(true);
+    }
+
     private void loadNewQuestion (int questionNumber)
     {
         currentQuestion = getQuestions().get(questionNumber);
@@ -71,10 +144,10 @@ public class SolveExamController
             setCorrectAnswer(examAnswers.get(questionNumber));
         }
 
-        question_text_area.setText(currentQuestion.getQuestion());
+        question_text_area.setText(currentQuestion.getQuestion().getQuestion());
         for(int i=0; i<answersButtons.length; i++)
         {
-            String tempAnswer = currentQuestion.getAnswers()[i];
+            String tempAnswer = currentQuestion.getQuestion().getAnswers()[i];
             answersButtons[i].setText(tempAnswer);
         }
 
@@ -180,6 +253,15 @@ public class SolveExamController
     ///////////////////////////////////////// Server Replay //////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Subscribe
+    public void overtimeAddedMessage(EventOvertimeAdded event)
+    {
+        // TODO need to set the infoID to the vxam according to the ExecutedExamInfo
+        if(event.getInfoID() == vexam.getInfoID()){
+
+        }
+//        error_bar_text.setText("Please Choose a Subject");
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////// On Action Functions ///////////////////////////////////////
