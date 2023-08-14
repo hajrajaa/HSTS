@@ -331,7 +331,23 @@ public class SimpleServer extends AbstractServer {
 			session.save(exam1);
 			session.flush();
 
+			ExecutedExam ex1 = new ExecutedExam(1,newStudent1,"15/8/2023","10:00",90,true,exam1);
+			session.save(ex1);
+			session.flush();
+
+			newStudent1.addExam1(ex1);
+			session.merge(newStudent1);
+			session.flush();
+
+			ExecutedExamInfo moeda = new ExecutedExamInfo(1122,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual);
+			session.save(moeda);
+			session.flush();
+
+			newTeacherX.addExecutedExamInfo(moeda);
+			session.merge(newTeacherX);
+
 			session.getTransaction().commit(); // Save everything.
+
 		}
 		catch (Exception e1) {
 			e1.printStackTrace();
@@ -520,30 +536,178 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		else if (msgString.startsWith("#GetListOfStudents")){
+			System.out.println("GetListOfStudents");
 			session.beginTransaction();
 
 			List<Student> students = getAllObjects(Student.class);
+			ArrayList<Student> res = new ArrayList<>();
+			for(Student s : students){
+				res.add((Student)copyUser(s));
+			}
 
 			try {
-				client.sendToClient(new Message("#ShowAllStudents", students));
+				client.sendToClient(new Message("#ShowAllStudents", res));
+				session.getTransaction().commit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		else if (msgString.startsWith("#GetListOfTeachers"))
 		{
+			System.out.println("GetListOfTeachers");
 			session.beginTransaction();
 
 			List<Teacher> teachers = getAllObjects(Teacher.class);
+			ArrayList<Teacher> res = new ArrayList<>();
+			for(Teacher s : teachers){
+				res.add((Teacher)copyUser(s));
+			}
+
 			for (int i = 0; i < teachers.size(); i++) {
 				System.out.println("AAAAAAAA");
 				System.out.println(teachers.get(i).getUserName());
 			}
 			try {
-				client.sendToClient(new Message("#ShowAllTeachers", teachers));
+				client.sendToClient(new Message("#ShowAllTeachers", res));
+				session.getTransaction().commit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		else if (msgString.startsWith("#TeacherExamInfoList"))
+		{
+			System.out.println("TeacherExamInfoList");
+			session.beginTransaction();
+
+			String userName = (String) message.getObject1();
+
+			System.out.println(userName);
+
+			Teacher user = session.find(Teacher.class, userName);
+
+			List<Teacher> teachers = getAllObjects(Teacher.class);
+
+			ArrayList<ExecutedExamInfo> exams_list = new ArrayList<ExecutedExamInfo>();
+			ArrayList<ExecutedExamInfo> list= new ArrayList<>(user.getExecutedExamsInfo());
+
+			System.out.println("AAAAAAA");
+
+			for (ExecutedExamInfo e : list){
+				System.out.println("bbbbbbbb");
+				exams_list.add(new ExecutedExamInfo(e));
+			}
+			System.out.println("CCC");
+
+			if(user.getExecutedExamsInfo()==null)
+			{
+				System.out.println("SADSADSADSAD");
+			}
+			else if(user.getExecutedExamsInfo()!=null)
+			{
+				System.out.println("YAYYYYYY");
+				System.out.println(user.getExecutedExamsInfo().get(0).getCode());
+				System.out.println(exams_list.get(0).getCode());
+			}
+
+
+			try {
+				client.sendToClient(new Message("#ShowAllTeachersExamInfo", exams_list));
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#StudentsExecutedExams"))
+		{
+			session.beginTransaction();
+
+			String userName = (String) message.getObject1();
+
+			System.out.println(userName);
+
+			Student user = session.find(Student.class, userName);
+
+			System.out.println(user.getUserName());
+			System.out.println(user.getMyExams());
+
+			ArrayList<ExecutedExam> exams_list = new ArrayList<ExecutedExam>();
+			ArrayList<ExecutedExam> list= new ArrayList<>(user.getMyExams());
+
+			for (ExecutedExam e : list){
+				exams_list.add(new ExecutedExam(e));
+			}
+			else if(user.getMyExams()!=null)
+			{
+				System.out.println(user.getMyExams().get(0).getStudent().getUserName());
+			}
+			try {
+				client.sendToClient(new Message("#ShowStudentExecutedExams", exams_list));
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.startsWith("#TeacherExamInfoDetails"))
+		{
+			System.out.println("TeacherExamInfoDetails");
+			session.beginTransaction();
+
+			int[] codes = (int[]) message.getObject1();
+
+			int code1 = codes[0];
+			int code2 = codes[1];
+
+			System.out.println(code1);
+			System.out.println(code2);
+
+			ExecutedExamInfo user1 = session.find(ExecutedExamInfo.class, code1);
+			ExecutedExamInfo user2 = session.find(ExecutedExamInfo.class, code2);
+
+			System.out.println(user1.getCode());
+			System.out.println(user2.getCode());
+//
+//			List<Teacher> teachers = getAllObjects(Teacher.class);
+//
+			ExecutedExamInfo displayInfo1 = new ExecutedExamInfo(user1);
+			ExecutedExamInfo displayInfo2 = new ExecutedExamInfo(user2);
+//			ArrayList<ExecutedExamInfo> list= new ArrayList<>(user.getExecutedExamsInfo());
+      
+			ExecutedExamInfo[] infoarray = {user1,user2};
+
+			System.out.println(infoarray[0].getCode());
+			System.out.println(infoarray[1].getCode());
+			System.out.println("BBBBBBB");
+
+			try {
+				client.sendToClient(new Message("#ShowTeachersExamInfoDetails", infoarray));
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#DoesExamCodeExist")) {
+			session.beginTransaction();
+			int codeExam = (int) message.getObject1();
+			Exam exam = session.find(Exam.class, codeExam);
+			if (exam == null) {
+// there is no exam that have this code
+				Warning warning = new Warning("Exam Code Dose Not Exist");
+				try {
+					client.sendToClient(new Message("#DoesCodeExistWarning", warning));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			else
+			{
+				try {
+					client.sendToClient(new Message("#CodeForETExists", codeExam));
+					System.out.println(exam.getCodeExam());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			session.getTransaction().commit();
 		}
 		else if(msgString.equals("#ExecuteExamRequest"))
 		{
@@ -554,7 +718,6 @@ public class SimpleServer extends AbstractServer {
 				if(exam != null){
 					newExecExam.setTitle(exam.getTitle());
 				}
-
 				Teacher teacher = session.find(Teacher.class, newExecExam.getExecutingTeacher().getUserName());
 				if(teacher != null){
 					newExecExam.setTeacher(teacher);

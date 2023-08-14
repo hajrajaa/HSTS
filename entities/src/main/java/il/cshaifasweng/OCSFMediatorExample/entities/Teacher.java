@@ -35,11 +35,15 @@ public class Teacher extends User implements Serializable {
 
     public Teacher(int id, String username, String password) {
         super(id, username, password, UserType.Teacher);
+
         this.exams = new ArrayList<>();
         this.executedExamsInfo=new ArrayList<ExecutedExamInfo>();
        //this.courseID = new ArrayList<String>();
     }
 
+    public List<ExecutedExamInfo> getExecutedExamsInfo() {
+        return executedExamsInfo;
+    }
 
     public Teacher() {}
 
@@ -59,6 +63,10 @@ public class Teacher extends User implements Serializable {
 //            //executedExamInfo.setTeacher(this);
 //        }
 //    }
+
+    public void addExecutedExamInfo(ExecutedExamInfo ExecutedExamsInfo) {
+            this.executedExamsInfo.add(ExecutedExamsInfo);
+    }
 
 
     public List<Exam> getExams() {

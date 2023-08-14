@@ -30,6 +30,8 @@ public class PrincipleHomepage {
     @FXML
     private Button p_req_btn;
     @FXML
+    private Button p_data_btn;
+    @FXML
     private Label p_hi_msg;
 
     @FXML
@@ -51,12 +53,17 @@ public class PrincipleHomepage {
 
     @FXML
     public void go_to_p_stat(ActionEvent actionEvent) throws IOException {
-        App.setRoot("principle_menu");
+        App.setRoot("principle_stat_menu");
     }
 
     @FXML
     public void go_to_p_req(ActionEvent actionEvent) throws IOException {
         App.setRoot("principle_requests");
+    }
+
+    @FXML
+    public void go_to_p_data(ActionEvent actionEvent) throws IOException {
+        App.setRoot("principle_menu");
     }
 
 
@@ -70,7 +77,7 @@ public class PrincipleHomepage {
         assert p_hi_msg != null : "fx:id=\"p_hi_msg\" was not injected: check your FXML file 'principle_homepage.fxml'.";
         assert p_req_btn != null : "fx:id=\"p_req_btn\" was not injected: check your FXML file 'principle_homepage.fxml'.";
         assert p_stat_btn != null : "fx:id=\"p_stat_btn\" was not injected: check your FXML file 'principle_homepage.fxml'.";
-
+        assert p_data_btn != null : "fx:id=\"p_stat_btn\" was not injected: check your FXML file 'principle_homepage.fxml'.";
     }
 
     public void or_in(MouseEvent mouseEvent) {
@@ -85,6 +92,13 @@ public class PrincipleHomepage {
     }
     public void st_out(MouseEvent mouseEvent) {
         App.setButtonColor(p_stat_btn, "orange");
+    }
+
+    public void da_in(MouseEvent mouseEvent) {
+        App.setButtonColor(p_data_btn, "green");
+    }
+    public void da_out(MouseEvent mouseEvent) {
+        App.setButtonColor(p_data_btn, "orange");
     }
 
 }

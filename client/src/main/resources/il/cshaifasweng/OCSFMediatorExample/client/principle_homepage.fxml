@@ -7,9 +7,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrincipleHomepage">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrincipleHomepage">
    <children>
-      <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="p_data" fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/principle_wallpaper.png" />
          </image>
@@ -30,6 +30,11 @@
       <Button fx:id="logOutBtn" layoutX="894.0" layoutY="25.0" mnemonicParsing="false" onAction="#logOutBtn" prefHeight="34.0" prefWidth="91.0" style="-fx-background-color: #063970;" text="LogOut" textFill="WHITE">
          <font>
             <Font size="18.0" />
+         </font>
+      </Button>
+      <Button id="p_stat_btn" fx:id="p_data_btn" layoutX="600.0" layoutY="407.0" mnemonicParsing="false" onAction="#go_to_p_data" onMouseEntered="#da_in" onMouseExited="#da_out" prefHeight="54.0" prefWidth="206.0" style="-fx-background-color: e28743;" text="See Data">
+         <font>
+            <Font size="20.0" />
          </font>
       </Button>
    </children>

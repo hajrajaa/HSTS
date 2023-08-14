@@ -12,6 +12,8 @@ public class ExecutedExam implements Serializable {
     @Id
     private int examNum;
 
+    private String title;
+
     private int infoID;
 
     private String examDate;
@@ -24,22 +26,37 @@ public class ExecutedExam implements Serializable {
 
     private  double grade;
 
+    public Exam getExam() {
+        return exam;
+    }
+ 
     private boolean marked;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
+    public Student getStudent() {
+        return student;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id")
     private Student student;
+
+    public boolean isSubmitInTime() {
+        return submitInTime;
+    }
+
+    public void setSubmitInTime(boolean submitInTime) {
+        this.submitInTime = submitInTime;
+    }
 
     private boolean submitInTime;
 
     public void setExecutedExamInfo(ExecutedExamInfo testDate) {
         this.testDate = testDate;
     }
-
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "testDate_id")
@@ -64,6 +81,20 @@ public class ExecutedExam implements Serializable {
         this.endtime= this.startime+exam.getTime();
         this.grade=grade;
         this.submitInTime=submitInTime;
+        this.title = exam.getTitle();
+    }
+
+    public ExecutedExam(ExecutedExam exam) {
+        super();
+        this.examNum = exam.getExamNum();
+        this.title = exam.exam.getTitle();
+//        setStudent(exam.getStudent());
+//        setExam(exam.getExam());
+        this.examDate=exam.getExamDate();
+        this.startime=exam.getStartime();
+        this.endtime= this.startime+exam.getExam().getTime();
+        this.grade=exam.getGrade();
+        this.submitInTime=exam.isSubmitInTime();
         this.marked = false;
     }
 
@@ -111,6 +142,14 @@ public class ExecutedExam implements Serializable {
         this.submitInTime = inDuration;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public ExecutedExamInfo getTestDate() {
         return testDate;
     }
@@ -128,8 +167,6 @@ public class ExecutedExam implements Serializable {
             testDate.getExecutedExamList().add(this);
         }
     }
-
-
 
     //TODO:check if need
 //    public void setStudent(Student student)
@@ -152,14 +189,18 @@ public class ExecutedExam implements Serializable {
 //        this.exam=exam;
 //        exam.getExecutedExams().add(this);
 //    }
-    public void setStudent(Student student) {
-        if (this.student != null) {
-            this.student.getMyExams().remove(this);
-        }
-        this.student = student;
-        if (student != null) {
-            student.getMyExams().add(this);
-        }
+//    public void setStudent(Student student) {
+//        if (this.student != null) {
+//            if(this.student.getMyExams()!=null){this.student.getMyExams().remove(this);}
+//        }
+//        this.student = student;
+//        if (student != null) {
+//            if(student.getMyExams()!=null){student.getMyExams().add(this);}
+//        }
+//    }
+
+    public void setStudent (Student s){
+        this.student=s;
     }
 
     public void setExam(Exam exam) {
@@ -168,7 +209,7 @@ public class ExecutedExam implements Serializable {
         }
         this.exam = exam;
         if (exam != null) {
-            exam.getExecutedExams().add(this);
+            if(exam.getExecutedExams()!=null) {exam.getExecutedExams().add(this);}
         }
     }
 

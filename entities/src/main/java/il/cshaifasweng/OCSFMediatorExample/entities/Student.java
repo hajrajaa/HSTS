@@ -33,18 +33,27 @@ public class Student extends User implements Serializable{
 
     public Student(int id, String username, String password) {
         super(id, username, password, UserType.Student);
+        ArrayList<ExecutedExam> myExams = new ArrayList<>();
        //this.myExams = new ArrayList<ExecutedExam>();
     }
 
-//    public void addExam(ExecutedExam... executedExams) {
-//        for (ExecutedExam executedExam : executedExams) {
-//            this.myExams.add(executedExam);
-//            executedExam.setStudent(this);
-//        }
-//    }
+    public void addExam(ExecutedExam... executedExams) {
+        for (ExecutedExam executedExam : executedExams) {
+            this.myExams.add(executedExam);
+            executedExam.setStudent(this);
+        }
+    }
 
-    public List<ExecutedExam> getMyExams() {
-        return myExams;
+    public void addExam1(ExecutedExam executedExam) {
+        if(this.myExams==null){this.myExams = new ArrayList<>();}
+        this.myExams.add(executedExam);
+        executedExam.setStudent(this);
+    }
+
+    public List<ExecutedExam> getMyExams()
+    {
+        if(myExams!=null) {return myExams;}
+        else return null;
     }
 //
 //    //TODO: MANAR: implement the following function:

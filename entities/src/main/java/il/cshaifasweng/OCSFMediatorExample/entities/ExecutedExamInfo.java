@@ -24,6 +24,8 @@ public class ExecutedExamInfo implements Serializable {
     private double median;
     private ExamType type;
 
+    private ExamType type;
+
     private int[] hist;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "testDate")
@@ -41,7 +43,7 @@ public class ExecutedExamInfo implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     private Teacher executingTeacher;
-
+  
     public ExecutedExamInfo(int code, String password,String title, double average, double median,ExamType type) {
         this.code = code;
         this.password = password;
@@ -90,10 +92,7 @@ public class ExecutedExamInfo implements Serializable {
         this.median=0;
     }
 
-    public ExecutedExamInfo() {
-    }
-
-
+    public ExecutedExamInfo() {}
 
     public void setOvertime (int d) { this.overtime = d;}
 
@@ -145,15 +144,6 @@ public class ExecutedExamInfo implements Serializable {
         this.title = title;
     }
 
-
-    // public int[] getHist() {
-       // return hist;
-    //}
-
-   // public void setHist(int[] hist) {
-       // this.hist = hist;
-   // }
-
     public List<ExecutedExam> getExecutedExamList() {
         return executedExamList;
     }
@@ -182,5 +172,13 @@ public class ExecutedExamInfo implements Serializable {
         }
         this.executedExamList.add(ex);
         ex.setExecutedExamInfo(this);
+    }
+  
+    public int[] getHist() {
+        return hist;
+    }
+
+    public void setHist(int[] hist) {
+        this.hist = hist;
     }
 }

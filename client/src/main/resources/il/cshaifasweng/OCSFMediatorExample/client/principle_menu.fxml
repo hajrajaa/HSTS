@@ -14,15 +14,7 @@
          <font>
             <Font size="20.0" />
          </font></Button>
-      <Button fx:id="p_manual" layoutX="680.0" layoutY="300.0" mnemonicParsing="false" onAction="#view_manual" prefHeight="60.0" prefWidth="160.0" text="Manual Exams">
-         <font>
-            <Font size="20.0" />
-         </font></Button>
-      <Button fx:id="p_virtual" layoutX="470.0" layoutY="300.0" mnemonicParsing="false" onAction="#view_virtual" prefHeight="60.0" prefWidth="160.0" text="Virtual Exams">
-         <font>
-            <Font size="20.0" />
-         </font></Button>
-      <Button fx:id="p_results" layoutX="260.0" layoutY="300.0" mnemonicParsing="false" onAction="#view_results" prefHeight="60.0" prefWidth="160.0" text="Results">
+      <Button fx:id="p_exam" layoutX="493.0" layoutY="300.0" mnemonicParsing="false" onAction="#view_exams" prefHeight="60.0" prefWidth="160.0" text="Exams">
          <font>
             <Font size="20.0" />
          </font></Button>

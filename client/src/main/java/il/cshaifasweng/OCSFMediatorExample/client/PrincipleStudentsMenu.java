@@ -1,5 +1,6 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.ExecutedExam;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Student;
 import javafx.collections.FXCollections;
@@ -45,19 +46,10 @@ public class PrincipleStudentsMenu {
     private TableView<Student> p_student_list;
 
     @FXML
-    private TableView<Student> p_student_list1;
-
-    @FXML
     private TableColumn<Student, String> idCloumn;
 
     @FXML
     private TableColumn<Student, String> usernameCloumn;
-
-    @FXML
-    private TableColumn<Student, String> idCloumn1;
-
-    @FXML
-    private TableColumn<Student, String> usernameCloumn1;
 
     @FXML
     private void initialize () throws IOException {
@@ -65,18 +57,10 @@ public class PrincipleStudentsMenu {
         assert p_back_btn != null : "fx:id=\"p_back_btn\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
         assert p_view_student != null : "fx:id=\"p_view_student\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
         assert p_student_list != null : "fx:id=\"p_student_list\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
-        assert p_student_list1 != null : "fx:id=\"p_student_list1\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
         assert idCloumn != null : "fx:id=\"idCloumn\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
         assert usernameCloumn != null : "fx:id=\"usernameCloumn\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
-        assert idCloumn1 != null : "fx:id=\"idCloumn1\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
-        assert usernameCloumn1 != null : "fx:id=\"usernameCloumn1\" was not injected: check your FXML file 'principle_students_menu.fxml'.";
-        System.out.println("ssssasasasas");
+
         p_view_student.setDisable(true);
-//        try {
-//            SimpleClient.getClient().sendToServer(new Message("#GetListOfStudents"));
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
         if (studentsList == null) {
             studentsList = App.getStudentList();
             if (studentsList == null) {
@@ -85,62 +69,13 @@ public class PrincipleStudentsMenu {
             }
         }
         System.out.println(studentsList.size());
-
-//        for(int i=0;i<studentsList.size();i++)
-//        {
-//            System.out.println("BBBBBBB");
-//
-//            System.out.println(studentsList.get(i).getUserName());
-//        }
         ObservableList<Student> names = FXCollections.observableArrayList(studentsList);
         p_student_list.setItems(names); // Set the items (rows) for the TableView
-        p_student_list1.setItems(names);
 
         usernameCloumn.setCellValueFactory(new PropertyValueFactory<Student,String>("userName"));
 
         idCloumn.setCellValueFactory(new PropertyValueFactory<Student,String>("id"));
-
-        usernameCloumn1.setCellValueFactory(new PropertyValueFactory<Student,String>("userName"));
-
-        idCloumn1.setCellValueFactory(new PropertyValueFactory<Student,String>("id"));
-//        //p_student_list.getColumns().addAll(usernameCloumn, idCloumn);
     }
-
-//    @FXML
-//    public void doit() throws IOException {
-////        try {
-////            SimpleClient.getClient().sendToServer(new Message("#GetListOfStudents"));
-////        } catch (IOException e){
-////            e.printStackTrace();
-////        }
-//        if (studentsList == null) {
-//            studentsList = App.getStudentList();
-//            if (studentsList == null) {
-//                //System.out.println("Student list is not available!");
-//                return; // Abort initialization if the list is not available
-//            }
-//        }
-//        System.out.println(studentsList.size());
-//
-////        for(int i=0;i<studentsList.size();i++)
-////        {
-////            System.out.println("BBBBBBB");
-////
-////            System.out.println(studentsList.get(i).getUserName());
-////        }
-//        ObservableList<Student> names = FXCollections.observableArrayList(studentsList);
-//        p_student_list.setItems(names); // Set the items (rows) for the TableView
-//        p_student_list1.setItems(names);
-//
-//        usernameCloumn.setCellValueFactory(new PropertyValueFactory<Student,String>("userName"));
-//
-//        idCloumn.setCellValueFactory(new PropertyValueFactory<Student,String>("id"));
-//
-//        usernameCloumn1.setCellValueFactory(new PropertyValueFactory<Student,String>("userName"));
-//
-//        idCloumn1.setCellValueFactory(new PropertyValueFactory<Student,String>("id"));
-//        //
-//    }
 
     @FXML
     public void go_back(ActionEvent actionEvent) throws IOException {
@@ -148,7 +83,17 @@ public class PrincipleStudentsMenu {
     }
 
     @FXML
-    public void view_student_stats(ActionEvent actionEvent) throws IOException {
+    void view_student_stats(ActionEvent actionEvent) throws IOException {
+        System.out.println(selectedStudent.getUserName());
+        String username=selectedStudent.getUserName();
+        try {
+            System.out.println("we are trying to send a msg");
+            SimpleClient.getClient().sendToServer(new Message("#StudentsExecutedExams", username));
+            System.out.println("msg sent");
+        } catch (IOException e){
+            System.out.println("we are trying to send a msg but no luck");
+            e.printStackTrace();
+        }
         App.setRoot("principle_student_info_display");
     }
 

@@ -46,19 +46,10 @@ public class PrincipleTeachersMenu {
     private TableView<Teacher> p_teacher_list;
 
     @FXML
-    private TableView<Teacher> p_teacher_list1;
-
-    @FXML
     private TableColumn<Teacher, String> idCloumn;
 
     @FXML
     private TableColumn<Teacher, String> usernameCloumn;
-
-    @FXML
-    private TableColumn<Teacher, String> idCloumn1;
-
-    @FXML
-    private TableColumn<Teacher, String> usernameCloumn1;
 
     private boolean isInitialized = false;
 
@@ -71,12 +62,10 @@ public class PrincipleTeachersMenu {
         assert p_view_teacher != null : "fx:id=\"p_view_teacher\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
         assert teacher_lbl != null : "fx:id=\"teacher_lbl\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
         assert p_teacher_list != null : "fx:id=\"p_teacher_list\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
-        assert p_teacher_list1 != null : "fx:id=\"p_teacher_list1\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
         assert idCloumn != null : "fx:id=\"idCloumn\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
         assert usernameCloumn != null : "fx:id=\"usernameCloumn\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
-        assert idCloumn1 != null : "fx:id=\"idCloumn1\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
-        assert usernameCloumn1 != null : "fx:id=\"usernameCloumn1\" was not injected: check your FXML file 'principle_teachers_menu.fxml'.";
 
+        p_view_teacher.setDisable(true);
         if (teachersList == null) {
             teachersList = App.getTeacherList();
             if (teachersList == null) {
@@ -87,12 +76,9 @@ public class PrincipleTeachersMenu {
 
         ObservableList<Teacher> names = FXCollections.observableArrayList(teachersList);
         p_teacher_list.setItems(names); // Set the items (rows) for the TableView
-        p_teacher_list1.setItems(names);
 
         usernameCloumn.setCellValueFactory(new PropertyValueFactory<Teacher, String>("userName"));
         idCloumn.setCellValueFactory(new PropertyValueFactory<Teacher, String>("id"));
-        usernameCloumn1.setCellValueFactory(new PropertyValueFactory<Teacher, String>("userName"));
-        idCloumn1.setCellValueFactory(new PropertyValueFactory<Teacher, String>("id"));
     }
 
     @FXML
@@ -102,13 +88,23 @@ public class PrincipleTeachersMenu {
 
     @FXML
     void view_teacher_stats(ActionEvent event) throws IOException {
-        ////////////////////////////////
+        System.out.println(selectedTeacher.getUserName());
+        String username=selectedTeacher.getUserName();
+        try {
+            System.out.println("we are trying to send a msg");
+            SimpleClient.getClient().sendToServer(new Message("#TeacherExamInfoList", username));
+            System.out.println("msg sent");
+        } catch (IOException e){
+            System.out.println("we are trying to send a msg but no luck");
+            e.printStackTrace();
+        }
         App.setRoot("principle_teacher_exam_menu");
     }
 
     @FXML
     void save_item(){
         selectedTeacher = p_teacher_list.getSelectionModel().getSelectedItem();
+        p_view_teacher.setDisable(false);
         System.out.println(selectedTeacher.getUserName());
     }
 
