@@ -30,13 +30,18 @@ public class ManualExam {
 
         String[] answers = new String[4];
 
+        int questionNumber = 0;
+        char ch = 'a';
         for (ExamQuestion q : questions) {
             // Create question
-            documentContent.append(q.getQuestion()).append("\n");
+            questionNumber++;
+            documentContent.append("Question " + questionNumber + ": " + q.getQuestion().getQuestion()).append("\n");
             answers = q.getQuestion().getAnswers();
+            ch = 'a';
             // Create answers
             for (int i=0; i<4; i++) {
-                documentContent.append(answers[i]).append("\n");
+                documentContent.append(ch + ". " + answers[i]).append("\n");
+                ch++;
             }
 
             // Add spacing between questions
