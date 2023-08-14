@@ -571,7 +571,6 @@ public class SimpleServer extends AbstractServer {
 		}
 		else if(msgString.equals("#StartSolveExam"))
 		{
-
 			Object[] newExecExam = (Object[]) message.getObject1();
 			int examCode = (int) Integer.valueOf((String) newExecExam[0]);
 			String examPassword = (String) newExecExam[1];
@@ -801,7 +800,74 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.equals("#GetAllQuestionsByCourse")) //
+		{
+			session.beginTransaction();
+			String name = (String) message.getObject1();
+			List<Course> list = getAllObjects(Course.class);
+			Course course = null;
+			for(Course c : list){
+				if(c.getCourseName().equals(name)){
+					course = c;
+					break;
+				}
+			}
+			try {
+				if(course != null){
+					ArrayList<Question> allQuestions = new ArrayList<>();
+					for (Question q : course.getQuestions()){
+						allQuestions.add(new Question(q));
+					}
+					client.sendToClient(new Message("#GetAllQuestionsByCourse_Replay", allQuestions));
+				}else{
+					Warning warning = new Warning("Course Name doesn't exist");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#CreateNewQusetion")) ///
+		{
+			session.beginTransaction();
+			Question question = (Question) message.getObject1();
+			ArrayList<Course> courses = new ArrayList<>(question.getCoursesList());
 
+			ArrayList<Course> allCoursesList = new ArrayList<>(getAllObjects(Course.class));
+			for(Course c : allCoursesList){ // get all courses from copies
+				int index = findCourseIndex(courses, c.getCourseName());
+				if(index != -1){
+					courses.set(index, c);
+				}
+			}
+			question.resetCoursesList();
+			for(Course c : courses){question.addCourse(c);}
+
+			session.save(question);
+			session.flush();
+
+			for(Course c : courses){
+				System.out.println(c.getCourseName());
+				session.merge(c);
+				session.flush();
+			}
+
+			session.getTransaction().commit();
+		}
+
+	} /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private int findCourseIndex (ArrayList<Course> list, String courseName)
+	{
+		int index = -1;
+		for(Course c : list){
+			index++;
+			if(c.getCourseName().equals(courseName)){
+				return index;
+			}
+		}
+		return -1;
 	}
 
 	public User copyUser (User u)

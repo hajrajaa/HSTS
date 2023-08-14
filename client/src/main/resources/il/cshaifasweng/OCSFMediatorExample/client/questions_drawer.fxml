@@ -4,9 +4,12 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.QuestionsDrawerController">
@@ -15,7 +18,7 @@
         <Text fx:id="exam_name_text" fill="#abdbe3" layoutX="38.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Questions Drawer" wrappingWidth="294.77471923828125" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="60.0" layoutX="38.0" layoutY="72.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #e28743;" width="922.0" />
         <Text fx:id="question_number_text1" layoutX="54.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Subject:" wrappingWidth="85.10799968242645" />
-        <VBox fx:id="Vbox" layoutX="39.0" layoutY="159.0" prefHeight="420.0" prefWidth="475.0">
+        <VBox fx:id="Vbox" layoutX="39.0" layoutY="159.0" prefHeight="412.0" prefWidth="475.0">
             <children>
                 <TableView fx:id="Table" prefHeight="420.0" prefWidth="475.0">
                     <columns>
@@ -24,16 +27,26 @@
                     </columns>
                 </TableView>
             </children></VBox>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="395.0" layoutX="545.0" layoutY="157.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="415.0" />
-        <Text fx:id="question_text" layoutX="565.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Question" wrappingWidth="375.0000079162419" />
-        <Button fx:id="Answer1" alignment="TOP_LEFT" layoutX="565.0" layoutY="254.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="375.0" style="-fx-background-color: #e28743;" text="Answer 1" />
-        <Button fx:id="Answer2" alignment="TOP_LEFT" layoutX="565.0" layoutY="314.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="375.0" style="-fx-background-color: #e28743;" text="Answer 2" />
-        <Button fx:id="Answer3" alignment="TOP_LEFT" layoutX="565.0" layoutY="376.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="375.0" style="-fx-background-color: #e28743;" text="Answer 3" />
-        <Button fx:id="Answer4" alignment="TOP_LEFT" layoutX="565.0" layoutY="436.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="375.0" style="-fx-background-color: #e28743;" text="Answer 4" />
-        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="545.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="error_bar" wrappingWidth="415.0000065565109" />
-      <Text fx:id="question_text1" layoutX="565.0" layoutY="527.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Code:" wrappingWidth="375.0000079162419" />
-      <Text fx:id="question_number_text11" layoutX="552.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Course:" wrappingWidth="85.10799968242645" />
-      <ComboBox fx:id="Subject_ComboBox" layoutX="123.0" layoutY="85.0" onAction="#SubjectSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Subject" style="-fx-background-color: #ffffff;" />
-      <ComboBox fx:id="Course_ComboBox" layoutX="620.0" layoutY="88.0" onAction="#CourseSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Course" style="-fx-background-color: #ffffff;" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="382.0" layoutX="545.0" layoutY="157.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="415.0" />
+        <Text fx:id="question_text" layoutX="571.0" layoutY="206.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 21;" text="Question" wrappingWidth="362.99998313188553" />
+        <Button fx:id="Answer1" alignment="TOP_LEFT" layoutX="571.0" layoutY="289.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="363.0" style="-fx-background-color: #e28743;" text="Answer 1" />
+        <Button fx:id="Answer2" alignment="TOP_LEFT" layoutX="571.0" layoutY="339.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="363.0" style="-fx-background-color: #e28743;" text="Answer 2" />
+        <Button fx:id="Answer3" alignment="TOP_LEFT" layoutX="571.0" layoutY="391.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="363.0" style="-fx-background-color: #e28743;" text="Answer 3" />
+        <Button fx:id="Answer4" alignment="TOP_LEFT" layoutX="571.0" layoutY="441.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="363.0" style="-fx-background-color: #e28743;" text="Answer 4" />
+        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="545.0" layoutY="571.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="error_bar" wrappingWidth="415.0000065565109" />
+      <Text fx:id="code_text" layoutX="571.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Code:" wrappingWidth="362.99998313188553" />
+      <Text fx:id="question_number_text11" layoutX="545.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Course:" wrappingWidth="85.10799968242645" />
+      <ComboBox fx:id="Subject_ComboBox" layoutX="130.0" layoutY="87.0" onAction="#SubjectSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Subject" style="-fx-background-color: #ffffff;" />
+      <ComboBox fx:id="Course_ComboBox" layoutX="624.0" layoutY="87.0" onAction="#CourseSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Course" style="-fx-background-color: #ffffff;" />
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="916.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/home_lblue.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="Home_Button" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

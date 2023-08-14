@@ -66,8 +66,6 @@ public class TeacherExcuteController {
 
     }
 
-
-
     @FXML
     void executeBtn(ActionEvent event) {
 
@@ -98,11 +96,13 @@ public class TeacherExcuteController {
             System.out.println(ExamsDrawerController.getExecutedExamCode());
 
             try {
-                SimpleClient.getClient().sendToServer(new Message("#ExecuteExamRequest",exeExam));
+//                SimpleClient.getClient().sendToServer(new Message("#GetAllSubjectsNames"));
+                SimpleClient.getClient().sendToServer(new Message("#ExecuteExamRequest", exeExam));
             } catch (IOException e)
             {
                 e.printStackTrace();
             }
+
         }
         else
         {
@@ -140,7 +140,6 @@ public class TeacherExcuteController {
 
         manualTypeBtn.setToggleGroup(radioGroup);
         virtualTypeBtn.setToggleGroup(radioGroup);
-
 
     }
 

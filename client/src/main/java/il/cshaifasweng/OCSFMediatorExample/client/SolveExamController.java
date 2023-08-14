@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.time.temporal.TemporalAccessor;
+import java.util.*;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
 import javafx.animation.Animation;
@@ -24,6 +23,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 
@@ -32,9 +32,9 @@ public class SolveExamController
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// Class Fields ///////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
+    public SimpleClient client;
     private List<Integer> examAnswers;
     private int examLength = 0;
-
     private ExamQuestion currentQuestion;
     private static int currentQuestionNumber;
     private Exam exam;
@@ -43,29 +43,32 @@ public class SolveExamController
     private Button answer1_button, answer2_button, answer3_button, answer4_button, finish_exam_button;
     private Button [] answersButtons;
     @FXML
-    private TextArea question_text_area;
-    @FXML
-    private Text exam_name_text, date_text, question_number_text, note_text, student_note_text, clock_text;
+    private Text exam_name_text, date_text, question_number_text, question_text, student_note_text, clock_text, extra_time_text;
     @FXML
     ImageView note_ImageView;
-
     @FXML
     ImageView clock_0,clock_1,clock_2,clock_3,clock_4,clock_5,clock_6,clock_7,clock_8;
     ImageView[] clks;
-    private int clks_counter;
-
+    private int clks_counter, extraTime;
     private LocalTime startTime;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// Initialize ///////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
-    private void initialize ()
-    {
-        exam = App.getExam(); // TODO: need to load the exam from solve_exam_enter
-        startTime = LocalTime.now();
-        vexam = new ExecutedVirtual(exam, (Student)App.getUser(), startTime.toString());
+    private void initialize () throws IOException {
+        EventBus.getDefault().register(this);
+        client = SimpleClient.getClient();
+        client.openConnection();
 
+        exam = App.getExam();
+        exam_name_text.setText(exam.getTitle());
+        date_text.setText(App.getDate());
+
+
+        extraTime = 0;
+        extra_time_text.setText("");
+        startTime = LocalTime.now();
         initClock(exam.getTime());
 
         answersButtons = new Button[4];
@@ -78,6 +81,8 @@ public class SolveExamController
 
         currentQuestionNumber = 0;
         loadNewQuestion(currentQuestionNumber);
+
+        vexam = new ExecutedVirtual(exam, (Student)App.getUser(), startTime.toString());
     }
 
     private void initClock(int duration)
@@ -86,12 +91,15 @@ public class SolveExamController
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 
         LocalTime endTime = startTime.plusMinutes(duration);
+        LocalTime endWithExtra = endTime.plusMinutes(extraTime);
 
         Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             loadNextClk();
 
             LocalTime currentTime = LocalTime.now();
-            long diff = currentTime.until(endTime, ChronoUnit.SECONDS);
+            long diff = currentTime.until(endWithExtra, ChronoUnit.SECONDS);
+
+            if(extraTime > 0) {extra_time_text.setText("Extra Time: " + extraTime + "min");}
 
             LocalTime defaultTime = LocalTime.parse("00:00:00");
             if(diff<=0){
@@ -144,7 +152,7 @@ public class SolveExamController
             setCorrectAnswer(examAnswers.get(questionNumber));
         }
 
-        question_text_area.setText(currentQuestion.getQuestion().getQuestion());
+        question_text.setText(currentQuestion.getQuestion().getQuestion());
         for(int i=0; i<answersButtons.length; i++)
         {
             String tempAnswer = currentQuestion.getQuestion().getAnswers()[i];
@@ -167,25 +175,8 @@ public class SolveExamController
 
     private ArrayList<ExamQuestion> getQuestions ()
     {
-        String [] s1 = {"1","2","100","pi"};
-        Question q1 = new Question(111,"1+1=?", s1,2);
-        ExamQuestion e1 = new ExamQuestion(q1, 25, "", "");
-
-        String [] s2 = {"blue","green","black","red"};
-        Question q2 = new Question(222,"Apples are ____", s2,4);
-        ExamQuestion e2 = new ExamQuestion(q2, 25, "", "Choose The Best Answer");
-
-        String [] s3 = {"0","10","100","1000"};
-        Question q3 = new Question(333,"100*0=?", s3,1);
-        ExamQuestion e3 = new ExamQuestion(q3, 25, "", "");
-
-        ArrayList<ExamQuestion> eee = new ArrayList<ExamQuestion>();
-        eee.add(e1);
-        eee.add(e2);
-        eee.add(e3);
-        return eee;
-//        ArrayList<ExamQuestion> allQuestions = new ArrayList<ExamQuestion>(exam.getQuestions());
-//        return allQuestions;
+        ArrayList<ExamQuestion> allQuestions = new ArrayList<ExamQuestion>(exam.getExamQuestion());
+        return allQuestions;
     }
 
 
@@ -285,7 +276,9 @@ public class SolveExamController
 
     public void finish_exam_click(ActionEvent actionEvent) throws IOException {
         // TODO: Implement
-//        HelloApplication.setRoot("create_question");
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
+        App.setRoot("studentM ain");
 
     }
 

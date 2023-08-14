@@ -146,6 +146,12 @@ public class SimpleClient extends AbstractClient {
 			EventGetAllExamsByCourse newEvent = new EventGetAllExamsByCourse(list);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
+    else if (messageSt.equals("#GetAllQuestionsByCourse_Replay"))
+		{
+			List<Question> list = (List<Question>) message.getObject1();
+			EventGetAllQuestionsByCourse newEvent = new EventGetAllQuestionsByCourse(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
 		else if (messageSt.equals("#GetAllWrittenExamRes"))
 		{
 			List<ExecutedExamInfo> allwrittenInfo = (List<ExecutedExamInfo>) message.getObject1();
@@ -198,7 +204,6 @@ public class SimpleClient extends AbstractClient {
 			EventGetTeacherAllExams newEvent= new EventGetTeacherAllExams(writtenExamsInfoList,executedExamInfoList);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
-
 
 	}
 	
