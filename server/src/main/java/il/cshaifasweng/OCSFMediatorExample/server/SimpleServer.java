@@ -733,7 +733,7 @@ public class SimpleServer extends AbstractServer {
 			Question question = (Question) message.getObject1();
 			ArrayList<Course> courses = new ArrayList<>(question.getCoursesList());
 
-			List<Course> allCoursesList = getAllObjects(Course.class);
+			ArrayList<Course> allCoursesList = new ArrayList<>(getAllObjects(Course.class));
 			for(Course c : allCoursesList){ // get all courses from copies
 				int index = findCourseIndex(courses, c.getCourseName());
 				if(index != -1){
@@ -747,6 +747,7 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 
 			for(Course c : courses){
+				System.out.println(c.getCourseName());
 				session.merge(c);
 				session.flush();
 			}
@@ -765,7 +766,7 @@ public class SimpleServer extends AbstractServer {
 				return index;
 			}
 		}
-		return index;
+		return -1;
 	}
 
 	public User copyUser (User u)

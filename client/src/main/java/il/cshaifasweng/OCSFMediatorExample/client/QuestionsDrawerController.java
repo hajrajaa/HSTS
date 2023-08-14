@@ -48,6 +48,7 @@ public class QuestionsDrawerController
     //////////////////////////////////////////////////////////////////////////////////////////////////
     @FXML
     private void initialize () throws IOException {
+        System.out.println("initialize QD");
         EventBus.getDefault().register(this);
         client = SimpleClient.getClient();
         client.openConnection();
@@ -169,10 +170,12 @@ public class QuestionsDrawerController
         allQuestions = new ArrayList<>(event.getAllQuestions());
         if(allQuestions == null) {
             error_bar_text.setText("No Questions Found");
+        }else if(allQuestions.size() == 0){
+            error_bar_text.setText("No Questions Found");
         }
-        else {
+//        else {
             initTable();
-        }
+//        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,6 +261,8 @@ public class QuestionsDrawerController
     }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }
 

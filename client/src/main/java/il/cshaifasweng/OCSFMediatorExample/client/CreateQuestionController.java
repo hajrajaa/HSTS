@@ -227,10 +227,10 @@ public class CreateQuestionController
     }
 
     public void save_click(ActionEvent actionEvent) throws IOException {
-//        System.out.println("Chosen Courses:");
-//        for (int i=0; i<chosenCourses.size(); i++){
-//            System.out.println(chosenCourses.get(i).getCourseName());
-//        }
+        System.out.println("Chosen Courses:");
+        for (int i=0; i<chosenCourses.size(); i++){
+            System.out.println(chosenCourses.get(i).getCourseName());
+        }
         String s_question_code = QuestionCode_TextField.getText().toString();
         String s_question = Question_TextArea.getText().toString();
         String s_answer1 = Answer1_TextField.getText().toString();
@@ -329,6 +329,8 @@ public class CreateQuestionController
 //    }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }
 

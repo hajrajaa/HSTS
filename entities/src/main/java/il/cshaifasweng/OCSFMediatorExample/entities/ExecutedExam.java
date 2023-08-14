@@ -22,6 +22,8 @@ public class ExecutedExam implements Serializable {
 
     private  double grade;
 
+    private boolean marked;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
@@ -53,6 +55,7 @@ public class ExecutedExam implements Serializable {
         this.endtime= this.startime+exam.getTime();
         this.grade=grade;
         this.submitInTime=submitInTime;
+        this.marked = false;
     }
 
     public int getInfoID() { return infoID; }
