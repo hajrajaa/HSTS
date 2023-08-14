@@ -699,6 +699,34 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.equals("#GetAllQuestionsByCourse")) //
+		{
+			session.beginTransaction();
+			String name = (String) message.getObject1();
+			List<Course> list = getAllObjects(Course.class);
+			Course course = null;
+			for(Course c : list){
+				if(c.getCourseName().equals(name)){
+					course = c;
+					break;
+				}
+			}
+			try {
+				if(course != null){
+					ArrayList<Question> allQuestions = new ArrayList<>();
+					for (Question q : course.getQuestions()){
+						allQuestions.add(new Question(q));
+					}
+					client.sendToClient(new Message("#GetAllQuestionsByCourse_Replay", allQuestions));
+				}else{
+					Warning warning = new Warning("Course Name doesn't exist");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		else if (msgString.equals("#CreateNewQusetion")) ///
 		{
 			session.beginTransaction();
