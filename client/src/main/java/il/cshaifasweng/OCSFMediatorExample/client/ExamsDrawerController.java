@@ -55,12 +55,12 @@ public class ExamsDrawerController
     private boolean tableInitFlag;
     private int examLength;
 
-    public int getExecutedExamCode() {
+    public static  int getExecutedExamCode() {
         return executedExamCode;
     }
 
-    public void setExecutedExamCode(int executedExamCode) {
-        this.executedExamCode = executedExamCode;
+    public  static void setExecutedExamCode(int executedExamCode) {
+        ExamsDrawerController.executedExamCode = executedExamCode;
     }
 
     public static int executedExamCode;

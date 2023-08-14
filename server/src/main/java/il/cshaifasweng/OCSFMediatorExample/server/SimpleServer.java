@@ -322,6 +322,7 @@ public class SimpleServer extends AbstractServer {
 			exam1.addExamQuestion(eq4);
 			exam1.addExamQuestion(eq5);
 
+
 			session.save(eq1);
 			session.save(eq2);
 			session.save(eq3);
@@ -339,8 +340,7 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client)
-	{
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) throws IOException {
 		Message message = (Message) msg;
 		String msgString = message.getMessage();
 		System.out.println("MessageFromClient: " + msgString);
@@ -550,7 +550,18 @@ public class SimpleServer extends AbstractServer {
 			try {
 				session.beginTransaction();
 				ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
+				Exam exam = session.find(Exam.class, newExecExam.getCode());
+				if(exam != null){
+					newExecExam.setTitle(exam.getTitle());
+				}
+
+				Teacher teacher = session.find(Teacher.class, newExecExam.getExecutingTeacher().getUserName());
+				if(teacher != null){
+					newExecExam.setTeacher(teacher);
+				}
+
 				session.save(newExecExam);
+				session.save(teacher);
 				session.flush();
 				session.getTransaction().commit();
 			} catch (Exception e1) {
@@ -602,7 +613,97 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 		}
-		////////////////////////////////////////////////////////////////////////////////////
+
+		else if(msgString.equals("#GetTeacherAllExams"))
+		{
+				session.beginTransaction();
+				String userName = (String) message.getObject1();
+				Teacher teacher = session.find(Teacher.class,userName);
+				if(teacher != null){
+					ArrayList<Exam> WrittenExamsList = new ArrayList<>(teacher.getExams());
+					ArrayList<ExecutedExamInfo> allInfo = new ArrayList<>(getAllObjects(ExecutedExamInfo.class));
+					ArrayList<ExecutedExamInfo> writtenExamsInfoList = new ArrayList<ExecutedExamInfo>();
+					for (Exam exam : WrittenExamsList){
+						writtenExamsInfoList.addAll(findInfoByExamCode(allInfo, exam.getCodeExam()));
+					}
+					System.out.println(writtenExamsInfoList.size() + " 3+++++++");
+
+					List<ExecutedExamInfo> list = teacher.getExecutedExamsInfo();
+					ArrayList<ExecutedExamInfo> executedExamInfoList = new ArrayList<>();
+					for(ExecutedExamInfo eq : list){
+						executedExamInfoList.add(new ExecutedExamInfo(eq));
+					}
+					System.out.println(executedExamInfoList.size() + " 4+++++++");
+
+					Object [] obj = {writtenExamsInfoList, executedExamInfoList};
+					try {
+						client.sendToClient(new Message("#GetTeacherAllExams_Replay", obj));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+		}
+		else if (msgString.equals("#GetAllExcutedExam"))
+		{
+//			session.beginTransaction();
+//			String userName=(String) message.getObject1();
+//			Teacher teacher=session.find(Teacher.class,userName);
+//			List<ExecutedExamInfo> executedExamInfoList=teacher.getExecutedExamsInfo();
+//			ArrayList<ExecutedExamInfo> res = new ArrayList<>();
+//			for(ExecutedExamInfo eq : executedExamInfoList){
+//				res.add(new ExecutedExamInfo(eq));
+//			}
+//			try {
+//				client.sendToClient(new Message("#GetAllExcutedExamRes", res));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+		}
+
+		else if (msgString.equals("#GetExcutedExams"))
+		{
+			session.beginTransaction();
+			ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
+			List<ExecutedExam> executedExams=newExecExam.getExecutedExamList();
+			Object[] obj ={newExecExam,executedExams};
+			try {
+				client.sendToClient(new Message("#GetExcutedExamRes", obj));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+		else if(msgString.equals("#UpdateGradeRequest"))
+		{
+			Object[] obj = (Object[]) message.getObject1();
+			ExecutedExam executedExam=(ExecutedExam) obj[0];
+			double newGrade=(double) obj[1];
+			String explanation=(String) obj[2];
+			try {
+				session.beginTransaction();
+
+				if (!isGrade(newGrade)) {
+					Warning warning = new Warning("Invalid Grade");
+					client.sendToClient(new Message("#UpdateGradeWarning", warning));
+				} else if (explanation == null) {
+					Warning warning = new Warning("Please Enter An Explanation");
+					client.sendToClient(new Message("#UpdateGradeWarning", warning));
+				} else {
+					executedExam.setGrade(newGrade);
+//					client.sendToClient(new Message("#UpdateGradeSuccessfully", copyExcutedExam(executedExam)));
+					session.update(executedExam);
+					session.flush();
+
+				}
+				session.getTransaction().commit();
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		////////////////////////////////////////////////////////////////23////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////// Michel //////////////////////////////////////
@@ -744,6 +845,17 @@ public class SimpleServer extends AbstractServer {
 		return newSubject;
 	}
 
+	private ArrayList<ExecutedExamInfo> findInfoByExamCode (ArrayList<ExecutedExamInfo> list, int code)
+	{
+		ArrayList<ExecutedExamInfo> res = new ArrayList<>();
+		for(ExecutedExamInfo ei : list){
+			if(ei.getCode() == code){
+				res.add(new ExecutedExamInfo(ei));
+			}
+		}
+		return res;
+	}
+
 	private boolean validExamCode(String code) {
 		if (code == null) {
 			return false;
@@ -765,6 +877,11 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		return true;
+	}
+
+	public boolean isGrade(double grade)
+	{
+		return (grade>=0 && grade <=100) ;
 	}
 }
 

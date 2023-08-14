@@ -6,6 +6,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleClient extends AbstractClient {
@@ -145,6 +146,59 @@ public class SimpleClient extends AbstractClient {
 			EventGetAllExamsByCourse newEvent = new EventGetAllExamsByCourse(list);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
+		else if (messageSt.equals("#GetAllWrittenExamRes"))
+		{
+			List<ExecutedExamInfo> allwrittenInfo = (List<ExecutedExamInfo>) message.getObject1();
+			WrittenExamViewEvent newevent= new WrittenExamViewEvent(allwrittenInfo);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newevent);
+					}
+			);
+		}
+		else if (messageSt.equals("#GetAllExcutedExamRes"))
+	{
+		List<ExecutedExamInfo> allexcutedInfo = (List<ExecutedExamInfo>) message.getObject1();
+		ExcutedExamViewEvent newevent= new ExcutedExamViewEvent(allexcutedInfo);
+		Platform.runLater(()->{
+					EventBus.getDefault().post(newevent);
+				}
+		);
+	}
+		else if(messageSt.equals("#GetExcutedExamRes"))
+		{
+			Object[] obj = (Object[]) message.getObject1();
+
+			List<ExecutedExam> executedExamList=(List<ExecutedExam>)obj[0];
+			ExecutedExamInfo examInfo=(ExecutedExamInfo) obj[1];
+
+			ExcutedExamEvent newEvent=new ExcutedExamEvent(executedExamList,examInfo);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+
+		}
+		else if (messageSt.equals("#UpdateGradeSuccessfully"))
+		{
+
+		}
+		else if (messageSt.equals("#UpdateGradeWarning"))
+		{
+			Platform.runLater(()->{
+						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+		else if (messageSt.equals("#GetTeacherAllExams_Replay"))
+		{
+			Object [] data = (Object[]) message.getObject1();
+			ArrayList<ExecutedExamInfo> writtenExamsInfoList = (ArrayList<ExecutedExamInfo>) data[0];
+			ArrayList<ExecutedExamInfo> executedExamInfoList = (ArrayList<ExecutedExamInfo>) data[1];
+
+			EventGetTeacherAllExams newEvent= new EventGetTeacherAllExams(writtenExamsInfoList,executedExamInfoList);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
+
 
 	}
 	
