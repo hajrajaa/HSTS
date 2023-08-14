@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,6 +35,10 @@ public class App extends Application {
     public static User user;
 
     public  static Exam exam;
+
+
+    public static ExecutedExamInfo.ExamType examType;
+
 
     public  static List<Student> studentList;
 
@@ -64,6 +73,52 @@ public class App extends Application {
     }
 
     public  static ArrayList<ExecutedExamInfo> teacherExecutedExamInfo;
+
+    public  static List<ExecutedExamInfo> writtenExamInfoList;
+
+
+
+    public static List<ExecutedExamInfo> executedExamInfoList;
+
+
+
+    public  static List<ExecutedExam> executedExams;
+
+
+
+    public static ExecutedExamInfo executedExamInfo;
+
+    public static List<ExecutedExamInfo> getWrittenExamInfoList() {
+        return writtenExamInfoList;
+    }
+
+    public static void setWrittenExamInfoList(List<ExecutedExamInfo> writtenExamInfoList) {
+        App.writtenExamInfoList = writtenExamInfoList;
+    }
+
+    public static List<ExecutedExamInfo> getExecutedExamInfoList() {
+        return executedExamInfoList;
+    }
+
+    public static void setExecutedExamInfoList(List<ExecutedExamInfo> executedExamInfoList) {
+        App.executedExamInfoList = executedExamInfoList;
+    }
+
+    public static List<ExecutedExam> getExecutedExams() {
+        return executedExams;
+    }
+
+    public static void setExecutedExams(List<ExecutedExam> executedExams) {
+        App.executedExams = executedExams;
+    }
+
+    public static ExecutedExamInfo getExecutedExamInfo() {
+        return executedExamInfo;
+    }
+
+    public static void setExecutedExamInfo(ExecutedExamInfo executedExamInfo) {
+        App.executedExamInfo = executedExamInfo;
+    }
 
     public static List<Student> getStudentList() {
         return studentList;
@@ -105,6 +160,15 @@ public class App extends Application {
         App.user = user;
     }
 
+    public static ExecutedExamInfo.ExamType getExamType() {
+        return examType;
+    }
+
+    public static void setExamType1(ExecutedExamInfo.ExamType examType) {
+        App.examType = examType;
+    }
+
+
     public static void setButtonColor(Button B, String color)
     {
         String colorID = "#ffffff"; // default white
@@ -124,6 +188,13 @@ public class App extends Application {
             colorID = "#c5c5c5";
         }
         B.setStyle("-fx-background-color: " + colorID);
+    }
+
+    public static String getDate()
+    {
+        Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/M/yyyy");
+        return formatter.format(today);
     }
 
 
@@ -174,6 +245,49 @@ public class App extends Application {
         changeScene();
     }
 
+
+    @Subscribe
+    public void startSolveExamEvent(StartSolveExamEvent event)
+    {
+        setExam(event.getExam());
+        setExamType1(event.getExamType());
+        changeScene1();
+    }
+
+    private void changeScene1()
+    {
+        System.out.println(getExamType().toString());
+        String fxmlFile1;
+
+        switch (getExamType())
+        {
+            case Virtual:
+                fxmlFile1="solve_exam";
+                break;
+
+            case Manual:
+                fxmlFile1="manual_exam";
+                break;
+
+            default:
+                return;
+        }
+
+
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML(fxmlFile1));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+
+
 //    @Subscribe
 //    public  void solveExamEventfunc(SolveExamEvent event)
 //    {
@@ -208,6 +322,10 @@ public class App extends Application {
                 }
         );
     }
+
+
+
+
 
 //    @Subscribe
 //    public void getUserResponse(getUserEvent event)

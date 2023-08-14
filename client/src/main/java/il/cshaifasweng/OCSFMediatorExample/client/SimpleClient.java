@@ -60,6 +60,30 @@ public class SimpleClient extends AbstractClient {
 			);
 
 		}
+
+		else if(messageSt.equals("#StartSolveSuccessfully"))
+		{
+
+			Object[] obj = (Object[]) message.getObject1();
+
+			Exam exam=(Exam)obj[0];
+			ExecutedExamInfo.ExamType examType=(ExecutedExamInfo.ExamType)obj[1];
+
+			StartSolveExamEvent newEvent=new StartSolveExamEvent(exam,examType);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+
+		}
+	else if (messageSt.equals("#StartSolveWarning"))
+	{
+		Platform.runLater(()->{
+					EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+				}
+		);
+	}
+
 		else if (messageSt.equals("#SolveExamWarning"))
 		{
 			Platform.runLater(()->{
@@ -174,6 +198,64 @@ public class SimpleClient extends AbstractClient {
 		{
 			List<Exam> list = (List<Exam>) message.getObject1();
 			EventGetAllExamsByCourse newEvent = new EventGetAllExamsByCourse(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
+    else if (messageSt.equals("#GetAllQuestionsByCourse_Replay"))
+		{
+			List<Question> list = (List<Question>) message.getObject1();
+			EventGetAllQuestionsByCourse newEvent = new EventGetAllQuestionsByCourse(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
+		else if (messageSt.equals("#GetAllWrittenExamRes"))
+		{
+			List<ExecutedExamInfo> allwrittenInfo = (List<ExecutedExamInfo>) message.getObject1();
+			WrittenExamViewEvent newevent= new WrittenExamViewEvent(allwrittenInfo);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newevent);
+					}
+			);
+		}
+		else if (messageSt.equals("#GetAllExcutedExamRes"))
+	{
+		List<ExecutedExamInfo> allexcutedInfo = (List<ExecutedExamInfo>) message.getObject1();
+		ExcutedExamViewEvent newevent= new ExcutedExamViewEvent(allexcutedInfo);
+		Platform.runLater(()->{
+					EventBus.getDefault().post(newevent);
+				}
+		);
+	}
+		else if(messageSt.equals("#GetExcutedExamRes"))
+		{
+			Object[] obj = (Object[]) message.getObject1();
+
+			List<ExecutedExam> executedExamList=(List<ExecutedExam>)obj[0];
+			ExecutedExamInfo examInfo=(ExecutedExamInfo) obj[1];
+
+			ExcutedExamEvent newEvent=new ExcutedExamEvent(executedExamList,examInfo);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+
+		}
+		else if (messageSt.equals("#UpdateGradeSuccessfully"))
+		{
+
+		}
+		else if (messageSt.equals("#UpdateGradeWarning"))
+		{
+			Platform.runLater(()->{
+						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+		else if (messageSt.equals("#GetTeacherAllExams_Replay"))
+		{
+			Object [] data = (Object[]) message.getObject1();
+			ArrayList<ExecutedExamInfo> writtenExamsInfoList = (ArrayList<ExecutedExamInfo>) data[0];
+			ArrayList<ExecutedExamInfo> executedExamInfoList = (ArrayList<ExecutedExamInfo>) data[1];
+
+			EventGetTeacherAllExams newEvent= new EventGetTeacherAllExams(writtenExamsInfoList,executedExamInfoList);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
 

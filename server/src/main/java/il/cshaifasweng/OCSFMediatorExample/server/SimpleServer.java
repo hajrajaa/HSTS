@@ -203,43 +203,43 @@ public class SimpleServer extends AbstractServer {
 
 			///////////////////////////////////// CS Courses ///////////////////////////////////////
 
-			Course C_language = new Course(231, "C language", cs);
+			Course C_language = new Course(31, "C language", cs);
 			session.save(C_language);
 			session.flush();
 
-			Course DS = new Course(232, "Data Structure", cs);
+			Course DS = new Course(32, "Data Structure", cs);
 			session.save(DS);
 			session.flush();
 
-			Course OOP = new Course(233, "Object Oriented Programming", cs);
+			Course OOP = new Course(33, "Object Oriented Programming", cs);
 			session.save(OOP);
 			session.flush();
 
 			///////////////////////////////////// Math Courses ///////////////////////////////////////
 
-			Course dmath = new Course(241, "Discrete Mathematics", math);
+			Course dmath = new Course(41, "Discrete Mathematics", math);
 			session.save(dmath);
 			session.flush();
 
-			Course calculus = new Course(242, "Calculus 1", math);
+			Course calculus = new Course(42, "Calculus 1", math);
 			session.save(calculus);
 			session.flush();
 
-			Course algebra = new Course(243, "Algebra 1", math);
+			Course algebra = new Course(43, "Algebra 1", math);
 			session.save(algebra);
 			session.flush();
 
 			///////////////////////////////////// Sports Courses ///////////////////////////////////////
 
-			Course newCourse = new Course(251, "Fencing", sports);
+			Course newCourse = new Course(51, "Fencing", sports);
 			session.save(newCourse);
 			session.flush();
 
-			newCourse = new Course(252, "Equestrianism", sports);
+			newCourse = new Course(52, "Equestrianism", sports);
 			session.save(newCourse);
 			session.flush();
 
-			newCourse = new Course(253, "Rugby", sports);
+			newCourse = new Course(53, "Rugby", sports);
 			session.save(newCourse);
 			session.flush();
 
@@ -253,15 +253,15 @@ public class SimpleServer extends AbstractServer {
 			DS_Courses.add(C_language);
 			DS_Courses.add(DS);
 			String[] DataStructures1 = {"LinkedList", "Stack", "Queue", "Array"};
-			Question q1 = new Question(001, "Which data structure allows elements to be stored in a linear order and accessed using an index?", DataStructures1, 3, DS_Courses);
+			Question q1 = new Question(001, "Which data structure allows elements to be stored in a linear order and accessed using an index?", DataStructures1, 4, DS_Courses);
 			session.save(q1);
 
 			String[] DataStructures2 = {"Graph", "Tree", "Heap", "Array"};
-			Question q2 = new Question(002, "Which data structure represents a hierarchical structure with a root node and child nodes?", DataStructures2, 1, DS);
+			Question q2 = new Question(002, "Which data structure represents a hierarchical structure with a root node and child nodes?", DataStructures2, 2, DS);
 			session.save(q2);
 
 			String[] DataStructures3 = {"LIFO", "FIFO", "LILO", "FILO"};
-			Question q3 = new Question(003, "What is the characteristic property of a Stack data structure?", DataStructures3, 0, DS);
+			Question q3 = new Question(003, "What is the characteristic property of a Stack data structure?", DataStructures3, 1, DS);
 			session.save(q3);
 
 			session.flush();
@@ -269,26 +269,26 @@ public class SimpleServer extends AbstractServer {
 			////////////////////////////////////////// C language ///////////////////////////////////////////
 
 			String[] C1 = {"float", "int", "string", "char"};
-			Question q11 = new Question(100, "Which data type is used to store real numbers with decimal points in C?", C1, 0, C_language);
+			Question q11 = new Question(100, "Which data type is used to store real numbers with decimal points in C?", C1, 1, C_language);
 			session.save(q11);
 
 			String[] C2 = {"for", "while", "do-while", "loop"};
-			Question q12 = new Question(101, "Which loop is used to execute a block of code repeatedly as long as a condition is true?", C2, 1, C_language);
+			Question q12 = new Question(101, "Which loop is used to execute a block of code repeatedly as long as a condition is true?", C2, 2, C_language);
 			session.save(q12);
 
 			String[] C3 = {"input", "printf", "scanf", "output"};
-			Question q13 = new Question(102, "Which function is used to take input from the user in C?", C3, 2, C_language);
+			Question q13 = new Question(102, "Which function is used to take input from the user in C?", C3, 3, C_language);
 			session.save(q13);
 
 			String[] C4 = {"if", "case", "when", "switch"};
-			Question q14 = new Question(103, "Which keyword is used to implement a decision-making statement in C?", C4, 3, C_language);
+			Question q14 = new Question(103, "Which keyword is used to implement a decision-making statement in C?", C4, 4, C_language);
 			session.save(q14);
 
 			ArrayList<Course> list2 = new ArrayList();
 			list2.add(C_language);
 			list2.add(OOP);
 			String[] C5 = {"malloc", "new", "allocate", "create"};
-			Question q15 = new Question(104, "Which function is used to dynamically allocate memory in C?", C5, 0, list2);
+			Question q15 = new Question(104, "Which function is used to dynamically allocate memory in C?", C5, 1, list2);
 			session.save(q15);
 
 			session.flush();
@@ -300,7 +300,7 @@ public class SimpleServer extends AbstractServer {
 			list3.add(OOP);
 			list3.add(DS);
 			String[] C6 = {"O(1)", "O(log n)", "O(n log n)", "O(n)"};
-			Question q20 = new Question(2000, "What is the best Time Complexity in witch we can Sort an Array?", C6, 2, list3);
+			Question q20 = new Question(222, "What is the best Time Complexity in witch we can Sort an Array?", C6, 3, list3);
 			session.save(q20);
 
 			session.flush();
@@ -315,12 +315,13 @@ public class SimpleServer extends AbstractServer {
 			ExamQuestion eq4 = new ExamQuestion(q20, 30, "from DS and OOP", "You learned this in many courses");
 			ExamQuestion eq5 = new ExamQuestion(q15, 25, "", "");
 
-			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", newTeacherX, cs.getCourses().get(0));
+			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", newTeacherX, C_language);
 			exam1.addExamQuestion(eq1);
 			exam1.addExamQuestion(eq2);
 			exam1.addExamQuestion(eq3);
 			exam1.addExamQuestion(eq4);
 			exam1.addExamQuestion(eq5);
+
 
 			session.save(eq1);
 			session.save(eq2);
@@ -355,9 +356,7 @@ public class SimpleServer extends AbstractServer {
 	}
 
 	@Override
-	protected void handleMessageFromClient(Object msg, ConnectionToClient client)
-	{
-		System.out.println("HAHAHAHAHAHAHAHAHAHAHHA");
+	protected void handleMessageFromClient(Object msg, ConnectionToClient client) throws IOException {
 		Message message = (Message) msg;
 		String msgString = message.getMessage();
 		System.out.println("MessageFromClient: " + msgString);
@@ -620,7 +619,6 @@ public class SimpleServer extends AbstractServer {
 		}
 		else if (msgString.startsWith("#StudentsExecutedExams"))
 		{
-			System.out.println("we out here lets do this");
 			session.beginTransaction();
 
 			String userName = (String) message.getObject1();
@@ -635,24 +633,12 @@ public class SimpleServer extends AbstractServer {
 			ArrayList<ExecutedExam> exams_list = new ArrayList<ExecutedExam>();
 			ArrayList<ExecutedExam> list= new ArrayList<>(user.getMyExams());
 
-
-			System.out.println("AAAAAAA");
-
 			for (ExecutedExam e : list){
-				System.out.println("bbbbbbbb");
 				exams_list.add(new ExecutedExam(e));
-			}
-			System.out.println("CCC");
-
-			if(user.getMyExams()==null)
-			{
-				System.out.println("SADSADSADSAD");
 			}
 			else if(user.getMyExams()!=null)
 			{
-				System.out.println("YAYYYYYY");
 				System.out.println(user.getMyExams().get(0).getStudent().getUserName());
-				//System.out.println(exams_list.get(0).getStudent().getUserName());
 			}
 			try {
 				client.sendToClient(new Message("#ShowStudentExecutedExams", exams_list));
@@ -677,10 +663,6 @@ public class SimpleServer extends AbstractServer {
 			ExecutedExamInfo user1 = session.find(ExecutedExamInfo.class, code1);
 			ExecutedExamInfo user2 = session.find(ExecutedExamInfo.class, code2);
 
-			if(user1==null)System.out.println("XXXXXXXXXXXXXXX");
-
-			System.out.println("SSSSSSSSSSSSSS");
-
 			System.out.println(user1.getCode());
 			System.out.println(user2.getCode());
 //
@@ -689,15 +671,9 @@ public class SimpleServer extends AbstractServer {
 			ExecutedExamInfo displayInfo1 = new ExecutedExamInfo(user1);
 			ExecutedExamInfo displayInfo2 = new ExecutedExamInfo(user2);
 //			ArrayList<ExecutedExamInfo> list= new ArrayList<>(user.getExecutedExamsInfo());
-//
+      
 			ExecutedExamInfo[] infoarray = {user1,user2};
-			System.out.println("AAAAAAA");
-//
-//			for (ExecutedExamInfo e : list){
-//				System.out.println("bbbbbbbb");
-//				exams_list.add(new ExecutedExamInfo(e));
-//			}
-//			System.out.println("CCC");
+
 			System.out.println(infoarray[0].getCode());
 			System.out.println(infoarray[1].getCode());
 			System.out.println("BBBBBBB");
@@ -733,8 +709,163 @@ public class SimpleServer extends AbstractServer {
 			}
 			session.getTransaction().commit();
 		}
+		else if(msgString.equals("#ExecuteExamRequest"))
+		{
+			try {
+				session.beginTransaction();
+				ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
+				Exam exam = session.find(Exam.class, newExecExam.getCode());
+				if(exam != null){
+					newExecExam.setTitle(exam.getTitle());
+				}
+				Teacher teacher = session.find(Teacher.class, newExecExam.getExecutingTeacher().getUserName());
+				if(teacher != null){
+					newExecExam.setTeacher(teacher);
+				}
 
-		////////////////////////////////////////////////////////////////////////////////////
+				session.save(newExecExam);
+				session.save(teacher);
+				session.flush();
+				session.getTransaction().commit();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+
+		}
+		else if(msgString.equals("#StartSolveExam"))
+		{
+			Object[] newExecExam = (Object[]) message.getObject1();
+			int examCode = (int) Integer.valueOf((String) newExecExam[0]);
+			String examPassword = (String) newExecExam[1];
+
+			boolean codeExist=false;
+			try {
+				session.beginTransaction();
+				List<ExecutedExamInfo> executedExamInfoList=getAllObjects(ExecutedExamInfo.class);
+
+				for (ExecutedExamInfo ex : executedExamInfoList){
+					if(ex.getCode() == examCode)
+					{
+						System.out.println("AAAAAAAA");
+						if(ex.getPassword().equals(examPassword))
+						{
+							codeExist=true;
+							System.out.println("BBBBBBBB");
+							Exam currExam=session.find(Exam.class,examCode);
+							Exam newExam= new Exam(currExam);
+							ExecutedExamInfo.ExamType examType=ex.getType();
+							System.out.println(examType);
+							Object[] obj = {newExam,examType};
+							client.sendToClient(new Message("#StartSolveSuccessfully",obj));
+
+						}
+						else {
+							Warning warning = new Warning("Exam Password Is Not Correct");
+							client.sendToClient(new Message("#StartSolveWarning", warning));
+						}
+					}
+				}
+				if(!codeExist)
+				{
+					Warning warning = new Warning("Exam Code Doesn't Exist");
+					client.sendToClient(new Message("#StartSolveWarning", warning));
+				}
+
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+
+		else if(msgString.equals("#GetTeacherAllExams"))
+		{
+				session.beginTransaction();
+				String userName = (String) message.getObject1();
+				Teacher teacher = session.find(Teacher.class,userName);
+				if(teacher != null){
+					ArrayList<Exam> WrittenExamsList = new ArrayList<>(teacher.getExams());
+					ArrayList<ExecutedExamInfo> allInfo = new ArrayList<>(getAllObjects(ExecutedExamInfo.class));
+					ArrayList<ExecutedExamInfo> writtenExamsInfoList = new ArrayList<ExecutedExamInfo>();
+					for (Exam exam : WrittenExamsList){
+						writtenExamsInfoList.addAll(findInfoByExamCode(allInfo, exam.getCodeExam()));
+					}
+					System.out.println(writtenExamsInfoList.size() + " 3+++++++");
+
+					List<ExecutedExamInfo> list = teacher.getExecutedExamsInfo();
+					ArrayList<ExecutedExamInfo> executedExamInfoList = new ArrayList<>();
+					for(ExecutedExamInfo eq : list){
+						executedExamInfoList.add(new ExecutedExamInfo(eq));
+					}
+					System.out.println(executedExamInfoList.size() + " 4+++++++");
+
+					Object [] obj = {writtenExamsInfoList, executedExamInfoList};
+					try {
+						client.sendToClient(new Message("#GetTeacherAllExams_Replay", obj));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+		}
+		else if (msgString.equals("#GetAllExcutedExam"))
+		{
+//			session.beginTransaction();
+//			String userName=(String) message.getObject1();
+//			Teacher teacher=session.find(Teacher.class,userName);
+//			List<ExecutedExamInfo> executedExamInfoList=teacher.getExecutedExamsInfo();
+//			ArrayList<ExecutedExamInfo> res = new ArrayList<>();
+//			for(ExecutedExamInfo eq : executedExamInfoList){
+//				res.add(new ExecutedExamInfo(eq));
+//			}
+//			try {
+//				client.sendToClient(new Message("#GetAllExcutedExamRes", res));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+		}
+
+		else if (msgString.equals("#GetExcutedExams"))
+		{
+			session.beginTransaction();
+			ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
+			List<ExecutedExam> executedExams=newExecExam.getExecutedExamList();
+			Object[] obj ={newExecExam,executedExams};
+			try {
+				client.sendToClient(new Message("#GetExcutedExamRes", obj));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+		else if(msgString.equals("#UpdateGradeRequest"))
+		{
+			Object[] obj = (Object[]) message.getObject1();
+			ExecutedExam executedExam=(ExecutedExam) obj[0];
+			double newGrade=(double) obj[1];
+			String explanation=(String) obj[2];
+			try {
+				session.beginTransaction();
+
+				if (!isGrade(newGrade)) {
+					Warning warning = new Warning("Invalid Grade");
+					client.sendToClient(new Message("#UpdateGradeWarning", warning));
+				} else if (explanation == null) {
+					Warning warning = new Warning("Please Enter An Explanation");
+					client.sendToClient(new Message("#UpdateGradeWarning", warning));
+				} else {
+					executedExam.setGrade(newGrade);
+//					client.sendToClient(new Message("#UpdateGradeSuccessfully", copyExcutedExam(executedExam)));
+					session.update(executedExam);
+					session.flush();
+
+				}
+				session.getTransaction().commit();
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		////////////////////////////////////////////////////////////////23////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////// Michel //////////////////////////////////////
@@ -832,7 +963,74 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
+		else if (msgString.equals("#GetAllQuestionsByCourse")) //
+		{
+			session.beginTransaction();
+			String name = (String) message.getObject1();
+			List<Course> list = getAllObjects(Course.class);
+			Course course = null;
+			for(Course c : list){
+				if(c.getCourseName().equals(name)){
+					course = c;
+					break;
+				}
+			}
+			try {
+				if(course != null){
+					ArrayList<Question> allQuestions = new ArrayList<>();
+					for (Question q : course.getQuestions()){
+						allQuestions.add(new Question(q));
+					}
+					client.sendToClient(new Message("#GetAllQuestionsByCourse_Replay", allQuestions));
+				}else{
+					Warning warning = new Warning("Course Name doesn't exist");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#CreateNewQusetion")) ///
+		{
+			session.beginTransaction();
+			Question question = (Question) message.getObject1();
+			ArrayList<Course> courses = new ArrayList<>(question.getCoursesList());
 
+			ArrayList<Course> allCoursesList = new ArrayList<>(getAllObjects(Course.class));
+			for(Course c : allCoursesList){ // get all courses from copies
+				int index = findCourseIndex(courses, c.getCourseName());
+				if(index != -1){
+					courses.set(index, c);
+				}
+			}
+			question.resetCoursesList();
+			for(Course c : courses){question.addCourse(c);}
+
+			session.save(question);
+			session.flush();
+
+			for(Course c : courses){
+				System.out.println(c.getCourseName());
+				session.merge(c);
+				session.flush();
+			}
+
+			session.getTransaction().commit();
+		}
+
+	} /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private int findCourseIndex (ArrayList<Course> list, String courseName)
+	{
+		int index = -1;
+		for(Course c : list){
+			index++;
+			if(c.getCourseName().equals(courseName)){
+				return index;
+			}
+		}
+		return -1;
 	}
 
 	public User copyUser (User u)
@@ -876,6 +1074,17 @@ public class SimpleServer extends AbstractServer {
 		return newSubject;
 	}
 
+	private ArrayList<ExecutedExamInfo> findInfoByExamCode (ArrayList<ExecutedExamInfo> list, int code)
+	{
+		ArrayList<ExecutedExamInfo> res = new ArrayList<>();
+		for(ExecutedExamInfo ei : list){
+			if(ei.getCode() == code){
+				res.add(new ExecutedExamInfo(ei));
+			}
+		}
+		return res;
+	}
+
 	private boolean validExamCode(String code) {
 		if (code == null) {
 			return false;
@@ -897,6 +1106,11 @@ public class SimpleServer extends AbstractServer {
 			}
 		}
 		return true;
+	}
+
+	public boolean isGrade(double grade)
+	{
+		return (grade>=0 && grade <=100) ;
 	}
 }
 

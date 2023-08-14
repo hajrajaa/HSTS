@@ -55,15 +55,16 @@ public class ExamsDrawerController
     private boolean tableInitFlag;
     private int examLength;
 
-    public int getExecutedExamCode() {
+    public static int getExecutedExamCode() {
+  
         return executedExamCode;
     }
 
-    public void setExecutedExamCode(int executedExamCode) {
-        this.executedExamCode = executedExamCode;
+    public  static void setExecutedExamCode(int executedExamCode) {
+        ExamsDrawerController.executedExamCode = executedExamCode;
     }
 
-    public int executedExamCode;
+    public static int executedExamCode;
 
     private ExamQuestion currentQuestion;
     private List<ExamQuestion> allExamQuestions;
@@ -195,14 +196,12 @@ public class ExamsDrawerController
         allExams = event.getAllExams();
         if(allExams == null) {
             error_bar_text.setText("No Exams Found");
+        } else if(allExams.size() == 0){
+            error_bar_text.setText("No Exams Found");
         }
-        else {
+//        else {
             initTable();
-        }
-//        ArrayList<String> allNames = new ArrayList<>(event.getAllExamsNames());
-//        ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
-//        Course_ComboBox.setItems(basesList);
-//        error_bar_text.setText("All Courses Loaded");
+//        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -234,8 +233,14 @@ public class ExamsDrawerController
                     private final Button btn = new Button("Edit");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            Exam view_exam = getTableView().getItems().get(getIndex());
-                            loadExam(view_exam);
+                            try {
+                                Exam edit_exam = getTableView().getItems().get(getIndex());
+                                client.closeConnection();
+                                EventBus.getDefault().unregister(this);
+                                App.setRoot("create_exam");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
                         });
                     }
 
@@ -270,6 +275,8 @@ public class ExamsDrawerController
                             Exam exe_exam = getTableView().getItems().get(getIndex());
                             setExecutedExamCode(exe_exam.getCodeExam());
                             try {
+//                                client.closeConnection();
+//                                EventBus.getDefault().unregister(this);
                                 App.setRoot("execute_exam");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -327,32 +334,6 @@ public class ExamsDrawerController
         Table.getColumns().add(colBtn);
     }
 
-    private void initData ()
-    {
-//        String [] s1 = {"1","2","100","pi"};
-//        ExamQuestion e1 = new ExamQuestion(1, 11, "1+1=?", 2, s1, 10, "", "");
-//
-//        String [] s2 = {"blue","green","black","red"};
-//        ExamQuestion e2 = new ExamQuestion(2, 22, "Apples are ____ ?", 4, s2, 10, "", "");
-//
-//        String [] s3 = {"0","10","100","1000"};
-//        ExamQuestion e3 = new ExamQuestion(3, 33, "100*0=?", 1, s3, 10, "", "");
-//
-//        ArrayList<ExamQuestion> qqq = new ArrayList<ExamQuestion>();
-//        qqq.add(e1);
-//        qqq.add(e3);
-//
-//        ArrayList<ExamQuestion> rrr = new ArrayList<ExamQuestion>();
-//        rrr.add(e2);
-//
-//        Exam exam1 = new Exam(123, "Math Exam", qqq);
-//        Exam exam2 = new Exam(456, "Colors Exam", rrr);
-//        ArrayList<Exam> eee = new ArrayList<Exam>();
-//        eee.add(exam1);
-//        eee.add(exam2);
-//
-//        allExams = eee;
-    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////// On Action //////////////////////////////////////////////
@@ -396,6 +377,8 @@ public class ExamsDrawerController
     }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }
 }

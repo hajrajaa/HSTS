@@ -28,25 +28,24 @@ public class Question implements Serializable {
 
     public Question(int code, String question, int correct_answer) {
         super();
-        this.code = code;
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = new String[4];
         this.coursesList = new ArrayList<>();
+        this.code = generateExamQuestion(code);
     }
 
     public Question(int code, String question, String[] answers, int correct_answer) {
         super();
-        this.code = code;
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = answers;
         this.coursesList = new ArrayList<>();
+        this.code = generateExamQuestion(code);
     }
 
     public Question(int code, String question, String[] answers, int correct_answer, List<Course> coursesList) {
         super();
-        this.code = code;
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = answers;
@@ -55,17 +54,18 @@ public class Question implements Serializable {
             this.coursesList.add(c);
             c.addQuestion(this);
         }
+        this.code = generateExamQuestion(code);
     }
 
     public Question(int code, String question, String[] answers, int correct_answer, Course course) {
         super();
-        this.code = generateExamQuestion(code);
         this.question = question;
         this.correct_answer = correct_answer;
         this.answers = answers;
         this.coursesList = new ArrayList<>();
         this.coursesList.add(course);
         course.addQuestion(this);
+        this.code = generateExamQuestion(code);
     }
 
     public Question(Question question) {
@@ -130,12 +130,24 @@ public class Question implements Serializable {
         this.examQuestions.add(e);
     }
 
+    public void addCourse (Course c){
+        if(this.coursesList == null){
+            this.coursesList = new ArrayList<>();
+        }
+        this.coursesList.add(c);
+        c.addQuestion(this);
+    }
+
 
 //
 
-//    public List<Course> getCoursesList() {
-//        return coursesList;
-//    }
+    public List<Course> getCoursesList() {
+        return coursesList;
+    }
+
+    public void resetCoursesList(){
+        this.coursesList = new ArrayList<>();
+    }
 //
 //    public void setCoursesList(List<Course> coursesList) {
 //        this.coursesList = coursesList;

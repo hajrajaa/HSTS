@@ -52,6 +52,7 @@ public class Course implements Serializable
         subject.addCourse(this);
 
         this.examsList = new ArrayList<>();
+        this.questions = new ArrayList<>();
     }
 
     public int getId() {return id;}

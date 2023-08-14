@@ -28,7 +28,7 @@ public class TeacherMainController {
     Text welcome_text;
 
     @FXML
-    private Button createQuestionButton, createExamButton, ExamsDrawerButton, seeStatisticsButton;
+    private Button createQuestionButton, createExamButton, ExamsDrawerButton, seeStatisticsButton, QuestionsDrawerButton;
 
     @FXML
     private Button logOutBtn;
@@ -64,17 +64,23 @@ public class TeacherMainController {
     }
 
     @FXML
+    void questionsDrawerButton(ActionEvent event) throws IOException {
+        App.setRoot("questions_drawer");
+    }
+
+    @FXML
     void createExamButton(ActionEvent event) throws IOException {
         App.setRoot("create_exam");
     }
 
+    @FXML
     public void ExamDrawerClick(ActionEvent actionEvent) throws IOException {
         App.setRoot("exams_drawer");
     }
 
     @FXML
-    void seeStatisticsButton(ActionEvent event) {
-
+    void seeStatisticsButton(ActionEvent event) throws IOException {
+        App.setRoot("teacherExamsView");
     }
 
     public void create_question_in(MouseEvent mouseEvent) {
@@ -103,5 +109,12 @@ public class TeacherMainController {
     }
     public void exams_drawer_out(MouseEvent mouseEvent) {
         App.setButtonColor(ExamsDrawerButton, "orange");
+    }
+
+    public void questions_drawer_in(MouseEvent mouseEvent) {
+        App.setButtonColor(QuestionsDrawerButton, "green");
+    }
+    public void questions_drawer_out(MouseEvent mouseEvent) {
+        App.setButtonColor(QuestionsDrawerButton, "orange");
     }
 }

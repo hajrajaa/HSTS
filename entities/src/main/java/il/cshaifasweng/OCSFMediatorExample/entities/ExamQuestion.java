@@ -16,6 +16,16 @@ public class ExamQuestion implements Serializable{
     private String teacher_note;
     private String student_note;
 
+    public String getQuestionMll() {
+        return questionMll;
+    }
+
+    public void setQuestionMll(String questionMll) {
+        this.questionMll = questionMll;
+    }
+
+    private String questionMll;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
@@ -50,6 +60,7 @@ public class ExamQuestion implements Serializable{
 //        super(question.getCode(), question.getQuestion(), question.getAnswers(), question.getCorrect_answer());
         this.question=question;
         question.addExamQuestion(this);
+        this.questionMll = this.question.getQuestion();
         this.points = points;
         this.teacher_note = teacher_note;
         this.student_note = student_note;
@@ -57,6 +68,7 @@ public class ExamQuestion implements Serializable{
 
     public ExamQuestion(ExamQuestion examQuestion) {
         this.question = new Question(examQuestion.getQuestion());
+        this.questionMll = this.question.getQuestion();
         this.points = examQuestion.getPoints();
         this.teacher_note = examQuestion.getTeacher_note();
         this.student_note = examQuestion.getStudent_note();

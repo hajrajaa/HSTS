@@ -9,7 +9,6 @@ import java.io.Serializable;
 @Table(name="executedexamsinfo")
 public class ExecutedExamInfo implements Serializable {
 
-
     public enum ExamType{
         Virtual,Manual;
     }
@@ -17,16 +16,13 @@ public class ExecutedExamInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id ;
-
-
     private int code;
     private String password;
-
     private String title;
-
     private int overtime;
     private double average;
     private double median;
+    private ExamType type;
 
     private ExamType type;
 
@@ -35,10 +31,19 @@ public class ExecutedExamInfo implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "testDate")
     private List<ExecutedExam> executedExamList;
 
+    public Teacher getExecutingTeacher() {
+        return executingTeacher;
+    }
+
+    public void setTeacher (Teacher teacher){
+        this.executingTeacher=teacher;
+        teacher.addExecutedExamsInfo(this);
+    }
+
     @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id")
     private Teacher executingTeacher;
-
+  
     public ExecutedExamInfo(int code, String password,String title, double average, double median,ExamType type) {
         this.code = code;
         this.password = password;
@@ -51,6 +56,18 @@ public class ExecutedExamInfo implements Serializable {
         this.executedExamList = new ArrayList<ExecutedExam>();
     }
 
+    public ExecutedExamInfo(ExecutedExamInfo exam)
+    {
+        this.code = exam.getCode();
+        this.password = exam.getPassword();
+        this.title = exam.getTitle();
+        this.overtime = 0;
+        this.average = exam.getAverage();
+        this.median = exam.getMedian();
+        this.type = exam.getType();
+        this.hist = new int[10];
+    }
+
     public  ExecutedExamInfo(int code,String password,ExamType type)
     {
         this.code=code;
@@ -58,21 +75,24 @@ public class ExecutedExamInfo implements Serializable {
         this.type=type;
         this.hist = new int[10];
         this.executedExamList = new ArrayList<ExecutedExam>();
-
     }
 
-
-    public ExecutedExamInfo(ExecutedExamInfo info) {
-        this.code = info.getCode();
-        this.password = info.getPassword();
-        this.title= info.getTitle();
-        this.hist = info.getHist();
+    public  ExecutedExamInfo(int code,String password,ExamType type, String title, Teacher teacher)
+    {
+        this.code=code;
+        this.password=password;
+        this.type=type;
+        this.hist = new int[10];
+        this.executingTeacher=teacher;
+        teacher.addExecutedExamsInfo(this);
+        this.title=title;
+        this.executedExamList = new ArrayList<ExecutedExam>();
+        this.overtime=0;
+        this.average=0;
+        this.median=0;
     }
 
-    public ExecutedExamInfo() {
-    }
-
-
+    public ExecutedExamInfo() {}
 
     public void setOvertime (int d) { this.overtime = d;}
 
@@ -124,15 +144,6 @@ public class ExecutedExamInfo implements Serializable {
         this.title = title;
     }
 
-
-    // public int[] getHist() {
-    // return hist;
-    //}
-
-    // public void setHist(int[] hist) {
-    // this.hist = hist;
-    // }
-
     public List<ExecutedExam> getExecutedExamList() {
         return executedExamList;
     }
@@ -162,7 +173,7 @@ public class ExecutedExamInfo implements Serializable {
         this.executedExamList.add(ex);
         ex.setExecutedExamInfo(this);
     }
-
+  
     public int[] getHist() {
         return hist;
     }
