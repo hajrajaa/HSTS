@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 public class App extends Application {
 
     private static Scene scene;
+
     public SimpleClient client;
 
     public static User user;
@@ -32,6 +34,36 @@ public class App extends Application {
     public  static List<Student> studentList;
 
     public  static List<Teacher> teacherList;
+
+    public static ArrayList<ExecutedExam> getStudentExecutedExamsList() {
+        return studentsExecutedExams;
+    }
+
+    public static ExecutedExamInfo[] teacherExamInfo;
+
+    public static ExecutedExamInfo[] getTeacherExamInfo() {
+        return teacherExamInfo;
+    }
+
+    public static void setTeacherExamInfo(ExecutedExamInfo[] teacherExamInfo) {
+        App.teacherExamInfo = teacherExamInfo;
+    }
+
+    public static void setStudentExecutedExamsList(ArrayList<ExecutedExam> studentsExecutedExams) {
+        App.studentsExecutedExams = studentsExecutedExams;
+    }
+
+    public  static ArrayList<ExecutedExam> studentsExecutedExams;
+
+    public static ArrayList<ExecutedExamInfo> getTeacherExecutedExamInfo() {
+        return teacherExecutedExamInfo;
+    }
+
+    public static void setTeacherExecutedExamInfo(ArrayList<ExecutedExamInfo> teacherExecutedExamInfo) {
+        App.teacherExecutedExamInfo = teacherExecutedExamInfo;
+    }
+
+    public  static ArrayList<ExecutedExamInfo> teacherExecutedExamInfo;
 
     public static List<Student> getStudentList() {
         return studentList;
@@ -47,6 +79,13 @@ public class App extends Application {
 
     public static void setTeacherList(List<Teacher> teacherList) {
         App.teacherList = teacherList;
+    }
+
+
+    public static Exam getExamByCode() {return exam;}
+
+    public static void setExamBycode(Exam exam) {
+        App.exam = exam;
     }
 
 
@@ -178,6 +217,13 @@ public class App extends Application {
 //    }
 
     @Subscribe
+    public void ShowExamEventfunc(ShowExamEvent event)
+    {
+        setExamBycode(event.getExamByCode());
+        changeScene();
+    }
+
+    @Subscribe
     public void ShowTeachersEvent(ShowTeachersEvent event)
     {
         setTeacherList(event.getTeacherList());
@@ -194,6 +240,60 @@ public class App extends Application {
         );
     }
 
+    @Subscribe
+    public void ShowStudentsExecutedExamsEvent(ShowStudentsExecutedExamsEvent event)
+    {
+        setStudentExecutedExamsList(event.getStudentExecutedExamsList());
+        System.out.println(studentsExecutedExams.get(0).getExamNum());
+        ArrayList<ExecutedExam> studentsExecutedExams=getStudentExecutedExamsList();
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML("principle_student_info_display"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+    @Subscribe
+    public void ShowTeachersExamInfoDetailsEvent(ShowTeachersExamInfoDetailsEvent event)
+    {
+        setTeacherExamInfo(event.getTeachersExamInfoDetailsEvent());
+        System.out.println(teacherExamInfo[0].getCode());
+        System.out.println(teacherExamInfo[1].getCode());
+        ExecutedExamInfo[] studentsExecutedExams=getTeacherExamInfo();
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML("principle_teachers_info_display"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+    @Subscribe
+    public void ShowTeachersExamInfoEvent(ShowTeachersExamInfoEvent event)
+    {
+        setTeacherExecutedExamInfo(event.getTeachersExamInfoEvent());
+        System.out.println(teacherExecutedExamInfo.get(0).getCode());
+        ArrayList<ExecutedExamInfo> teacherExecutedExamInfo=getTeacherExecutedExamInfo();
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML("principle_teacher_exam_menu"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
 
     private void changeScene()
     {

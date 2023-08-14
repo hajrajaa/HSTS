@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ExtraTimeRequestController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#abdbe3" height="200.0" layoutX="158.0" layoutY="245.0" stroke="BLACK" strokeType="INSIDE" width="685.0" />
+        <Text fill="#abdbe3" layoutX="36.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Extra Time Request:" wrappingWidth="294.77471923828125" />
+        <Button fx:id="sendRequest_Button" layoutX="692.0" layoutY="544.0" mnemonicParsing="false" onAction="#sendRequest_click" prefHeight="30.0" prefWidth="131.0" style="-fx-background-color: #e28743; -fx-font-size: 14;" text="Send Request" />
+        <TextField fx:id="code_TextField" layoutX="266.0" layoutY="144.0" prefHeight="31.0" prefWidth="109.0" />
+        <Text fill="#abdbe3" layoutX="201.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Code:" wrappingWidth="61.7747802734375" />
+        <Text fill="#abdbe3" layoutX="573.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Password:" wrappingWidth="108.99999737739563" />
+        <TextField fx:id="password_TextField" layoutX="670.0" layoutY="144.0" prefHeight="31.0" prefWidth="109.0" />
+        <Text fx:id="extraTime_Text" layoutX="226.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Extra Time:" wrappingWidth="108.99999737739563" />
+        <TextField fx:id="extraTime_TextField" layoutX="334.0" layoutY="394.0" prefHeight="31.0" prefWidth="80.0" />
+        <Text fx:id="minutes_text" layoutX="423.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 14;" text="minutes" wrappingWidth="61.77479028701782" />
+        <Button fx:id="view_Button" layoutX="461.0" layoutY="282.0" mnemonicParsing="false" onAction="#view_click" prefHeight="35.0" prefWidth="97.0" style="-fx-background-color: #aeaeae; -fx-font-size: 16; -fx-font-weight: bold;" text="View" />
+        <Text id="1" fx:id="currentTime_Text" fill="RED" layoutX="367.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" wrappingWidth="283.6665623188019" />
+        <Text fx:id="reason_Text" layoutX="670.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20;" text="Reason:" wrappingWidth="89.108154296875" />
+        <TextArea fx:id="reason_TextArea" layoutX="666.0" layoutY="274.0" prefHeight="169.0" prefWidth="177.0" />
+        <Text fx:id="invalidTime_Text" fill="RED" layoutX="311.0" layoutY="441.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 20; -fx-font-weight: Bold;" text="Invalid Time!" wrappingWidth="131.00001215934753" />
+    </children>
+</AnchorPane>

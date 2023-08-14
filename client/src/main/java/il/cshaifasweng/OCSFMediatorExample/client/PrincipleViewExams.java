@@ -1,4 +1,4 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-public class PrincipleViewVirtualExams  {
+public class PrincipleViewExams {
 }

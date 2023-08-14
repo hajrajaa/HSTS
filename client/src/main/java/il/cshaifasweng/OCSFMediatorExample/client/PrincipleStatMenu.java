@@ -22,7 +22,7 @@ public class PrincipleStatMenu {
 
     @FXML
     public void go_back(ActionEvent actionEvent) throws IOException {
-        setRoot("principle_menu");
+        setRoot("principle_homepage");
     }
 
     @FXML

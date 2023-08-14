@@ -6,6 +6,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleClient extends AbstractClient {
@@ -83,12 +84,66 @@ public class SimpleClient extends AbstractClient {
 
 		else if (messageSt.equals("#ShowAllTeachers"))
 		{
+			System.out.println("SHSHSHSHSHSHSHSH");
 			List<Teacher> teachers=(List<Teacher>) message.getObject1();
 			for(int i=0;i<teachers.size();i++)
 			{
 				System.out.println(teachers.get(i).getUserName());
 			}
 			ShowTeachersEvent newEvent= new ShowTeachersEvent(teachers);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if (messageSt.equals("#ShowStudentExecutedExams"))
+		{
+			ArrayList<ExecutedExam> exe_ex=(ArrayList<ExecutedExam>) message.getObject1();
+			for(int i=0;i<exe_ex.size();i++)
+			{
+				System.out.println(exe_ex.get(i).getExamNum());
+			}
+			ShowStudentsExecutedExamsEvent newEvent= new ShowStudentsExecutedExamsEvent(exe_ex);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if (messageSt.equals("#ShowAllTeachersExamInfo"))
+		{
+			ArrayList<ExecutedExamInfo> exe_ex_info=(ArrayList<ExecutedExamInfo>) message.getObject1();
+			for(int i=0;i<exe_ex_info.size();i++)
+			{
+				System.out.println(exe_ex_info.get(i).getCode());
+			}
+			ShowTeachersExamInfoEvent newEvent= new ShowTeachersExamInfoEvent(exe_ex_info);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if (messageSt.equals("#ShowTeachersExamInfoDetails"))
+		{
+			ExecutedExamInfo[] arrex_info=(ExecutedExamInfo[]) message.getObject1();
+//
+//			ExecutedExamInfo ex_info1 = arrex_info[0];
+//			ExecutedExamInfo ex_info2 = arrex_info[1];
+//
+//			for(int i=0;i<exe_ex_info.size();i++)
+//			{
+//				System.out.println(exe_ex_info.get(i).getCode());
+//			}
+			ShowTeachersExamInfoDetailsEvent newEvent= new ShowTeachersExamInfoDetailsEvent(arrex_info);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if (messageSt.equals("#CodeForETExists"))
+		{
+			Exam exam = (Exam) message.getObject1();
+			System.out.println(exam.getCodeExam());
+			ShowExamEvent newEvent= new ShowExamEvent(exam);
 			Platform.runLater(()->{
 						EventBus.getDefault().post(newEvent);
 					}
