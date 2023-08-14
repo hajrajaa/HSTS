@@ -180,7 +180,7 @@ public class App extends Application {
                 break;
 
             case Manual:
-                fxmlFile1="solve_manual_exam";
+                fxmlFile1="manual_exam";
                 break;
 
             default:

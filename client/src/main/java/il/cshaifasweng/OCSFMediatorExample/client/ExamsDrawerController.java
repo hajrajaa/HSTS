@@ -274,8 +274,8 @@ public class ExamsDrawerController
                             Exam exe_exam = getTableView().getItems().get(getIndex());
                             setExecutedExamCode(exe_exam.getCodeExam());
                             try {
-                                client.closeConnection();
-                                EventBus.getDefault().unregister(this);
+//                                client.closeConnection();
+//                                EventBus.getDefault().unregister(this);
                                 App.setRoot("execute_exam");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);

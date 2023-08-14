@@ -70,12 +70,10 @@ public class CreateExamController
         error_bar_text.setText("");
         initializeButtons();
         allExamQuestions = new ArrayList<ExamQuestion>();
-        allQuestions = getQuestions();
-        initSelectQuestionComboBox();
 
         Course_ComboBox.setDisable(true);
         try {
-            SimpleClient.getClient().sendToServer(new Message("#GetAllSubjects"));
+            SimpleClient.getClient().sendToServer(new Message("#GetAllSubjectsNames"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -137,44 +135,6 @@ public class CreateExamController
         return true;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////// Server Replay //////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Subscribe
-    public void getAllSubjectsResponse(EventGetAllSubjects event)
-    {
-        allSubjects = event.getAllSubjects();
-        ArrayList<String> allSubjectsNames = new ArrayList<String>();
-        for (Subject subject : allSubjects)
-        {
-            allSubjectsNames.add(subject.getSubName());
-        }
-        ObservableList<String> basesList = FXCollections.observableArrayList(allSubjectsNames);
-        Subject_ComboBox.setItems(basesList);
-
-        error_bar_text.setText("Please Choose a Subject");
-    }
-
-
-    private ArrayList<Question> getQuestions ()
-    {
-        String [] s1 = {"1","2","100","pi"};
-        Question e1 = new Question(111,"1+1=?", s1, 2);
-
-        String [] s2 = {"blue","green","black","red"};
-        Question e2 = new Question(222,"Apples are ____", s2, 4);
-
-        String [] s3 = {"0","10","100","1000"};
-        Question e3 = new Question(222,"100*0=?", s3, 1);
-//
-        ArrayList<Question> eee = new ArrayList<Question>();
-        eee.add(e1);
-        eee.add(e2);
-        eee.add(e3);
-        return eee;
-    }
-
     private void initSelectQuestionComboBox ()
     {
         ArrayList<String> allQuestionsNames = new ArrayList<String>();
@@ -224,7 +184,7 @@ public class CreateExamController
         Table.setItems(allExamQuestions_OL);
 
         Code_Column.setCellValueFactory(new PropertyValueFactory<>("code"));
-        Question_Column.setCellValueFactory(new PropertyValueFactory<>("question"));
+        Question_Column.setCellValueFactory(new PropertyValueFactory<>("questionMll"));
         Points_Column.setCellValueFactory(new PropertyValueFactory<>("points"));
         if(removeColumnFlag){
             addColumnToTable();
@@ -296,6 +256,37 @@ public class CreateExamController
     ///////////////////////////////////////// Server Replay //////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Subscribe
+    public void getAllSubjectsNames_Replay(EventGetAllSubjectsNames event)
+    {
+        ArrayList<String> allSubjectsNames = new ArrayList<>(event.getAllSubjectsNames());
+        ObservableList<String> basesList = FXCollections.observableArrayList(allSubjectsNames);
+        Subject_ComboBox.setItems(basesList);
+        error_bar_text.setText("Please Choose a Subject");
+    }
+
+    @Subscribe
+    public void GetAllCoursesBySubject_Replay(EventGetAllCoursesBySubject event)
+    {
+        ArrayList<String> allNames = new ArrayList<>(event.getAllCoursesNames());
+        ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
+        Course_ComboBox.setDisable(false);
+        Course_ComboBox.setItems(basesList);
+        error_bar_text.setText("All Courses Loaded");
+    }
+
+    @Subscribe
+    public void GetAllQuestionsByCourse_Replay(EventGetAllQuestionsByCourse event)
+    {
+        allQuestions = new ArrayList<>(event.getAllQuestions());
+        if(allQuestions == null) {
+            error_bar_text.setText("No Questions Found");
+        }else if(allQuestions.size() == 0){
+            error_bar_text.setText("No Questions Found");
+        }
+        initSelectQuestionComboBox();
+    }
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////// On Action Functions ///////////////////////////////////////
@@ -356,33 +347,41 @@ public class CreateExamController
             String student_note = Student_Note_TextField.getText().toString();
             allExamQuestions.add(new ExamQuestion(currentQuestion, Npoints, teacher_note, student_note));
             refreshTable();
+            Subject_ComboBox.setDisable(true);
+            Course_ComboBox.setDisable(true);
             error_bar_text.setText("The Question Has Been Added To The Exam");
         }
     }
 
     public void SubjectSelected(ActionEvent actionEvent)
     {
-        String selectedSubjectName = Subject_ComboBox.getValue().toString();
-        for (Subject subject : allSubjects)
-        {
-            if(subject.getSubName().equals(selectedSubjectName)){
-                selectedSubject = subject;
-                break;
-            }
+        if(Subject_ComboBox.getValue() == null) {return;}
+        String subjectName = Subject_ComboBox.getValue().toString();
+
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetAllCoursesBySubject", subjectName));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
-//        allCourses = selectedSubject.getCourses();
-//        ArrayList<String> allCoursesNames = new ArrayList<String>();
-//        for (Course course : allCourses)
-//        {
-//            allCoursesNames.add(course.getCourseName());
-//        }
-//        ObservableList<String> basesList = FXCollections.observableArrayList(allCoursesNames);
-//        Course_ComboBox.setItems(basesList);
-//
-//        Course_ComboBox.setDisable(false);
-        error_bar_text.setText("Please Choose a Course");
     }
 
-    public void CourseSelected(ActionEvent actionEvent) {
+    public void CourseSelected(ActionEvent actionEvent)
+    {
+        if(Course_ComboBox.getValue() == null) {return;}
+        String courseName = Course_ComboBox.getValue().toString();
+
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetAllQuestionsByCourse", courseName));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void Home_Click(ActionEvent actionEvent) throws IOException {
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
+        App.setRoot("teacherMain");
     }
 }

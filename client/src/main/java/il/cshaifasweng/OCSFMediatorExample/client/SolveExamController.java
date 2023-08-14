@@ -276,7 +276,9 @@ public class SolveExamController
 
     public void finish_exam_click(ActionEvent actionEvent) throws IOException {
         // TODO: Implement
-//        HelloApplication.setRoot("create_question");
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
+        App.setRoot("studentM ain");
 
     }
 
