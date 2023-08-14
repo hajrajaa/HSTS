@@ -18,6 +18,8 @@ public class ExecutedExam implements Serializable {
 
     private  String startime;
 
+    private String studentName;
+
     private String endtime;
 
     private  double grade;
@@ -38,6 +40,7 @@ public class ExecutedExam implements Serializable {
         this.testDate = testDate;
     }
 
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "testDate_id")
     private ExecutedExamInfo testDate;
@@ -45,11 +48,17 @@ public class ExecutedExam implements Serializable {
     public ExecutedExam() {
     }
 
-    public ExecutedExam(int examNum, Student student, String examDate, String startime, double grade, boolean submitInTime, Exam exam) {
+    public ExecutedExam(int examNum, Student student, String examDate, String startime, double grade, boolean submitInTime, Exam exam,ExecutedExamInfo examInfo) {
         super();
         this.examNum = examNum;
         setStudent(student);
         setExam(exam);
+        setTestDate(examInfo);
+        if(this.student != null){
+            this.studentName = this.student.getUserName();
+        }else {
+            this.studentName = "";
+        }
         this.examDate=examDate;
         this.startime=startime;
         this.endtime= this.startime+exam.getTime();
@@ -101,6 +110,25 @@ public class ExecutedExam implements Serializable {
     public void setInDuration(boolean inDuration) {
         this.submitInTime = inDuration;
     }
+
+    public ExecutedExamInfo getTestDate() {
+        return testDate;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setTestDate(ExecutedExamInfo testDate) {
+        if (this.testDate != null) {
+            this.testDate.getExecutedExamList().remove(this);
+        }
+        this.testDate = testDate;
+        if (testDate != null) {
+            testDate.getExecutedExamList().add(this);
+        }
+    }
+
 
 
     //TODO:check if need

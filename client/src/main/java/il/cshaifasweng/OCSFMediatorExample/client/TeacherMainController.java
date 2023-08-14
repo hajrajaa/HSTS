@@ -79,8 +79,8 @@ public class TeacherMainController {
     }
 
     @FXML
-    void seeStatisticsButton(ActionEvent event) {
-
+    void seeStatisticsButton(ActionEvent event) throws IOException {
+        App.setRoot("teacherExamsView");
     }
 
     public void create_question_in(MouseEvent mouseEvent) {

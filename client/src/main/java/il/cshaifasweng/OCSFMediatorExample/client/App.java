@@ -42,6 +42,54 @@ public class App extends Application {
 
     public  static List<Teacher> teacherList;
 
+    public  static List<ExecutedExamInfo> writtenExamInfoList;
+
+
+
+    public static List<ExecutedExamInfo> executedExamInfoList;
+
+
+
+    public  static List<ExecutedExam> executedExams;
+
+
+
+    public static ExecutedExamInfo executedExamInfo;
+
+    public static List<ExecutedExamInfo> getWrittenExamInfoList() {
+        return writtenExamInfoList;
+    }
+
+    public static void setWrittenExamInfoList(List<ExecutedExamInfo> writtenExamInfoList) {
+        App.writtenExamInfoList = writtenExamInfoList;
+    }
+
+    public static List<ExecutedExamInfo> getExecutedExamInfoList() {
+        return executedExamInfoList;
+    }
+
+    public static void setExecutedExamInfoList(List<ExecutedExamInfo> executedExamInfoList) {
+        App.executedExamInfoList = executedExamInfoList;
+    }
+
+    public static List<ExecutedExam> getExecutedExams() {
+        return executedExams;
+    }
+
+    public static void setExecutedExams(List<ExecutedExam> executedExams) {
+        App.executedExams = executedExams;
+    }
+
+    public static ExecutedExamInfo getExecutedExamInfo() {
+        return executedExamInfo;
+    }
+
+    public static void setExecutedExamInfo(ExecutedExamInfo executedExamInfo) {
+        App.executedExamInfo = executedExamInfo;
+    }
+
+
+
     public static List<Student> getStudentList() {
         return studentList;
     }
@@ -160,6 +208,7 @@ public class App extends Application {
         changeScene();
     }
 
+
     @Subscribe
     public void startSolveExamEvent(StartSolveExamEvent event)
     {
@@ -236,6 +285,10 @@ public class App extends Application {
                 }
         );
     }
+
+
+
+
 
 //    @Subscribe
 //    public void getUserResponse(getUserEvent event)

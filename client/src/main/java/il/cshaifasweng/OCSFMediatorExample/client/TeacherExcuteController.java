@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 import il.cshaifasweng.OCSFMediatorExample.entities.ExecutedExamInfo;
 import il.cshaifasweng.OCSFMediatorExample.client.ExamsDrawerController;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Teacher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -89,8 +90,10 @@ public class TeacherExcuteController {
             {
                 selectedType= ExecutedExamInfo.ExamType.Virtual;
             }
-            ExecutedExamInfo exeExam = new ExecutedExamInfo(ExamCode,ExecPassword,selectedType);
-            System.out.println(getExamCode1());
+//            ExecutedExamInfo exeExam= new ExecutedExamInfo(ExamsDrawerController.getExecutedExamCode(),ExecPassword,selectedType);
+            ExecutedExamInfo exeExam= new ExecutedExamInfo(ExamsDrawerController.getExecutedExamCode(),ExecPassword,selectedType,"",(Teacher) App.getUser());
+            System.out.println(exeExam.getCode());
+            System.out.println(ExamsDrawerController.getExecutedExamCode());
 
             try {
 //                SimpleClient.getClient().sendToServer(new Message("#GetAllSubjectsNames"));
@@ -123,9 +126,9 @@ public class TeacherExcuteController {
 
         error_bar_text.setText("");
 
-        setExamCode1(ExamsDrawerController.getExecutedExamCode());
-
-        System.out.println(ExamsDrawerController.getExecutedExamCode());
+//        setExamCode1(ExamsDrawerController.getExecutedExamCode());
+//
+//        System.out.println(ExamsDrawerController.getExecutedExamCode());
 
         assert coursesBox != null : "fx:id=\"coursesBox\" was not injected: check your FXML file 'execute_exam.fxml'.";
         assert error_bar_text != null : "fx:id=\"error_bar_text\" was not injected: check your FXML file 'execute_exam.fxml'.";

@@ -26,24 +26,23 @@ public class Teacher extends User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "teacher")
     private List<Exam> exams;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy ="executingTeacher")
+    private List<ExecutedExamInfo> executedExamsInfo;
+
 //    @Column
 //    @ElementCollection(targetClass = String.class)
 //    private List<String> courseID;
 
     public Teacher(int id, String username, String password) {
         super(id, username, password, UserType.Teacher);
-        //this.examsInfo = new ArrayList<ExecutedExamInfo>();
         this.exams = new ArrayList<>();
+        this.executedExamsInfo=new ArrayList<ExecutedExamInfo>();
        //this.courseID = new ArrayList<String>();
     }
 
 
     public Teacher() {}
 
-
-//    public List<ExecutedExamInfo> getExamsInfo() {
-//        return examsInfo;
-//    }
 
 
    // public void addExam(Exam... exams) {
@@ -65,6 +64,17 @@ public class Teacher extends User implements Serializable {
     public List<Exam> getExams() {
         return exams;
     }
+
+    public List<ExecutedExamInfo> getExecutedExamsInfo() {
+        return executedExamsInfo;
+    }
+    public void addExecutedExamsInfo(ExecutedExamInfo e) {
+        if(this.executedExamsInfo == null){
+            this.executedExamsInfo = new ArrayList<>();
+        }
+        this.executedExamsInfo.add(e);
+    }
+
 //
 //    public void setExams(List<Exam> exams) {
 //        this.exams = exams;
