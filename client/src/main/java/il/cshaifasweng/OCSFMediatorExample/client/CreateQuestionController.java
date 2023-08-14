@@ -247,9 +247,9 @@ public class CreateQuestionController
         {
             error_bar_text.setText("Please Fill Question Code");
         }
-        else if(s_question_code.length() != 6)
+        else if(s_question_code.length() != 2)
         {
-            error_bar_text.setText("Question Code Must Be 6 Digits");
+            error_bar_text.setText("Question Code Must Be 2 Digits");
         }
         else if(!isNumber(s_question_code))
         {
@@ -277,9 +277,9 @@ public class CreateQuestionController
         else
         {
             error_bar_text.setText("Saving Question...");
-            Question question = new Question (Integer.valueOf(s_question_code), s_question, l_answers.toArray(new String[0]), correctAnswerG);
+            Question question = new Question (Integer.valueOf(s_question_code), s_question, l_answers.toArray(new String[0]), correctAnswerG, chosenCourses);
             try {
-                SimpleClient.getClient().sendToServer(new Message("#CreateQusetionRequest", question));
+                SimpleClient.getClient().sendToServer(new Message("#CreateNewQusetion", question));
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -329,6 +329,8 @@ public class CreateQuestionController
 //    }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }
 

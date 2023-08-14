@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ManualExam">
+    <children>
+        <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/paper.png" />
+            </image>
+        </ImageView>
+        <Text fx:id="exam_name_text" fill="#abdbe3" layoutX="24.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Exam Name" wrappingWidth="294.77471923828125" />
+        <Button fx:id="submit_button" layoutX="652.0" layoutY="457.0" mnemonicParsing="false" onAction="#submit_click" prefHeight="31.0" prefWidth="120.0" style="-fx-background-color: #34b048;" text="Submit" />
+        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="330.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="348.77471923828125" />
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="24.0" layoutY="78.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="148.0" />
+        <Text fx:id="date_text" fill="#abdbe3" layoutX="811.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="06/06/2023" textAlignment="RIGHT" wrappingWidth="147.99999818205833" />
+        <ImageView fx:id="note_ImageView" fitHeight="212.0" fitWidth="204.0" layoutX="111.0" layoutY="367.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/note.png" />
+            </image>
+        </ImageView>
+        <Text fx:id="clock_text" fill="#063970" layoutX="66.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="00:00:00" textAlignment="CENTER" wrappingWidth="101.77471923828125" />
+        <ImageView fx:id="clock_0" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_0.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_1" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_1.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_2" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_2.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_3" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_3.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_4" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_4.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_5" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_5.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_6" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_6.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_7" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_7.png" />
+            </image>
+        </ImageView>
+        <ImageView fx:id="clock_8" fitHeight="35.0" fitWidth="32.0" layoutX="35.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/clock_8.png" />
+            </image>
+        </ImageView>
+      <Button fx:id="download_button" layoutX="267.0" layoutY="278.0" mnemonicParsing="false" onAction="#download_Action" prefHeight="68.0" prefWidth="187.0" style="-fx-font-size: 14; -fx-background-color: #e28743;" text="Download Document" textAlignment="CENTER" />
+      <Button fx:id="upload_button" layoutX="555.0" layoutY="278.0" mnemonicParsing="false" onAction="#upload_Action" prefHeight="68.0" prefWidth="187.0" style="-fx-font-size: 14; -fx-background-color: #e28743;" text="Upload Document" textAlignment="CENTER" />
+    </children>
+</AnchorPane>

@@ -130,12 +130,24 @@ public class Question implements Serializable {
         this.examQuestions.add(e);
     }
 
+    public void addCourse (Course c){
+        if(this.coursesList == null){
+            this.coursesList = new ArrayList<>();
+        }
+        this.coursesList.add(c);
+        c.addQuestion(this);
+    }
+
 
 //
 
-//    public List<Course> getCoursesList() {
-//        return coursesList;
-//    }
+    public List<Course> getCoursesList() {
+        return coursesList;
+    }
+
+    public void resetCoursesList(){
+        this.coursesList = new ArrayList<>();
+    }
 //
 //    public void setCoursesList(List<Course> coursesList) {
 //        this.coursesList = coursesList;

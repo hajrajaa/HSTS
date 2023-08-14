@@ -55,7 +55,7 @@ public class ExamsDrawerController
     private boolean tableInitFlag;
     private int examLength;
 
-    public int getExecutedExamCode() {
+    public static int getExecutedExamCode() {
         return executedExamCode;
     }
 
@@ -195,14 +195,12 @@ public class ExamsDrawerController
         allExams = event.getAllExams();
         if(allExams == null) {
             error_bar_text.setText("No Exams Found");
+        } else if(allExams.size() == 0){
+            error_bar_text.setText("No Exams Found");
         }
-        else {
+//        else {
             initTable();
-        }
-//        ArrayList<String> allNames = new ArrayList<>(event.getAllExamsNames());
-//        ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
-//        Course_ComboBox.setItems(basesList);
-//        error_bar_text.setText("All Courses Loaded");
+//        }
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -236,6 +234,8 @@ public class ExamsDrawerController
                         btn.setOnAction((ActionEvent event) -> {
                             try {
                                 Exam edit_exam = getTableView().getItems().get(getIndex());
+                                client.closeConnection();
+                                EventBus.getDefault().unregister(this);
                                 App.setRoot("create_exam");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -274,6 +274,8 @@ public class ExamsDrawerController
                             Exam exe_exam = getTableView().getItems().get(getIndex());
                             setExecutedExamCode(exe_exam.getCodeExam());
                             try {
+//                                client.closeConnection();
+//                                EventBus.getDefault().unregister(this);
                                 App.setRoot("execute_exam");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -374,6 +376,8 @@ public class ExamsDrawerController
     }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
+        client.closeConnection();
+        EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }
 }

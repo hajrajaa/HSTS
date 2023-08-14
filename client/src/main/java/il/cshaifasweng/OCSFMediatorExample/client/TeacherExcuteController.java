@@ -65,8 +65,6 @@ public class TeacherExcuteController {
 
     }
 
-
-
     @FXML
     void executeBtn(ActionEvent event) {
 
@@ -91,15 +89,17 @@ public class TeacherExcuteController {
             {
                 selectedType= ExecutedExamInfo.ExamType.Virtual;
             }
-            ExecutedExamInfo exeExam= new ExecutedExamInfo(ExamCode,ExecPassword,selectedType);
+            ExecutedExamInfo exeExam = new ExecutedExamInfo(ExamCode,ExecPassword,selectedType);
             System.out.println(getExamCode1());
 
             try {
-                SimpleClient.getClient().sendToServer(new Message("#ExecuteExamRequest",exeExam));
+//                SimpleClient.getClient().sendToServer(new Message("#GetAllSubjectsNames"));
+                SimpleClient.getClient().sendToServer(new Message("#ExecuteExamRequest", exeExam));
             } catch (IOException e)
             {
                 e.printStackTrace();
             }
+
         }
         else
         {
@@ -137,7 +137,6 @@ public class TeacherExcuteController {
 
         manualTypeBtn.setToggleGroup(radioGroup);
         virtualTypeBtn.setToggleGroup(radioGroup);
-
 
     }
 
