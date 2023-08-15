@@ -58,6 +58,18 @@ public class ExecutedExamInfo implements Serializable {
         setExecutingTeacher(teacher);
     }
 
+    public ExecutedExamInfo(int code, String password,String title, double average, double median,ExamType type,int[] hist) {
+        this.code = code;
+        this.password = password;
+        this.title=title;
+        this.overtime = 0;
+        this.average = average;
+        this.median = median;
+        this.type=type;
+        this.hist = hist;
+        this.executedExamList = new ArrayList<ExecutedExam>();
+    }
+
     public ExecutedExamInfo(ExecutedExamInfo exam)
     {
         this.id=exam.getId();
@@ -68,7 +80,7 @@ public class ExecutedExamInfo implements Serializable {
         this.average = exam.getAverage();
         this.median = exam.getMedian();
         this.type = exam.getType();
-        this.hist = new int[10];
+        this.hist = exam.getHist();
     }
 
     public  ExecutedExamInfo(int code,String password,ExamType type)

@@ -120,6 +120,34 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
+		else if (messageSt.equals("#ShowAllCourses"))
+		{
+			System.out.println("SHSHSHSHSHSHSHSH");
+			List<Course> courses=(List<Course>) message.getObject1();
+			for(int i=0;i<courses.size();i++)
+			{
+				System.out.println(courses.get(i).getCourseName());
+			}
+			ShowCoursesEvent newEvent= new ShowCoursesEvent(courses);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if (messageSt.equals("#ShowAllCoursesInfo"))
+		{
+			System.out.println("SHSHSHSHSHSHSHSH");
+			List<ExecutedExamInfo> info=(List<ExecutedExamInfo>) message.getObject1();
+			for(int i=0;i<info.size();i++)
+			{
+				System.out.println(info.get(i).getTitle());
+			}
+			ShowCoursesInfoEvent newEvent= new ShowCoursesInfoEvent(info);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
 		else if (messageSt.equals("#ShowStudentExecutedExams"))
 		{
 			ArrayList<ExecutedExam> exe_ex=(ArrayList<ExecutedExam>) message.getObject1();

@@ -41,11 +41,16 @@ public class PrincipleStatMenu {
         } catch (IOException e){
             e.printStackTrace();
         }
-        setRoot("principle_teachers_menu");
+        App.setRoot("principle_teachers_menu");
     }
 
     @FXML
     public void view_courses(ActionEvent actionEvent) throws IOException {
-        setRoot("principle_courses_menu");
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetListOfCourses"));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        App.setRoot("principle_courses_menu");
     }
 }

@@ -98,6 +98,7 @@ public class PrincipleTeachersMenu {
             System.out.println("we are trying to send a msg but no luck");
             e.printStackTrace();
         }
+
         App.setRoot("principle_teacher_exam_menu");
     }
 

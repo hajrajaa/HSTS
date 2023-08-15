@@ -76,11 +76,27 @@ public class App extends Application {
 
     public  static List<ExecutedExamInfo> writtenExamInfoList;
 
+    public static List<ExecutedExamInfo> getCourseInfo() {
+        return courseInfo;
+    }
 
+    public static void setCourseInfo(List<ExecutedExamInfo> courseInfo) {
+        App.courseInfo = courseInfo;
+    }
+
+    public  static List<ExecutedExamInfo> courseInfo;
+
+    public static List<Course> getCourseList() {
+        return courseList;
+    }
+
+    public static void setCourseList(List<Course> courseList) {
+        App.courseList = courseList;
+    }
+
+    public  static List<Course> courseList;
 
     public static List<ExecutedExamInfo> executedExamInfoList;
-
-
 
     public  static List<ExecutedExam> executedExams;
 
@@ -324,7 +340,22 @@ public class App extends Application {
     }
 
 
-
+    @Subscribe
+    public void ShowCoursesInfoEvent(ShowCoursesInfoEvent event)
+    {
+        setCourseInfo(event.getCoursesInfoEvent());
+        List<ExecutedExamInfo> students=getCourseInfo();
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML("principle_course_info_list"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
 
 
 //    @Subscribe
@@ -350,6 +381,23 @@ public class App extends Application {
                     try
                     {
                         scene.setRoot(loadFXML("principle_teachers_menu"));
+                    }catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+        );
+    }
+
+    @Subscribe
+    public void ShowCoursesEvent(ShowCoursesEvent event)
+    {
+        setCourseList(event.getCoursesEvent());
+        List<Teacher> Teacher=getTeacherList();
+        Platform.runLater(()->{
+                    try
+                    {
+                        scene.setRoot(loadFXML("principle_courses_menu"));
                     }catch (IOException e)
                     {
                         e.printStackTrace();

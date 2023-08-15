@@ -96,15 +96,15 @@ public class PrincipleTeacherExamMenu {
 
     @FXML
     void view_teacher_exam_stats(ActionEvent event) throws IOException {
-        int[] code={chosenInfo.getCode(), chosenInfo2.getCode()};
-        try {
-            System.out.println("we are trying to send a msg");
-            SimpleClient.getClient().sendToServer(new Message("#TeacherExamInfoDetails", code));
-            System.out.println("msg sent");
-        } catch (IOException e){
-            System.out.println("we are trying to send a msg but no luck");
-            e.printStackTrace();
-        }
+//        ExecutedExamInfo[] code={chosenInfo, chosenInfo2};
+//        try {
+//            System.out.println("we are trying to send a msg");
+//            SimpleClient.getClient().sendToServer(new Message("#TeacherExamInfoDetails", code));
+//            System.out.println("msg sent");
+//        } catch (IOException e){
+//            System.out.println("we are trying to send a msg but no luck");
+//            e.printStackTrace();
+//        }
         App.setRoot("principle_teachers_info_display");
     }
 
