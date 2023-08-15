@@ -119,6 +119,10 @@ public class Course implements Serializable
 //        }
 //    }
 
+        public void addExam(Exam exam) {
+            this.examsList.add(exam);
+        }
+
     public List<Exam> getExamsList() {
         return examsList;
     }

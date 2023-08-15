@@ -339,11 +339,26 @@ public class SimpleServer extends AbstractServer {
 			session.merge(newStudent1);
 			session.flush();
 
-			ExecutedExamInfo moeda = new ExecutedExamInfo(1122,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual);
+			int[] hist1 = {1,2,0,4,2,1,2,4,5,2,2};
+
+			int[] hist2 = {2,1,2,1,2,4,1,3,3,6,2};
+
+			ExecutedExamInfo moeda = new ExecutedExamInfo(173155,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,hist1);
 			session.save(moeda);
 			session.flush();
 
+			ExecutedExamInfo moedb = new ExecutedExamInfo(173155,"67890","Discrete Mathematics B",70,65,ExecutedExamInfo.ExamType.Virtual,hist2);
+			session.save(moedb);
+			session.flush();
+
+			dmath.addExam(exam1);
+			session.save(dmath);
+			session.flush();
+
 			newTeacherX.addExecutedExamInfo(moeda);
+			session.merge(newTeacherX);
+
+			newTeacherX.addExecutedExamInfo(moedb);
 			session.merge(newTeacherX);
 
 			session.getTransaction().commit(); // Save everything.
@@ -535,7 +550,7 @@ public class SimpleServer extends AbstractServer {
 				e1.printStackTrace();
 			}
 		}
-		else if (msgString.startsWith("#GetListOfStudents")){
+		else if (msgString.equals("#GetListOfStudents")){
 			System.out.println("GetListOfStudents");
 			session.beginTransaction();
 
@@ -552,7 +567,7 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		else if (msgString.startsWith("#GetListOfTeachers"))
+		else if (msgString.equals("#GetListOfTeachers"))
 		{
 			System.out.println("GetListOfTeachers");
 			session.beginTransaction();
@@ -569,6 +584,78 @@ public class SimpleServer extends AbstractServer {
 			}
 			try {
 				client.sendToClient(new Message("#ShowAllTeachers", res));
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#GetListOfCourses"))
+		{
+			System.out.println("GetListOfCourses");
+			session.beginTransaction();
+
+			List<Course> teachers = getAllObjects(Course.class);
+			ArrayList<Course> res = new ArrayList<>();
+			for(Course s : teachers){
+				res.add((Course)copyCourse(s));
+			}
+
+			for (int i = 0; i < teachers.size(); i++) {
+				System.out.println("AAAAAAAA");
+				System.out.println(teachers.get(i).getCourseName());
+				System.out.println(res.get(i).getCourseName());
+			}
+			try {
+				client.sendToClient(new Message("#ShowAllCourses", res));
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		else if (msgString.equals("#GetInfoOfCourse"))
+		{
+			System.out.println("GetInfoOfCourse");
+			session.beginTransaction();
+			int name = (int)message.getObject1();
+			System.out.println(name);
+			Course courses = session.find(Course.class,name);
+			List<ExecutedExamInfo> info = getAllObjects(ExecutedExamInfo.class);
+			List<ExecutedExamInfo> filtered = new ArrayList<>();
+			List<Exam> courseexams = new ArrayList<>();
+			for(Exam s : courses.getExamsList()){
+				System.out.println(s.getTitle());
+				System.out.println(s.getCodeExam());
+			}
+
+			for(ExecutedExamInfo i : info){
+				System.out.println(i.getCode());
+			}
+			System.out.println("THE END");
+
+
+			for(Exam s : courses.getExamsList()){
+				for(ExecutedExamInfo i : info){
+					if(s.getCodeExam()==i.getCode()){
+						System.out.println("hello dod");
+						filtered.add(new ExecutedExamInfo(i));
+					}
+				}
+			}
+//			for(ExecutedExamInfo i : info){
+//				for(Exam e : courseexams){
+//					if(e.getCodeExam()==i.getCode()){
+//						filtered.add(new ExecutedExamInfo(i));
+//					}
+//				}
+//			}
+//			System.out.println("AAAAAAAA");
+//			for (int i = 0; i < courseexams.size(); i++) {
+//
+//				System.out.println(courses.get(i).getCourseName());
+//			}
+			System.out.println("AAAAAAAA");
+			try {
+				client.sendToClient(new Message("#ShowAllCoursesInfo", filtered));
 				session.getTransaction().commit();
 			} catch (IOException e) {
 				e.printStackTrace();

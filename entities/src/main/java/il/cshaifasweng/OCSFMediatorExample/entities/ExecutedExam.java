@@ -36,8 +36,6 @@ public class ExecutedExam implements Serializable {
     @JoinColumn(name = "exam_id")
     private Exam exam;
 
-
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id")
     private Student student;
@@ -170,10 +168,6 @@ public class ExecutedExam implements Serializable {
         return testDate;
     }
 
-    public Student getStudent() {
-        return student;
-    }
-
     public void setTestDate(ExecutedExamInfo testDate) {
         if (this.testDate != null) {
             this.testDate.getExecutedExamList().remove(this);
@@ -229,5 +223,8 @@ public class ExecutedExam implements Serializable {
         }
     }
 
+    public Student getStudent() {
+        return student;
+    }
 
 }
