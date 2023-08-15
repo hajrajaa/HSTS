@@ -10,12 +10,9 @@ public class WrittenExamEvent {
     List<ExecutedExam> executedExamList;
 
 
-    ExecutedExamInfo examInfo;
 
-
-    public WrittenExamEvent(List<ExecutedExam> executedExamList,ExecutedExamInfo examInfo) {
+    public WrittenExamEvent(List<ExecutedExam> executedExamLis) {
         this.executedExamList = executedExamList;
-        this.examInfo=examInfo;
     }
 
 
@@ -27,13 +24,6 @@ public class WrittenExamEvent {
         this.executedExamList = executedExamList;
     }
 
-    public ExecutedExamInfo getExamInfo() {
-        return examInfo;
-    }
-
-    public void setExamInfo(ExecutedExamInfo examInfo) {
-        this.examInfo = examInfo;
-    }
 
 
 }

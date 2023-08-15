@@ -26,7 +26,6 @@ public class  ViewExcExamDrawer {
     public SimpleClient client;
     ExecutedExamInfo examInfo;
 
-
     List<ExecutedExam> executedExamList1;
 
     boolean TableInitFlag;
@@ -46,6 +45,16 @@ public class  ViewExcExamDrawer {
     public void setExecutedExamList1(List<ExecutedExam> executedExamList1) {
         this.executedExamList1 = executedExamList1;
     }
+
+    public static ExecutedExam getSelectedExam() {
+        return selectedExam;
+    }
+
+    public static void setSelectedExam(ExecutedExam selectedExam) {
+        ViewExcExamDrawer.selectedExam = selectedExam;
+    }
+
+    public static  ExecutedExam selectedExam;
 
 
     @FXML
@@ -82,6 +91,9 @@ public class  ViewExcExamDrawer {
     private Text txtMedian;
 
     @FXML
+    Button Home_Button;
+
+    @FXML
     private Button updateBtn;
 
     @FXML
@@ -92,6 +104,8 @@ public class  ViewExcExamDrawer {
     @FXML
     void updateBtn(ActionEvent event) {
 
+        UpdateExamGrade(selectedExam);
+
     }
 
     @FXML
@@ -99,8 +113,21 @@ public class  ViewExcExamDrawer {
 
     }
 
+    @Subscribe
+    public  void ExcutedExamEventFunc(ExcutedExamEvent event)
+    {
+        executedExamList1= (event.getExecutedExamList());
+        if(executedExamList1!=null)
+        {
+            initTable();
+        }
+
+    }
+
     @FXML
     void initialize() throws IOException {
+
+        updateBtn.setDisable(true);
         error_bar.setText("");
         txtAverage.setText("");
         txtMedian.setText("");
@@ -110,15 +137,25 @@ public class  ViewExcExamDrawer {
         client = SimpleClient.getClient();
         client.openConnection();
 
-       executedExamList1=App.getExecutedExams();
-       examInfo=App.getExecutedExamInfo();
+        examInfo=TeacherExuctedInfoDrawer.getSelectedExecutedExam();
+        int id =examInfo.getId();
+        try
+        {
+            SimpleClient.getClient().sendToServer(new Message("#GetExcutedExams",id));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
-        String avg=examInfo.getAverage().toString();
-        String med=examInfo.getMedian().toString();
+       if(examInfo!=null)
+       {
+           String avg=examInfo.getAverage().toString();
+           String med=examInfo.getMedian().toString();
 
-        txtAverage.setText(avg);
-        txtMedian.setText(med);
+           txtAverage.setText(avg);
+           txtMedian.setText(med);
+       }
 
         TableInitFlag=false;
 
@@ -141,15 +178,19 @@ public class  ViewExcExamDrawer {
         exeExamTable.setItems(excutedExams);
         nameCol.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         gradeCol.setCellValueFactory(new PropertyValueFactory<>("grade"));
+
+
         if(!TableInitFlag){
-            //initApproveTableColumn();
+            initApproveTableColumn();
             initEditTableColumn();
             TableInitFlag=true;
         }
     }
 
 
-    private void initEditTableColumn() {
+    public  void initApproveTableColumn()
+
+    {
         TableColumn<ExecutedExam, Void> colBtn = new TableColumn("");
 
         Callback<TableColumn<ExecutedExam, Void>, TableCell<ExecutedExam, Void>> cellFactory = new Callback<TableColumn<ExecutedExam, Void>, TableCell<ExecutedExam, Void>>() {
@@ -157,13 +198,18 @@ public class  ViewExcExamDrawer {
             public TableCell<ExecutedExam, Void> call(final TableColumn<ExecutedExam, Void> param) {
                 final TableCell<ExecutedExam, Void> cell = new TableCell<ExecutedExam, Void>() {
 
-                    private final Button btn = new Button("Edit");
+                    private final Button btn = new Button("Approve");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            ExecutedExam edit_exam = getTableView().getItems().get(getIndex());
-                            String name=edit_exam.getStudent().getUserName();
-                            studentNameTxt.setText(name.toString());
-                            UpdateExamGrade(edit_exam);
+                            selectedExam = getTableView().getItems().get(getIndex());
+                            if(selectedExam!=null) {
+                                try {
+                                    SimpleClient.getClient().sendToServer(new Message("#ApproveExamGradeReq", selectedExam.getExamNum()));
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
                         });
                     }
 
@@ -184,19 +230,54 @@ public class  ViewExcExamDrawer {
         exeExamTable.getColumns().add(colBtn);
     }
 
-    @Subscribe
-    public  void ExcutedExamEventFunc(ExcutedExamEvent event)
-    {
-        executedExamList1= (event.getExecutedExamList());
-        examInfo =(event.getExamInfo());
+    private void initEditTableColumn() {
+        TableColumn<ExecutedExam, Void> colBtn = new TableColumn("");
+
+        Callback<TableColumn<ExecutedExam, Void>, TableCell<ExecutedExam, Void>> cellFactory = new Callback<TableColumn<ExecutedExam, Void>, TableCell<ExecutedExam, Void>>() {
+            @Override
+            public TableCell<ExecutedExam, Void> call(final TableColumn<ExecutedExam, Void> param) {
+                final TableCell<ExecutedExam, Void> cell = new TableCell<ExecutedExam, Void>() {
+
+                    private final Button btn = new Button("Edit");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            selectedExam = getTableView().getItems().get(getIndex());
+                            if(selectedExam!=null)
+                            {
+                                String name=selectedExam.getStudentName();
+                                studentNameTxt.setText(name.toString());
+                                updateBtn.setDisable(false);
+
+                            }
+
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        exeExamTable.getColumns().add(colBtn);
     }
 
-    void UpdateExamGrade(ExecutedExam exam)
+
+
+    public void UpdateExamGrade(ExecutedExam exam)
     {
         String newGradeSt=newGradeTxt.getText();
         double newGrade=Double.parseDouble(newGradeSt);
         String explanation=expTxt.getText();
-        Object[] obj={exam,newGrade,explanation};
+        Object[] obj={exam.getExamNum(),newGrade,explanation};
         try {
             SimpleClient.getClient().sendToServer(new Message("#UpdateGradeRequest",obj));
         } catch (IOException e) {
@@ -204,6 +285,31 @@ public class  ViewExcExamDrawer {
             e.printStackTrace();
         }
 
+    }
+
+    @Subscribe
+    public  void UpdateGradeEventFunc(UpdateGradeEvent event)
+    {
+        selectedExam= (event.getExecutedExam());
+        if(selectedExam!=null)
+        {
+            initTable();
+            String avg=examInfo.getAverage().toString();
+            String med=examInfo.getMedian().toString();
+
+            txtAverage.setText(avg);
+            txtMedian.setText(med);
+        }
+        error_bar.setText("Grade Updated Successfully");
+        updateBtn.setDisable(true);
+        studentNameTxt.setText("");
+
+
+    }
+
+    public void Home_Click(ActionEvent actionEvent) throws IOException {
+        EventBus.getDefault().unregister(this);
+        App.setRoot("teacherMain");
     }
 
 }
