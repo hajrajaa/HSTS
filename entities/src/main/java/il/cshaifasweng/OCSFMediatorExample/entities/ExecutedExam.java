@@ -20,6 +20,14 @@ public class ExecutedExam implements Serializable {
 
     private  String startime;
 
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
     private String studentName;
 
     private String endtime;
@@ -29,7 +37,15 @@ public class ExecutedExam implements Serializable {
     public Exam getExam() {
         return exam;
     }
- 
+
+    public boolean isMarked() {
+        return marked;
+    }
+
+    public void setMarked(boolean marked) {
+        this.marked = marked;
+    }
+
     private boolean marked;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -78,6 +94,7 @@ public class ExecutedExam implements Serializable {
         this.grade=grade;
         this.submitInTime=submitInTime;
         this.title = exam.getTitle();
+        this.marked=false;
     }
 
     public ExecutedExam(int examNum, Student student, String examDate, String startime, double grade, boolean submitInTime, Exam exam) {
@@ -96,12 +113,14 @@ public class ExecutedExam implements Serializable {
         this.grade=grade;
         this.submitInTime=submitInTime;
         this.title = exam.getTitle();
+        this.marked=false;
     }
 
     public ExecutedExam(ExecutedExam exam) {
         super();
         this.examNum = exam.getExamNum();
         this.title = exam.exam.getTitle();
+        this.studentName=exam.getStudentName();
 //        setStudent(exam.getStudent());
 //        setExam(exam.getExam());
         this.examDate=exam.getExamDate();

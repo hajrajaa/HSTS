@@ -13,6 +13,8 @@ public class ExecutedExamInfo implements Serializable {
         Virtual,Manual;
     }
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id ;
@@ -43,7 +45,7 @@ public class ExecutedExamInfo implements Serializable {
     @JoinColumn(name = "teacher_id")
     private Teacher executingTeacher;
   
-    public ExecutedExamInfo(int code, String password,String title, double average, double median,ExamType type) {
+    public ExecutedExamInfo(int code, String password,String title, double average, double median,ExamType type,Teacher teacher) {
         this.code = code;
         this.password = password;
         this.title=title;
@@ -53,6 +55,7 @@ public class ExecutedExamInfo implements Serializable {
         this.type=type;
         this.hist = new int[10];
         this.executedExamList = new ArrayList<ExecutedExam>();
+        setExecutingTeacher(teacher);
     }
 
     public ExecutedExamInfo(int code, String password,String title, double average, double median,ExamType type,int[] hist) {
@@ -69,6 +72,7 @@ public class ExecutedExamInfo implements Serializable {
 
     public ExecutedExamInfo(ExecutedExamInfo exam)
     {
+        this.id=exam.getId();
         this.code = exam.getCode();
         this.password = exam.getPassword();
         this.title = exam.getTitle();
@@ -157,6 +161,14 @@ public class ExecutedExamInfo implements Serializable {
 
     public List<ExecutedExam> getExecutedExamList() {
         return executedExamList;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setExecutedExamList(List<ExecutedExam> executedExamList) {

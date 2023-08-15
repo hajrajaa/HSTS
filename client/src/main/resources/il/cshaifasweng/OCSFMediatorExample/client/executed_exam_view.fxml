@@ -4,6 +4,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
@@ -87,5 +89,15 @@
          </font>
       </Text>
       <TextField fx:id="expTxt" layoutX="536.0" layoutY="455.0" onAction="#expTxt" prefHeight="73.0" prefWidth="391.0" />
+      <Button fx:id="Home_Button" layoutX="929.0" layoutY="30.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="926.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/home_lblue.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

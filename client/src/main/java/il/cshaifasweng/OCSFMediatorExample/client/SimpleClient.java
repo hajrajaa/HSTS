@@ -254,26 +254,54 @@ public class SimpleClient extends AbstractClient {
 	}
 		else if(messageSt.equals("#GetExcutedExamRes"))
 		{
-			Object[] obj = (Object[]) message.getObject1();
+			List<ExecutedExam> allExcutedExams = (List<ExecutedExam>) message.getObject1();
 
-			List<ExecutedExam> executedExamList=(List<ExecutedExam>)obj[0];
-			ExecutedExamInfo examInfo=(ExecutedExamInfo) obj[1];
+			ExcutedExamEvent  newEvent=new ExcutedExamEvent(allExcutedExams);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if(messageSt.equals("#GeWrittenExamRes"))
+		{
+			List<ExecutedExam> allWrittenExams = (List<ExecutedExam>) message.getObject1();
 
-			ExcutedExamEvent newEvent=new ExcutedExamEvent(executedExamList,examInfo);
+			WrittenExamEvent  newEvent=new WrittenExamEvent(allWrittenExams);
 			Platform.runLater(()->{
 						EventBus.getDefault().post(newEvent);
 					}
 			);
 
 		}
-		else if (messageSt.equals("#UpdateGradeSuccessfully"))
-		{
 
-		}
 		else if (messageSt.equals("#UpdateGradeWarning"))
 		{
 			Platform.runLater(()->{
 						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+		else if(messageSt.equals("#ApproveGradeWarning"))
+		{
+			Platform.runLater(()->{
+						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+		else if(messageSt.equals(("#GradeApprovedSuccessfully")))
+		{
+			Platform.runLater(()->{
+						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
+
+		else if (messageSt.equals("#UpdateGradeSuccessfully"))
+		{
+			ExecutedExam executedExam=(ExecutedExam) message.getObject1();
+			UpdateGradeEvent newEvent =new UpdateGradeEvent(executedExam);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
 					}
 			);
 		}

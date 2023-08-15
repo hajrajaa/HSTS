@@ -41,8 +41,6 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(ExecutedExamInfo.class);
 		configuration.addAnnotatedClass(ExamQuestion.class);
 		configuration.addAnnotatedClass(Question.class);
-//		configuration.addAnnotatedClass(xxxxxxxx.class);
-//		configuration.addAnnotatedClass(yyyyyyyyyy.class);
 		configuration.addAnnotatedClass(ExecutedManual.class);
 		configuration.addAnnotatedClass(ExecutedVirtual.class);
 		configuration.addAnnotatedClass(Message.class);
@@ -338,7 +336,6 @@ public class SimpleServer extends AbstractServer {
 			newStudent1.addExam1(ex1);
 			session.merge(newStudent1);
 			session.flush();
-
 			int[] hist1 = {1,2,0,4,2,1,2,4,5,2,2};
 
 			int[] hist2 = {2,1,2,1,2,4,1,3,3,6,2};
@@ -357,6 +354,11 @@ public class SimpleServer extends AbstractServer {
 
 			newTeacherX.addExecutedExamInfo(moeda);
 			session.merge(newTeacherX);
+
+			ExecutedExamInfo moeda = new ExecutedExamInfo(1122,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
+			moeda.addExecutedExam(ex1);
+			session.save(moeda);
+			session.flush();
 
 			newTeacherX.addExecutedExamInfo(moedb);
 			session.merge(newTeacherX);
@@ -481,53 +483,8 @@ public class SimpleServer extends AbstractServer {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-		} else if (msgString.equals("#SolveExam")) {
-//			try {
-//				session.beginTransaction();
-//				String examCode = (String) message.getObject1();
-//				if (!validExamCode(examCode)) {
-//					// invalid exam code
-//					Warning warning = new Warning("Invalid Exam Code");
-//					client.sendToClient(new Message("#SolveExamWarning", warning));
-//				} else {
-//					int Ncode = Integer.valueOf(examCode);
-//					//Exam exam = session.find(Exam.class, Ncode);
-//					xxxxxxxx vExam = session.find(xxxxxxxx.class, Ncode);
-//					//vExam.myPrint();
-//					//System.out.println("vode"+vExam.getCodeExam());
-//					//String examType = exam.getType();
-//
-//					if (vExam == null) {
-//						// there is no exam that have this code
-//						Warning warning = new Warning("Exam Code Dose Not Exist");
-//						client.sendToClient(new Message("#SolveExamWarning", warning));
-//					}
-//					// manual exam add
-//					//else if(!(exam instanceof VirtualExam))
-//					//	{
-//
-//					//Warning warning = new Warning("Manual Exam Code");
-//					//client.sendToClient(new Message("#SolveExamWarning", warning));
-//
-//
-//					//}
-//
-//					else {
-//						System.out.println("BBBBBB");
-//						vExam.myPrint();
-//						//VirtualExam virtualExam=(VirtualExam)exam;
-//						//VirtualExam ee = new VirtualExam();
-//						//VirtualExam ww = new VirtualExam(vExam);
-//
-//						client.sendToClient(new Message("#SolveExamResponse",(xxxxxxxx) vExam));
-//					}
-//				}
-//				session.getTransaction().commit();
-//			} catch (Exception e1) {
-//				e1.printStackTrace();
-//			}
-
-		} else if (msgString.equals("#GetExamCopy")) {
+		}
+		 else if (msgString.equals("#GetExamCopy")) {
 			try {
 				session.beginTransaction();
 				Question newQues = (Question) message.getObject1();
@@ -856,6 +813,7 @@ public class SimpleServer extends AbstractServer {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+			session.getTransaction().commit();
 		}
 
 		else if(msgString.equals("#GetTeacherAllExams"))
@@ -885,6 +843,7 @@ public class SimpleServer extends AbstractServer {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+					session.getTransaction().commit();
 				}
 		}
 		else if (msgString.equals("#GetAllExcutedExam"))
@@ -907,25 +866,55 @@ public class SimpleServer extends AbstractServer {
 		else if (msgString.equals("#GetExcutedExams"))
 		{
 			session.beginTransaction();
-			ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
-			List<ExecutedExam> executedExams=newExecExam.getExecutedExamList();
-			Object[] obj ={newExecExam,executedExams};
+			int currId=(int)message.getObject1();
+			ExecutedExamInfo realInfo = session.find(ExecutedExamInfo.class, currId);
+			List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
+			ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
+			for(ExecutedExam ex:executedExams)
+			{
+				copyexecutedExams.add(new ExecutedExam(ex));
+			}
+
 			try {
-				client.sendToClient(new Message("#GetExcutedExamRes", obj));
+				client.sendToClient(new Message("#GetExcutedExamRes", copyexecutedExams));
+				session.getTransaction().commit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
 		}
+		else if (msgString.equals(("#GetWrittenExams")))
+		{
+			session.beginTransaction();
+			int currId=(int)message.getObject1();
+			System.out.println(currId);
+			ExecutedExamInfo realInfo = session.find(ExecutedExamInfo.class, currId);
+			System.out.println(realInfo);
+			System.out.println(realInfo.getCode());
+
+			List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
+			ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
+			for(ExecutedExam ex:executedExams)
+			{
+				copyexecutedExams.add(new ExecutedExam(ex));
+			}
+
+			try {
+				client.sendToClient(new Message("#GeWrittenExamRes", copyexecutedExams));
+				session.getTransaction().commit();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		else if(msgString.equals("#UpdateGradeRequest"))
 		{
 			Object[] obj = (Object[]) message.getObject1();
-			ExecutedExam executedExam=(ExecutedExam) obj[0];
+			int id =(int)obj[0];
 			double newGrade=(double) obj[1];
 			String explanation=(String) obj[2];
+			ExecutedExam currExam = session.find(ExecutedExam.class, id);
 			try {
 				session.beginTransaction();
-
 				if (!isGrade(newGrade)) {
 					Warning warning = new Warning("Invalid Grade");
 					client.sendToClient(new Message("#UpdateGradeWarning", warning));
@@ -933,9 +922,10 @@ public class SimpleServer extends AbstractServer {
 					Warning warning = new Warning("Please Enter An Explanation");
 					client.sendToClient(new Message("#UpdateGradeWarning", warning));
 				} else {
-					executedExam.setGrade(newGrade);
-//					client.sendToClient(new Message("#UpdateGradeSuccessfully", copyExcutedExam(executedExam)));
-					session.update(executedExam);
+					currExam.setGrade(newGrade);
+					ExecutedExam copyExam=new ExecutedExam(currExam);
+					client.sendToClient(new Message("#UpdateGradeSuccessfully", copyExam));
+					session.update(currExam);
 					session.flush();
 
 				}
@@ -944,6 +934,41 @@ public class SimpleServer extends AbstractServer {
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
+
+		}
+		else if (msgString.equals("#ApproveExamGradeReq"))
+		{
+
+			int currId=(int)message.getObject1();
+			try
+			{
+				session.beginTransaction();
+				ExecutedExam currExam = session.find(ExecutedExam.class, currId);
+				if(currExam!=null)
+				{
+					if(!currExam.isMarked())
+					{
+						currExam.setMarked(true);
+						Warning warning = new Warning("Grade approved Successfully");
+						client.sendToClient(new Message("#GradeApprovedSuccessfully", warning));
+						session.update(currExam);
+						session.flush();
+					}
+					else
+					{
+						Warning warning = new Warning("Grade is already approved");
+						client.sendToClient(new Message("#ApproveGradeWarning", warning));
+					}
+
+				}
+			}
+			catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			session.getTransaction().commit();
+
+
+
 
 		}
 
@@ -1161,6 +1186,7 @@ public class SimpleServer extends AbstractServer {
 		ArrayList<ExecutedExamInfo> res = new ArrayList<>();
 		for(ExecutedExamInfo ei : list){
 			if(ei.getCode() == code){
+				System.out.println(ei.getCode());
 				res.add(new ExecutedExamInfo(ei));
 			}
 		}
