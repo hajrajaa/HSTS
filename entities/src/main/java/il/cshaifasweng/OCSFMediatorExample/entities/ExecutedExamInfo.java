@@ -24,7 +24,6 @@ public class ExecutedExamInfo implements Serializable {
     private double median;
     private ExamType type;
 
-    private ExamType type;
 
     private int[] hist;
 

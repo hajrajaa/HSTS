@@ -585,8 +585,6 @@ public class SimpleServer extends AbstractServer {
 
 			Teacher user = session.find(Teacher.class, userName);
 
-			List<Teacher> teachers = getAllObjects(Teacher.class);
-
 			ArrayList<ExecutedExamInfo> exams_list = new ArrayList<ExecutedExamInfo>();
 			ArrayList<ExecutedExamInfo> list= new ArrayList<>(user.getExecutedExamsInfo());
 
@@ -636,10 +634,7 @@ public class SimpleServer extends AbstractServer {
 			for (ExecutedExam e : list){
 				exams_list.add(new ExecutedExam(e));
 			}
-			else if(user.getMyExams()!=null)
-			{
-				System.out.println(user.getMyExams().get(0).getStudent().getUserName());
-			}
+
 			try {
 				client.sendToClient(new Message("#ShowStudentExecutedExams", exams_list));
 				session.getTransaction().commit();
