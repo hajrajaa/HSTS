@@ -72,7 +72,7 @@ public class PrincipleTeacherExamMenu {
             teacherExamInfo = App.getTeacherExecutedExamInfo();
             if (teacherExamInfo == null) {
                 System.out.println("Student list is not available!");
-                return; // Abort initialization if the list is not available
+                //return; // Abort initialization if the list is not available
             }
         }
 

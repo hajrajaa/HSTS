@@ -41,9 +41,6 @@ public class Teacher extends User implements Serializable {
        //this.courseID = new ArrayList<String>();
     }
 
-    public List<ExecutedExamInfo> getExecutedExamsInfo() {
-        return executedExamsInfo;
-    }
 
     public Teacher() {}
 
