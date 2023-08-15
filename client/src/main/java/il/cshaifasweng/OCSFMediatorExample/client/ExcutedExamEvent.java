@@ -11,12 +11,9 @@ public class ExcutedExamEvent {
     List<ExecutedExam> executedExamList;
 
 
-    ExecutedExamInfo examInfo;
 
-
-    public ExcutedExamEvent(List<ExecutedExam> executedExamList,ExecutedExamInfo examInfo) {
+    public ExcutedExamEvent(List<ExecutedExam> executedExamList) {
         this.executedExamList = executedExamList;
-        this.examInfo=examInfo;
     }
 
 
@@ -28,13 +25,6 @@ public class ExcutedExamEvent {
         this.executedExamList = executedExamList;
     }
 
-    public ExecutedExamInfo getExamInfo() {
-        return examInfo;
-    }
-
-    public void setExamInfo(ExecutedExamInfo examInfo) {
-        this.examInfo = examInfo;
-    }
 
 
 

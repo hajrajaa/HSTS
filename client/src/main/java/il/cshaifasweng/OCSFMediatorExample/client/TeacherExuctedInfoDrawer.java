@@ -30,6 +30,27 @@ public class TeacherExuctedInfoDrawer {
 
     public  static List<ExecutedExamInfo> writtenListExamsInfo;
 
+
+    public static ExecutedExamInfo getSelectedWrittenExam() {
+        return selectedWrittenExam;
+    }
+
+    public static void setSelectedWrittenExam(ExecutedExamInfo selectedWrittenExam) {
+        TeacherExuctedInfoDrawer.selectedWrittenExam = selectedWrittenExam;
+    }
+
+    public static ExecutedExamInfo selectedWrittenExam;
+
+    public static ExecutedExamInfo getSelectedExecutedExam() {
+        return selectedExecutedExam;
+    }
+
+    public static void setSelectedExecutedExam(ExecutedExamInfo selectedExecutedExam) {
+        TeacherExuctedInfoDrawer.selectedExecutedExam = selectedExecutedExam;
+    }
+
+    public static ExecutedExamInfo selectedExecutedExam;
+
     boolean writtenTableInitFlag;
 
     boolean excutedTableInitFlag;
@@ -48,13 +69,19 @@ public class TeacherExuctedInfoDrawer {
     private TableColumn<ExecutedExamInfo, String> CodeExcCol;
 
     @FXML
-    private Text error_bar_text;
+    private Text executed_error_bar;
+
+    @FXML
+    private Text written_error_bar;
 
     @FXML
     private TableView ExecutedExamTable;
 
     @FXML
     private TableView WrittenExamsTable;
+
+    @FXML
+    Button Home_Button;
 
     @FXML
     private TableColumn<ExecutedExamInfo, String> codeCol;
@@ -75,7 +102,8 @@ public class TeacherExuctedInfoDrawer {
         client = SimpleClient.getClient();
         client.openConnection();
 
-        error_bar_text.setText("");
+        executed_error_bar.setText("");
+        written_error_bar.setText("");
 
         writtenTableInitFlag=false;
         excutedTableInitFlag=false;
@@ -103,19 +131,19 @@ public class TeacherExuctedInfoDrawer {
         executedExamsInfoList=event.getExecutedExamInfoList();
         if(writtenListExamsInfo==null)
         {
-            error_bar_text.setText("No Written Exam Found");
+            written_error_bar.setText("No Written Exam Found");
         }
         if(writtenListExamsInfo.size() == 0)
         {
-            error_bar_text.setText("No Written Exam Found");
+            written_error_bar.setText("No Written Exam Found");
         }
         if(executedExamsInfoList==null)
         {
-            error_bar_text.setText("No Executed Exam Found");
+            executed_error_bar.setText("No Executed Exam Found");
         }
         if(executedExamsInfoList.size() == 0)
         {
-            error_bar_text.setText("No Executed Exam Found");
+            executed_error_bar.setText("No Executed Exam Found");
         }
         initWrittenExamTable();
         initExcutedExamTable();
@@ -123,16 +151,14 @@ public class TeacherExuctedInfoDrawer {
 
     private void initWrittenExamTable ()
     {
-        System.out.println(writtenListExamsInfo.size() + " +++++++");
         ObservableList<ExecutedExamInfo> allWrittenExam = FXCollections.observableArrayList(writtenListExamsInfo);
         WrittenExamsTable.setItems(allWrittenExam);
 
         codeCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
-
         writtenFlag=true;
         if(!writtenTableInitFlag){
-            initViewTableColumn();
+            initViewTableColumnWritten();
             writtenTableInitFlag=true;
         }
 
@@ -140,21 +166,27 @@ public class TeacherExuctedInfoDrawer {
 
     private void initExcutedExamTable ()
     {
-        System.out.println(executedExamsInfoList.size() + " 2+++++++");
         ObservableList<ExecutedExamInfo> allExcutedExams = FXCollections.observableArrayList(executedExamsInfoList);
+        for(int i=0;i<allExcutedExams.size();i++)
+        {
+           System.out.println( allExcutedExams.get(i).getId());
+        }
         ExecutedExamTable.setItems(allExcutedExams);
         CodeExcCol.setCellValueFactory(new PropertyValueFactory<>("code"));
         passExcCol.setCellValueFactory(new PropertyValueFactory<>("password"));
         titleExcCol.setCellValueFactory(new PropertyValueFactory<>("title"));
         writtenFlag=false;
         if(!excutedTableInitFlag){
-            initViewTableColumn();
+           initViewTableColumnExc();
            excutedTableInitFlag=true;
         }
 
     }
 
-    private void initViewTableColumn() {
+
+
+    private void initViewTableColumnWritten()
+    {
         TableColumn<ExecutedExamInfo, Void> colBtn = new TableColumn("");
 
         Callback<TableColumn<ExecutedExamInfo, Void>, TableCell<ExecutedExamInfo, Void>> cellFactory = new Callback<TableColumn<ExecutedExamInfo, Void>, TableCell<ExecutedExamInfo, Void>>() {
@@ -165,19 +197,54 @@ public class TeacherExuctedInfoDrawer {
                     private final Button btn = new Button("view");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            ExecutedExamInfo view_exam = getTableView().getItems().get(getIndex());
-                            try {
-                                if(writtenFlag)
-                                {
+                            selectedWrittenExam = getTableView().getItems().get(getIndex());
+                            if(selectedWrittenExam!=null)
+                            {
+                                try {
                                     App.setRoot("written_exams_view");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
 
-                                }
-                                else {
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        WrittenExamsTable.getColumns().add(colBtn);
+    }
+    private void initViewTableColumnExc() {
+        TableColumn<ExecutedExamInfo, Void> colBtn = new TableColumn("");
+
+        Callback<TableColumn<ExecutedExamInfo, Void>, TableCell<ExecutedExamInfo, Void>> cellFactory = new Callback<TableColumn<ExecutedExamInfo, Void>, TableCell<ExecutedExamInfo, Void>>() {
+            @Override
+            public TableCell<ExecutedExamInfo, Void> call(final TableColumn<ExecutedExamInfo, Void> param) {
+                final TableCell<ExecutedExamInfo, Void> cell = new TableCell<ExecutedExamInfo, Void>() {
+
+                    private final Button btn = new Button("view");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            selectedExecutedExam = getTableView().getItems().get(getIndex());
+                            if(selectedExecutedExam!=null)
+                            {
+                                try {
                                     App.setRoot("executed_exam_view");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
                                 }
-                                SimpleClient.getClient().sendToServer(new Message("#GetExcutedExams",view_exam));
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
                             }
                         });
                     }
@@ -196,13 +263,13 @@ public class TeacherExuctedInfoDrawer {
             }
         };
         colBtn.setCellFactory(cellFactory);
-        if(writtenFlag)
-        {
-            WrittenExamsTable.getColumns().add(colBtn);
-        }
-        else {
-            ExecutedExamTable.getColumns().add(colBtn);
-        }
+        ExecutedExamTable.getColumns().add(colBtn);
+    }
+
+    public void Home_Click(ActionEvent actionEvent) throws IOException {
+
+        EventBus.getDefault().unregister(this);
+        App.setRoot("teacherMain");
     }
 
 }
