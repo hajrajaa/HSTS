@@ -269,7 +269,7 @@ public class ExamsDrawerController
             public TableCell<Exam, Void> call(final TableColumn<Exam, Void> param) {
                 final TableCell<Exam, Void> cell = new TableCell<Exam, Void>() {
 
-                    private final Button btn = new Button("Execute");
+                    private final Button btn = new Button("Draw");
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Exam exe_exam = getTableView().getItems().get(getIndex());
@@ -277,7 +277,7 @@ public class ExamsDrawerController
                             try {
 //                                client.closeConnection();
 //                                EventBus.getDefault().unregister(this);
-                                App.setRoot("execute_exam");
+                                App.setRoot("exam_drawer");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -377,7 +377,7 @@ public class ExamsDrawerController
     }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
-        client.closeConnection();
+
         EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }

@@ -97,7 +97,7 @@ public class ExecutedExam implements Serializable {
         this.marked=false;
     }
 
-    public ExecutedExam(int examNum, Student student, String examDate, String startime, double grade, boolean submitInTime, Exam exam) {
+    public ExecutedExam(int examNum, Student student, String examDate, String startime, double grade, boolean submitInTime, Exam exam,boolean marked) {
         super();
         this.examNum = examNum;
         setStudent(student);
@@ -113,7 +113,7 @@ public class ExecutedExam implements Serializable {
         this.grade=grade;
         this.submitInTime=submitInTime;
         this.title = exam.getTitle();
-        this.marked=false;
+        this.marked=marked;
     }
 
     public ExecutedExam(ExecutedExam exam) {
@@ -128,7 +128,7 @@ public class ExecutedExam implements Serializable {
         this.endtime= this.startime+exam.getExam().getTime();
         this.grade=exam.getGrade();
         this.submitInTime=exam.isSubmitInTime();
-        this.marked = false;
+        this.marked = exam.isMarked();
     }
 
     public int getInfoID() { return infoID; }

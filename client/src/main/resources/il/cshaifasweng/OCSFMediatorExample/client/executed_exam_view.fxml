@@ -46,58 +46,62 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="262.0" layoutX="523.0" layoutY="324.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #e28743;" width="416.0" />
-      <Text fill="#abdbe3" layoutX="528.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Grade">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text layoutX="540.0" layoutY="398.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Grade:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <TextField fx:id="newGradeTxt" layoutX="640.0" layoutY="378.0" onAction="#newGradeTxt" />
-      <Text layoutX="536.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Button fx:id="updateBtn" layoutX="835.0" layoutY="537.0" mnemonicParsing="false" onAction="#updateBtn" prefHeight="32.0" prefWidth="89.0" style="-fx-background-color: #abdbe3;" text="Update">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <Text fx:id="error_bar" layoutX="544.0" layoutY="553.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" wrappingWidth="270.1572265625">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
       <Text fill="#abdbe3" layoutX="521.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistic ">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text layoutX="540.0" layoutY="359.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name: ">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text fx:id="studentNameTxt" layoutX="669.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <TextField fx:id="expTxt" layoutX="536.0" layoutY="455.0" onAction="#expTxt" prefHeight="73.0" prefWidth="391.0" />
-      <Button fx:id="Home_Button" layoutX="929.0" layoutY="30.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="926.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane fx:id="editgradePane" layoutX="500.0" layoutY="241.0" prefHeight="339.0" prefWidth="433.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="262.0" layoutX="9.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #e28743;" width="416.0" />
+            <Text layoutX="21.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name: ">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text fx:id="studentNameTxt" layoutX="156.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="15.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Grade:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <TextField fx:id="newGradeTxt" layoutX="115.0" layoutY="80.0" onAction="#newGradeTxt" />
+            <Text layoutX="13.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <TextField fx:id="expTxt" layoutX="13.0" layoutY="150.0" onAction="#expTxt" prefHeight="73.0" prefWidth="391.0" />
+            <Button fx:id="updateBtn" layoutX="302.0" layoutY="244.0" mnemonicParsing="false" onAction="#updateBtn" prefHeight="32.0" prefWidth="89.0" style="-fx-background-color: #abdbe3;" text="Update">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Text fx:id="error_bar" layoutX="21.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" wrappingWidth="270.1572265625">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text fill="#abdbe3" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Grade">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="916.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/home_lblue.png" />
          </image>
       </ImageView>
+      <Button fx:id="Home_Button" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

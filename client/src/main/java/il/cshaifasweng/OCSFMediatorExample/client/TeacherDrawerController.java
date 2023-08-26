@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.ExecutedExamInfo;
-import il.cshaifasweng.OCSFMediatorExample.client.ExamsDrawerController;
 import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import il.cshaifasweng.OCSFMediatorExample.entities.Teacher;
 import javafx.event.ActionEvent;
@@ -17,7 +16,7 @@ import javafx.scene.text.Text;
 import org.greenrobot.eventbus.EventBus;
 
 
-public class TeacherExcuteController {
+public class TeacherDrawerController {
 
 
     public int getExamCode1() {
@@ -48,10 +47,10 @@ public class TeacherExcuteController {
     private TextField execCodeTxt;
 
     @FXML
-    private Button executeBtn;
+    private Button drawBtn;
 
     @FXML
-    private Button homeBtn;
+    private Button Home_Button;
 
     @FXML
     private RadioButton manualTypeBtn;
@@ -60,14 +59,13 @@ public class TeacherExcuteController {
     private RadioButton virtualTypeBtn;
 
     @FXML
-    void homeBtn(ActionEvent event) throws IOException {
-
+    void Home_Click(ActionEvent event) throws IOException {
         App.setRoot("teacherMain");
 
     }
 
     @FXML
-    void executeBtn(ActionEvent event) {
+    void drawBtn(ActionEvent event) {
 
         error_bar_text.setText("");
 
@@ -90,14 +88,12 @@ public class TeacherExcuteController {
             {
                 selectedType= ExecutedExamInfo.ExamType.Virtual;
             }
-//            ExecutedExamInfo exeExam= new ExecutedExamInfo(ExamsDrawerController.getExecutedExamCode(),ExecPassword,selectedType);
             ExecutedExamInfo exeExam= new ExecutedExamInfo(ExamsDrawerController.getExecutedExamCode(),ExecPassword,selectedType,"",(Teacher) App.getUser());
             System.out.println(exeExam.getCode());
             System.out.println(ExamsDrawerController.getExecutedExamCode());
 
             try {
-//                SimpleClient.getClient().sendToServer(new Message("#GetAllSubjectsNames"));
-                SimpleClient.getClient().sendToServer(new Message("#ExecuteExamRequest", exeExam));
+                SimpleClient.getClient().sendToServer(new Message("#drawExamRequest", exeExam));
             } catch (IOException e)
             {
                 e.printStackTrace();
@@ -124,20 +120,8 @@ public class TeacherExcuteController {
     @FXML
     void initialize() {
 
+
         error_bar_text.setText("");
-
-//        setExamCode1(ExamsDrawerController.getExecutedExamCode());
-//
-//        System.out.println(ExamsDrawerController.getExecutedExamCode());
-
-        assert coursesBox != null : "fx:id=\"coursesBox\" was not injected: check your FXML file 'execute_exam.fxml'.";
-        assert error_bar_text != null : "fx:id=\"error_bar_text\" was not injected: check your FXML file 'execute_exam.fxml'.";
-        assert execCodeTxt != null : "fx:id=\"execCodeTxt\" was not injected: check your FXML file 'execute_exam.fxml'.";
-        assert executeBtn != null : "fx:id=\"executeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
-        assert manualTypeBtn != null : "fx:id=\"manualTypeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
-        assert homeBtn != null : "fx:id=\"homeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
-        assert virtualTypeBtn != null : "fx:id=\"virtualTypeBtn\" was not injected: check your FXML file 'execute_exam.fxml'.";
-
         manualTypeBtn.setToggleGroup(radioGroup);
         virtualTypeBtn.setToggleGroup(radioGroup);
 

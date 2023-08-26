@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
@@ -64,6 +65,9 @@ public class  ViewExcExamDrawer {
     private URL location;
 
     @FXML
+    private AnchorPane editgradePane;
+
+    @FXML
     private Text error_bar;
 
     @FXML
@@ -90,8 +94,8 @@ public class  ViewExcExamDrawer {
     @FXML
     private Text txtMedian;
 
-    @FXML
-    Button Home_Button;
+//    @FXML
+//    private Button Home_Click;
 
     @FXML
     private Button updateBtn;
@@ -105,6 +109,7 @@ public class  ViewExcExamDrawer {
     void updateBtn(ActionEvent event) {
 
         UpdateExamGrade(selectedExam);
+        exeExamTable.refresh();
 
     }
 
@@ -127,7 +132,8 @@ public class  ViewExcExamDrawer {
     @FXML
     void initialize() throws IOException {
 
-        updateBtn.setDisable(true);
+        //updateBtn.setDisable(true);
+        editgradePane.setDisable(true);
         error_bar.setText("");
         txtAverage.setText("");
         txtMedian.setText("");
@@ -181,6 +187,7 @@ public class  ViewExcExamDrawer {
 
 
         if(!TableInitFlag){
+
             initApproveTableColumn();
             initEditTableColumn();
             TableInitFlag=true;
@@ -200,6 +207,7 @@ public class  ViewExcExamDrawer {
 
                     private final Button btn = new Button("Approve");
                     {
+
                         btn.setOnAction((ActionEvent event) -> {
                             selectedExam = getTableView().getItems().get(getIndex());
                             if(selectedExam!=null) {
@@ -219,6 +227,15 @@ public class  ViewExcExamDrawer {
                         if (empty) {
                             setGraphic(null);
                         } else {
+
+                            ExecutedExam exam = getTableView().getItems().get(getIndex());
+                            if(exam.isMarked())
+                            {
+                                btn.setStyle("-fx-background-color: green;");
+                            }
+                            else {
+                                btn.setStyle(null); // Reset style to default
+                            }
                             setGraphic(btn);
                         }
                     }
@@ -246,7 +263,8 @@ public class  ViewExcExamDrawer {
                             {
                                 String name=selectedExam.getStudentName();
                                 studentNameTxt.setText(name.toString());
-                                updateBtn.setDisable(false);
+                                //updateBtn.setDisable(false);
+                                editgradePane.setDisable(false);
 
                             }
 
@@ -284,28 +302,33 @@ public class  ViewExcExamDrawer {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     @Subscribe
-    public  void UpdateGradeEventFunc(UpdateGradeEvent event)
-    {
-        selectedExam= (event.getExecutedExam());
-        if(selectedExam!=null)
-        {
-            initTable();
-            String avg=examInfo.getAverage().toString();
-            String med=examInfo.getMedian().toString();
+    public  void UpdateGradeEventFunc(UpdateGradeEvent event) {
 
-            txtAverage.setText(avg);
-            txtMedian.setText(med);
+        selectedExam = (event.getExecutedExam());
+        exeExamTable.refresh();
+
+        if (selectedExam != null) {
+                //initTable();
+                String avg = examInfo.getAverage().toString();
+                String med = examInfo.getMedian().toString();
+
+                txtAverage.setText(avg);
+                txtMedian.setText(med);
+            }
+            error_bar.setText("Grade Updated Successfully");
+            // updateBtn.setDisable(true);
+            editgradePane.setDisable(true);
+            studentNameTxt.setText("");
+            expTxt.clear();
+            newGradeTxt.clear();
+            exeExamTable.refresh();
+
+
         }
-        error_bar.setText("Grade Updated Successfully");
-        updateBtn.setDisable(true);
-        studentNameTxt.setText("");
 
-
-    }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
         EventBus.getDefault().unregister(this);

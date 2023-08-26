@@ -6,6 +6,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import il.cshaifasweng.OCSFMediatorExample.client.ocsf.AbstractClient;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,7 @@ public class SimpleClient extends AbstractClient {
 	}
 
 	@Override
-	protected void handleMessageFromServer(Object msg)
-	{
+	protected void handleMessageFromServer(Object msg) throws IOException {
 		Message message = (Message) msg;
 		String messageSt = message.getMessage();
 		System.out.println("message: "+messageSt);
@@ -313,6 +313,10 @@ public class SimpleClient extends AbstractClient {
 
 			EventGetTeacherAllExams newEvent= new EventGetTeacherAllExams(writtenExamsInfoList,executedExamInfoList);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
+		else if(messageSt.equals(("#drawExamRes")))
+		{
+			App.setRoot("exams_drawer");
 		}
 
 	}
