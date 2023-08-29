@@ -183,25 +183,34 @@ public class ExamsDrawerController
     @Subscribe
     public void GetAllCoursesBySubject_Replay(EventGetAllCoursesBySubject event)
     {
+        System.out.println("cc1");
         ArrayList<String> allNames = new ArrayList<>(event.getAllCoursesNames());
+        System.out.println("cc2");
         ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
+        System.out.println("cc3");
         Course_ComboBox.setDisable(false);
+        System.out.println("cc4");
         Course_ComboBox.setItems(basesList);
+        System.out.println("cc5");
         error_bar_text.setText("All Courses Loaded");
     }
 
     @Subscribe
     public void GetAllExamsByCourse_Replay(EventGetAllExamsByCourse event)
     {
+        System.out.println("e1");
         allExams = event.getAllExams();
+        System.out.println("e2");
         if(allExams == null) {
             error_bar_text.setText("No Exams Found");
         } else if(allExams.size() == 0){
             error_bar_text.setText("No Exams Found");
         }
+        System.out.println("e3");
 //        else {
             initTable();
 //        }
+        System.out.println("e4");
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////

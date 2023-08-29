@@ -77,6 +77,15 @@ public class ExamQuestion implements Serializable{
 //        this.exam=examQuestion.getExam();
     }
 
+//    public ExamQuestion(ExamQuestion examQuestion, Question question) {
+//        this.question=question;
+//        question.addExamQuestion(this);
+//        this.questionMll = this.question.getQuestion();
+//        this.points = examQuestion.getPoints();
+//        this.teacher_note = examQuestion.getTeacher_note();
+//        this.student_note = examQuestion.getStudent_note();
+//    }
+
     public ExamQuestion() {}
 
 //    public int getId() {
@@ -110,8 +119,6 @@ public class ExamQuestion implements Serializable{
     public void setExam (Exam e){
         this.exam = e;
     }
-
-
 
     public Exam getExam() {
         return exam;

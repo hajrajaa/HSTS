@@ -61,6 +61,23 @@ public class Exam implements Serializable
         teacher.getExams().add(this);
     }
 
+    public Exam(SimpleExam simpleExam, Teacher teacher, Course course)
+    {
+        super();
+        this.title = simpleExam.getTitle();
+        this.codeExam = generateExamCode(simpleExam.getCodeExam(), course);
+        this.time = simpleExam.getTime();
+        this.descForStudent = simpleExam.getDescForStudent();
+        this.descForTeacher = simpleExam.getDescForTeacher();
+
+        this.coursesList = new ArrayList<>();
+        this.coursesList.add(course);
+        course.getExamsList().add(this);
+
+        this.teacher = teacher;
+        teacher.getExams().add(this);
+    }
+
     public Exam(Exam exam)
     {
         super();
@@ -70,10 +87,14 @@ public class Exam implements Serializable
         this.descForStudent = exam.getDescForStudent();
         this.descForTeacher = exam.getDescForTeacher();
 
-        this.examQuestion = new ArrayList<>();
-        for (ExamQuestion eq : exam.getExamQuestion()){
-            this.examQuestion.add(new ExamQuestion(eq));
+        if(exam.getExamQuestion() != null)
+        {
+            this.examQuestion = new ArrayList<>();
+            for (ExamQuestion eq : exam.getExamQuestion()){
+                this.examQuestion.add(new ExamQuestion(eq));
+            }
         }
+
 //        this.coursesList = new ArrayList<>();
 //
 //        this.teacher = exam.getTeacher();

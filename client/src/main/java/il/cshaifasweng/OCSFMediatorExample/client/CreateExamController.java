@@ -26,21 +26,14 @@ public class CreateExamController
     ///////////////////////////////////////// Class Fields ///////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
     public SimpleClient client;
-    static int numOfQuestions=0;
     private boolean selectQuestionFlag, removeColumnFlag;
-//    private List<ExamQuestion> questionsList;
-
-    private List<Subject> allSubjects;
-    private Subject selectedSubject;
-
+    private String selectedCourseName;
     @FXML
     private TextField Teacher_Note_TextField, Student_Note_TextField, Points_TextField;
     @FXML
     private TextField Title_TextField, Code_TextField, Time_TextField, Teacher_Desc_TextField, Student_Desc_TextField;
     @FXML
     private Text error_bar_text, question_text;
-    @FXML
-    private VBox Vbox;
     private Question currentQuestion;
     private ArrayList<Question> allQuestions;
     private List<ExamQuestion> allExamQuestions;
@@ -51,9 +44,8 @@ public class CreateExamController
     ComboBox SelectQuestionComboBox, Subject_ComboBox, Course_ComboBox;
     @FXML
     TableView Table;
-
     @FXML
-    private TableColumn<ExamQuestion, String> Code_Column, Question_Column, Points_Column;
+    private TableColumn<ExamQuestion, String> Question_Column, Points_Column;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// Initialize ///////////////////////////////////////////
@@ -183,7 +175,6 @@ public class CreateExamController
         ObservableList<ExamQuestion> allExamQuestions_OL = FXCollections.observableArrayList(allExamQuestions);
         Table.setItems(allExamQuestions_OL);
 
-        Code_Column.setCellValueFactory(new PropertyValueFactory<>("code"));
         Question_Column.setCellValueFactory(new PropertyValueFactory<>("questionMll"));
         Points_Column.setCellValueFactory(new PropertyValueFactory<>("points"));
         if(removeColumnFlag){
@@ -287,13 +278,11 @@ public class CreateExamController
         initSelectQuestionComboBox();
     }
 
-
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////// On Action Functions ///////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void finish_exam_click(ActionEvent actionEvent)
-    {
+    public void finish_exam_click(ActionEvent actionEvent) throws IOException {
         String title = Title_TextField.getText().toString();
         String code = Code_TextField.getText().toString();
         String time = Time_TextField.getText().toString();
@@ -305,8 +294,8 @@ public class CreateExamController
         else if (!isNumber(code)){
             error_bar_text.setText("Exam Code Must Be a Number");
         }
-        else if (code.length() != 5){
-            error_bar_text.setText("Exam Code Must Be 5 Digits");
+        else if (code.length() != 2){
+            error_bar_text.setText("Exam Code Must Be 2 Digits");
         }
         else if (time.equals("")) {error_bar_text.setText("Please Enter The Exam Time");}
         else if (!isNumber(time)){
@@ -314,17 +303,21 @@ public class CreateExamController
         }
         else{
             error_bar_text.setText("Creating Exam ...");
-            Exam exam = new Exam();
-            //        (int time, int codeExam, String descForStudent, String descForTeacher, Teacher teacher, String type)
-//        public VirtualExam(String title, int codeExam, int time, List<ExamQuestion> examQuestions, String descForStudent, String descForTeacher, Teacher teacher)
-//        {
-//            super(time, codeExam, descForStudent, descForTeacher, teacher, "Virtual");
-//            this.examQuestion=new ArrayList<ExamQuestion>();
-//        }
-//        Teacher teacher = (Teacher) App.getUser();
-//        VirtualExam exam = new VirtualExam (title, code, time, allExamQuestions, studentDesc, teacherDesc, teacher, "Virtual");
+            SimpleExam simpleExam = new SimpleExam(Integer.valueOf(code), title, Integer.valueOf(time), studentDesc, teacherDesc, App.getUser().getUserName(), selectedCourseName);
+            Object [] data = {simpleExam, allExamQuestions};
+//            data=null;
+
+            try {
+                SimpleClient.getClient().sendToServer(new Message("#CreateNewExam", data));
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+//            client.closeConnection();
+            EventBus.getDefault().unregister(this);
+            App.setRoot("teacherMain");
         }
-}
+    }
 
     public void QuestionSelected(ActionEvent actionEvent)
     {
@@ -370,9 +363,10 @@ public class CreateExamController
     {
         if(Course_ComboBox.getValue() == null) {return;}
         String courseName = Course_ComboBox.getValue().toString();
+        selectedCourseName = courseName;
 
         try {
-            SimpleClient.getClient().sendToServer(new Message("#GetAllQuestionsByCourse", courseName));
+            SimpleClient.getClient().sendToServer(new Message("#GetAllQuestionsByCourse", selectedCourseName));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -380,7 +374,6 @@ public class CreateExamController
     }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
-//        client.closeConnection();
         EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }

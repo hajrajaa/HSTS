@@ -131,7 +131,7 @@ public class CreateQuestionController
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Subscribe
-    public void getAllSubjectsNames_Replay(EventGetAllSubjects event)
+    public void getAllSubjects_Replay(EventGetAllSubjects event)
     {
         allSubjects = event.getAllSubjects();
         ArrayList<String> allSubjectsNames = new ArrayList<String>();

@@ -24,7 +24,6 @@ public class Course implements Serializable
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "coursesList")
     private List<Question> questions;
 
-
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

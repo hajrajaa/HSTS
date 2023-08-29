@@ -11,6 +11,7 @@ import java.util.List;
 public class Question implements Serializable {
     @Id
     private int code;
+
     private String question;
 
     private String[] answers;
