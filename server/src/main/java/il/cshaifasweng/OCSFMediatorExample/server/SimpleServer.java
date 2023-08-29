@@ -340,11 +340,11 @@ public class SimpleServer extends AbstractServer {
 
 			int[] hist2 = {2,1,2,1,2,4,1,3,3,6,2};
 
-			ExecutedExamInfo moeda = new ExecutedExamInfo(173155,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,hist1);
+			ExecutedExamInfo moeda = new ExecutedExamInfo(173155,"1234","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,hist1);
 			session.save(moeda);
 			session.flush();
 
-			ExecutedExamInfo moedb = new ExecutedExamInfo(173155,"67890","Discrete Mathematics B",70,65,ExecutedExamInfo.ExamType.Virtual,hist2);
+			ExecutedExamInfo moedb = new ExecutedExamInfo(173155,"6789","Discrete Mathematics B",70,65,ExecutedExamInfo.ExamType.Virtual,hist2);
 			session.save(moedb);
 			session.flush();
 
@@ -355,7 +355,7 @@ public class SimpleServer extends AbstractServer {
 			newTeacherX.addExecutedExamInfo(moeda);
 			session.merge(newTeacherX);
 
-			ExecutedExamInfo moedc = new ExecutedExamInfo(1122,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
+			ExecutedExamInfo moedc = new ExecutedExamInfo(1122,"4545","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
 			moeda.addExecutedExam(ex1);
 			session.save(moedc);
 			session.flush();
@@ -778,6 +778,7 @@ public class SimpleServer extends AbstractServer {
 			String examPassword = (String) newExecExam[1];
 
 			boolean codeExist=false;
+			boolean passwordExist=false;
 			try {
 				session.beginTransaction();
 				List<ExecutedExamInfo> executedExamInfoList=getAllObjects(ExecutedExamInfo.class);
@@ -785,28 +786,26 @@ public class SimpleServer extends AbstractServer {
 				for (ExecutedExamInfo ex : executedExamInfoList){
 					if(ex.getCode() == examCode)
 					{
-						System.out.println("AAAAAAAA");
+						codeExist=true;
 						if(ex.getPassword().equals(examPassword))
 						{
-							codeExist=true;
-							System.out.println("BBBBBBBB");
+							passwordExist=true;
 							Exam currExam=session.find(Exam.class,examCode);
 							Exam newExam= new Exam(currExam);
 							ExecutedExamInfo.ExamType examType=ex.getType();
 							System.out.println(examType);
 							Object[] obj = {newExam,examType};
 							client.sendToClient(new Message("#StartSolveSuccessfully",obj));
-
-						}
-						else {
-							Warning warning = new Warning("Exam Password Is Not Correct");
-							client.sendToClient(new Message("#StartSolveWarning", warning));
 						}
 					}
 				}
 				if(!codeExist)
 				{
 					Warning warning = new Warning("Exam Code Doesn't Exist");
+					client.sendToClient(new Message("#StartSolveWarning", warning));
+				}
+				if(!passwordExist){
+					Warning warning = new Warning("Exam Password Is Not Correct");
 					client.sendToClient(new Message("#StartSolveWarning", warning));
 				}
 

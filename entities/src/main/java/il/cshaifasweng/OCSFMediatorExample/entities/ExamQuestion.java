@@ -74,7 +74,7 @@ public class ExamQuestion implements Serializable{
         this.points = examQuestion.getPoints();
         this.teacher_note = examQuestion.getTeacher_note();
         this.student_note = examQuestion.getStudent_note();
-        this.exam=examQuestion.getExam();
+//        this.exam=examQuestion.getExam();
     }
 
     public ExamQuestion() {}
