@@ -329,7 +329,7 @@ public class SimpleServer extends AbstractServer {
 			session.save(exam1);
 			session.flush();
 
-			ExecutedExam ex1 = new ExecutedExam(1,newStudent1,"15/8/2023","10:00",90,true,exam1);
+			ExecutedExam ex1 = new ExecutedExam(1,newStudent1,"15/8/2023","10:00",90,true,exam1,true);
 			session.save(ex1);
 			session.flush();
 
@@ -355,9 +355,9 @@ public class SimpleServer extends AbstractServer {
 			newTeacherX.addExecutedExamInfo(moeda);
 			session.merge(newTeacherX);
 
-			ExecutedExamInfo moeda = new ExecutedExamInfo(1122,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
+			ExecutedExamInfo moedc = new ExecutedExamInfo(1122,"12345","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
 			moeda.addExecutedExam(ex1);
-			session.save(moeda);
+			session.save(moedc);
 			session.flush();
 
 			newTeacherX.addExecutedExamInfo(moedb);
@@ -748,7 +748,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			session.getTransaction().commit();
 		}
-		else if(msgString.equals("#ExecuteExamRequest"))
+		else if(msgString.equals("#drawExamRequest"))
 		{
 			try {
 				session.beginTransaction();
@@ -761,7 +761,7 @@ public class SimpleServer extends AbstractServer {
 				if(teacher != null){
 					newExecExam.setTeacher(teacher);
 				}
-
+				client.sendToClient(new Message("#drawExamRes"));
 				session.save(newExecExam);
 				session.save(teacher);
 				session.flush();

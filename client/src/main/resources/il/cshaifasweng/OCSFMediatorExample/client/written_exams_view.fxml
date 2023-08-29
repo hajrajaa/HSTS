@@ -45,12 +45,12 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="926.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="916.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/home_lblue.png" />
          </image>
       </ImageView>
-      <Button fx:id="Home_Button" layoutX="929.0" layoutY="30.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
+      <Button fx:id="Home_Button" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
          <font>
             <Font size="18.0" />
          </font>
