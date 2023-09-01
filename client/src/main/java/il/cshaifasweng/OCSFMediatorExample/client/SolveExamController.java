@@ -83,8 +83,6 @@ public class SolveExamController
 
         currentQuestionNumber = 0;
         loadNewQuestion(currentQuestionNumber);
-
-        vexam = new ExecutedVirtual(exam, (Student)App.getUser(), startTime.toString());
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -131,6 +129,12 @@ public class SolveExamController
     {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         return  startTime.format(dtf);
+    }
+
+    private String getEndTime ()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return  LocalTime.now().format(dtf);
     }
 
     private void initClockImages()
@@ -236,12 +240,12 @@ public class SolveExamController
         }
     }
 
-    private void endExam (boolean inTime) throws IOException {
-//        vexam = new ExecutedVirtual((Student)App.getUser(), date_text.getText(), getStartTime(), inTime, examAnswers);
-//        Object [] objects = {exam.getCodeExam(), vexam};
-
+    private void endExam (boolean inTime) throws IOException
+    {
+        ExecutedExam eExam = new ExecutedExam (exam.getTitle(), App.getExamInfoID(), App.getUser().getUserName(), date_text.getText(), getStartTime(), getEndTime(), inTime, false);
+        ExecutedVirtual vExam = new ExecutedVirtual (eExam, (ArrayList) examAnswers);
         try {
-            SimpleClient.getClient().sendToServer(new Message("#newExecutedVirtualExam", inTime));
+            SimpleClient.getClient().sendToServer(new Message("#newExecutedVirtualExam", vExam));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

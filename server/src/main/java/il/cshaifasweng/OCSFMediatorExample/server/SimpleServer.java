@@ -1239,19 +1239,60 @@ public class SimpleServer extends AbstractServer {
 		}
 		else if (msgString.equals("#newExecutedVirtualExam")) //
 		{
-			boolean inTime = (boolean) message.getObject1();
-			try
-			{
-				if(inTime){
-					client.sendToClient(new Message("#successAlert", "The Exam Has Been Finished And Saved In Time"));
-				}else {
-					Warning warning = new Warning("Time Is Up! The Exam Has Been Automatically Saved");
+			session.beginTransaction();
+			System.out.println("v1");
+			ExecutedVirtual vExam = (ExecutedVirtual) message.getObject1();
+			System.out.println("v2");
+			boolean inTime = vExam.isSubmitInTime();
+
+			Student student = session.find(Student.class, vExam.getStudentName());
+			System.out.println("v3");
+			if (student == null){
+				Warning warning = new Warning("Error1! Could Not Save Exam");
+				client.sendToClient(new Message("#loginWarning", warning));
+			}else{
+				System.out.println("v4");
+				ExecutedExamInfo eInfo = session.find(ExecutedExamInfo.class, vExam.getInfoID());
+				if (eInfo == null){
+					Warning warning = new Warning("Error2! Could Not Save Exam");
 					client.sendToClient(new Message("#loginWarning", warning));
+				}else{
+					System.out.println("v5");
+					Exam exam = session.find(Exam.class, eInfo.getCode());
+					if (exam == null){
+						Warning warning = new Warning("Error3! Could Not Save Exam");
+						client.sendToClient(new Message("#loginWarning", warning));
+					}else{
+						System.out.println("v6");
+						vExam.setStudent(student);
+						System.out.println("v7");
+						vExam.setExam(exam);
+						System.out.println("v8");
+						vExam.setExecutedExamInfo(eInfo);
+						System.out.println("v9");
+						try
+						{
+							System.out.println("v10");
+							session.save(vExam);
+							System.out.println("v11");
+							session.flush();
+							System.out.println("v12");
+
+							if(inTime){
+								client.sendToClient(new Message("#successAlert", "The Exam Has Been Finished And Saved In Time"));
+							}else {
+								Warning warning = new Warning("Time Is Up! The Exam Has Been Automatically Saved");
+								client.sendToClient(new Message("#loginWarning", warning));
+							}
+						}
+						catch (Exception e1) {
+							e1.printStackTrace();
+						}
+
+					}
 				}
 			}
-			catch (Exception e1) {
-				e1.printStackTrace();
-			}
+			System.out.println("vx");
 			session.getTransaction().commit();
 		}
 

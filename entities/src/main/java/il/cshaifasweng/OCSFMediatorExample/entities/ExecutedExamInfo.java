@@ -191,7 +191,6 @@ public class ExecutedExamInfo implements Serializable
             this.executedExamList = new ArrayList<>();
         }
         this.executedExamList.add(ex);
-        ex.setExecutedExamInfo(this);
     }
   
     public int[] getHist() {

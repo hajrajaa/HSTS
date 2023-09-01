@@ -10,12 +10,24 @@ import java.io.Serializable;
 //@DiscriminatorValue("executedvirtual")
 public class ExecutedVirtual extends ExecutedExam implements Serializable {
 
-
     private String note;
 
     @Column
     @ElementCollection(targetClass=Integer.class)
     private List<Integer> solutions;
+
+    public ExecutedVirtual (ExecutedExam ex, ArrayList<Integer> solutions)
+    {
+        super(ex.getTitle(), ex.getInfoID(), ex.getStudentName(), ex.getExamDate(), ex.getStartime(), ex.getEndtime(), ex.isSubmitInTime(), ex.isMarked());
+        this.solutions=solutions;
+    }
+
+    public ExecutedVirtual (ExecutedExam ex, ArrayList<Integer> solutions, String note)
+    {
+        super(ex.getTitle(), ex.getInfoID(), ex.getStudentName(), ex.getExamDate(), ex.getStartime(), ex.getEndtime(), ex.isSubmitInTime(), ex.isMarked());
+        this.solutions=solutions;
+        this.note=note;
+    }
 
     public ExecutedVirtual(int examNum, Student student,String examDate , String startime ,double greade, boolean submitInTime ,Exam exam,String note, ExecutedExamInfo examInfo) {
         super(examNum, student, examDate,startime,greade,submitInTime,exam,examInfo);
@@ -31,28 +43,11 @@ public class ExecutedVirtual extends ExecutedExam implements Serializable {
 
     public ExecutedVirtual() {}
 
-    public ExecutedVirtual(Exam exam, Student student, String startTime)
-    {
-        // TODO IMPLEMENT
-    }
 
+    public String getNote() {return note;}
+    public void setNote(String note) {this.note = note;}
 
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public List<Integer> getSolutions() {
-        return solutions;
-    }
-
-    public void setSolutions(List<Integer> solutions) {
-        this.solutions = solutions;
-    }
-
-
+    public List<Integer> getSolutions() {return solutions;}
+    public void setSolutions(List<Integer> solutions) {this.solutions = solutions;}
 
 }
