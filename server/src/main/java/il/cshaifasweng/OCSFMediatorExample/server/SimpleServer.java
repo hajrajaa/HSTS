@@ -807,15 +807,15 @@ public class SimpleServer extends AbstractServer {
 				if(teacher != null){
 					newExecExam.setTeacher(teacher);
 				}
-				client.sendToClient(new Message("#drawExamRes"));
 				session.save(newExecExam);
-				session.save(teacher);
+				session.merge(teacher);
 				session.flush();
+
+				client.sendToClient(new Message("#drawExamRes"));
 				session.getTransaction().commit();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-
 		}
 		else if(msgString.equals("#StartSolveExam"))
 		{
@@ -835,12 +835,13 @@ public class SimpleServer extends AbstractServer {
 						codeExist=true;
 						if(ex.getPassword().equals(examPassword))
 						{
-							passwordExist=true;
-							Exam currExam=session.find(Exam.class,examCode);
-							Exam newExam= new Exam(currExam);
-							ExecutedExamInfo.ExamType examType=ex.getType();
+							passwordExist = true;
+							Exam currExam = session.find(Exam.class,examCode);
+							Exam newExam = new Exam(currExam);
+							ExecutedExamInfo.ExamType examType = ex.getType();
+							int ExamInfoID = ex.getId();
 							System.out.println(examType);
-							Object[] obj = {newExam,examType};
+							Object[] obj = {newExam,examType,ExamInfoID};
 							client.sendToClient(new Message("#StartSolveSuccessfully",obj));
 						}
 					}
@@ -860,7 +861,6 @@ public class SimpleServer extends AbstractServer {
 			}
 			session.getTransaction().commit();
 		}
-
 		else if(msgString.equals("#GetTeacherAllExams"))
 		{
 				session.beginTransaction();
@@ -1011,10 +1011,6 @@ public class SimpleServer extends AbstractServer {
 				throw new RuntimeException(e);
 			}
 			session.getTransaction().commit();
-
-
-
-
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -1123,7 +1119,7 @@ public class SimpleServer extends AbstractServer {
 				e.printStackTrace();
 			}
 		}
-		else if (msgString.equals("#GetAllQuestionsByCourse")) //
+		else if (msgString.equals("#GetAllQuestionsByCourse")) ///
 		{
 			session.beginTransaction();
 			String name = (String) message.getObject1();
@@ -1175,10 +1171,10 @@ public class SimpleServer extends AbstractServer {
 				session.merge(c);
 				session.flush();
 			}
-
+			client.sendToClient(new Message("#successAlert", "Question Saved"));
 			session.getTransaction().commit();
 		}
-		else if (msgString.equals("#CreateNewExam")) //
+		else if (msgString.equals("#CreateNewExam")) ///
 		{
 			System.out.println("p1");
 			session.beginTransaction();
@@ -1231,34 +1227,27 @@ public class SimpleServer extends AbstractServer {
 			session.save(exam);
 			System.out.println("p8");
 			session.flush();
-			System.out.println("p9");
-
-//			System.out.println("p5" + selectedCourse.getCourseName());
-//			if(selectedCourse != null){
-//				Teacher teacher = session.find(Teacher.class, teacherName);
-//				System.out.println("p6" + teacher.getUserName());
-//				exam.addCourse(selectedCourse);
-//				exam.setTeacher(teacher);
-//				System.out.println("pq1");
-//				session.save(exam);
-//				System.out.println("pq2");
-//				session.flush();
-//
-//				System.out.println("pq3");
-//				session.merge(selectedCourse);
-//				System.out.println("p7");
-//				session.flush();
-//
-//				System.out.println("pq8");
-//				session.merge(teacher);
-//				System.out.println("p9");
-//				session.flush();
-//			}
-//			System.out.println("px");
+			System.out.println("ppx");
 			try
 			{
-				Warning warning = new Warning("Exam Saved");
-				client.sendToClient(new Message("#loginWarning", warning));
+				client.sendToClient(new Message("#successAlert", "Exam Saved"));
+			}
+			catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#newExecutedVirtualExam")) //
+		{
+			boolean inTime = (boolean) message.getObject1();
+			try
+			{
+				if(inTime){
+					client.sendToClient(new Message("#successAlert", "The Exam Has Been Finished And Saved In Time"));
+				}else {
+					Warning warning = new Warning("Time Is Up! The Exam Has Been Automatically Saved");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}
 			}
 			catch (Exception e1) {
 				e1.printStackTrace();

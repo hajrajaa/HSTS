@@ -75,7 +75,9 @@ public class ExamsDrawerController
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() throws IOException
+    {
+        System.out.println("\n--------------------------------------------> ExamsDrawerController");
         EventBus.getDefault().register(this);
         client = SimpleClient.getClient();
         client.openConnection();
@@ -244,8 +246,7 @@ public class ExamsDrawerController
                         btn.setOnAction((ActionEvent event) -> {
                             try {
                                 Exam edit_exam = getTableView().getItems().get(getIndex());
-//                                client.closeConnection();
-                                EventBus.getDefault().unregister(this);
+                                unregisterMe();
                                 App.setRoot("create_exam");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -270,6 +271,11 @@ public class ExamsDrawerController
         Table.getColumns().add(colBtn);
     }
 
+    private void unregisterMe ()
+    {
+        EventBus.getDefault().unregister(this);
+    }
+
     private void initExecuteTableColumn() {
         TableColumn<Exam, Void> colBtn = new TableColumn("");
 
@@ -278,14 +284,13 @@ public class ExamsDrawerController
             public TableCell<Exam, Void> call(final TableColumn<Exam, Void> param) {
                 final TableCell<Exam, Void> cell = new TableCell<Exam, Void>() {
 
-                    private final Button btn = new Button("Draw");
+                    private final Button btn = new Button("Begin");
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Exam exe_exam = getTableView().getItems().get(getIndex());
                             setExecutedExamCode(exe_exam.getCodeExam());
                             try {
-//                                client.closeConnection();
-                                EventBus.getDefault().unregister(this);
+                                unregisterMe();
                                 App.setRoot("exam_drawer");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);

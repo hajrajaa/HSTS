@@ -18,7 +18,6 @@ import org.greenrobot.eventbus.EventBus;
 
 public class TeacherDrawerController {
 
-
     public int getExamCode1() {
         return ExamCode;
     }
@@ -108,19 +107,13 @@ public class TeacherDrawerController {
     }
 
     @FXML
-    void manualTypeBtn(ActionEvent event) {
-
-    }
+    void manualTypeBtn(ActionEvent event) {}
 
     @FXML
-    void virtualTypeBtn(ActionEvent event) {
-
-    }
+    void virtualTypeBtn(ActionEvent event) {}
 
     @FXML
     void initialize() {
-
-
         error_bar_text.setText("");
         manualTypeBtn.setToggleGroup(radioGroup);
         virtualTypeBtn.setToggleGroup(radioGroup);

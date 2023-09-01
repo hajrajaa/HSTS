@@ -35,10 +35,8 @@ public class App extends Application {
     public static User user;
 
     public  static Exam exam;
-
-
     public static ExecutedExamInfo.ExamType examType;
-
+    public static int examInfoID;
 
     public  static List<Student> studentList;
 
@@ -100,8 +98,6 @@ public class App extends Application {
 
     public  static List<ExecutedExam> executedExams;
 
-
-
     public static ExecutedExamInfo executedExamInfo;
 
     public static List<ExecutedExamInfo> getWrittenExamInfoList() {
@@ -159,7 +155,6 @@ public class App extends Application {
         App.exam = exam;
     }
 
-
     public static Exam getExam() {
         return exam;
     }
@@ -184,6 +179,13 @@ public class App extends Application {
         App.examType = examType;
     }
 
+    public static int getExamInfoID() {
+        return examInfoID;
+    }
+
+    public static void setExamInfoID(int examInfoID) {
+        App.examInfoID = examInfoID;
+    }
 
     public static void setButtonColor(Button B, String color)
     {
@@ -251,7 +253,16 @@ public class App extends Application {
         	);
         	alert.show();
     	});
-    	
+    }
+
+    @Subscribe
+    public void successAlertEvent(WarningSuccessEvent event) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.INFORMATION,
+                    event.getInfo()
+            );
+            alert.show();
+        });
     }
 
     @Subscribe
@@ -267,6 +278,7 @@ public class App extends Application {
     {
         setExam(event.getExam());
         setExamType1(event.getExamType());
+        setExamInfoID(event.getExamInfoID());
         changeScene1();
     }
 

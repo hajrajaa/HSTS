@@ -40,6 +40,13 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
+		else if (messageSt.equals("#successAlert"))
+		{
+			Platform.runLater(()->{
+						EventBus.getDefault().post(new WarningSuccessEvent((String) message.getObject1()));
+					}
+			);
+		}
 		else if (messageSt.equals("#GetUserResponce"))
 		{
 			User user = (User) message.getObject1();
@@ -63,27 +70,25 @@ public class SimpleClient extends AbstractClient {
 
 		else if(messageSt.equals("#StartSolveSuccessfully"))
 		{
-
 			Object[] obj = (Object[]) message.getObject1();
 
 			Exam exam=(Exam)obj[0];
 			ExecutedExamInfo.ExamType examType=(ExecutedExamInfo.ExamType)obj[1];
+			int examInfoID = (int)obj[2];
 
-			StartSolveExamEvent newEvent=new StartSolveExamEvent(exam,examType);
+			StartSolveExamEvent newEvent = new StartSolveExamEvent(exam,examType,examInfoID);
 			Platform.runLater(()->{
 						EventBus.getDefault().post(newEvent);
 					}
 			);
-
 		}
-	else if (messageSt.equals("#StartSolveWarning"))
-	{
-		Platform.runLater(()->{
-					EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
-				}
-		);
-	}
-
+		else if (messageSt.equals("#StartSolveWarning"))
+		{
+			Platform.runLater(()->{
+						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
+		}
 		else if (messageSt.equals("#SolveExamWarning"))
 		{
 			Platform.runLater(()->{

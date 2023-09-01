@@ -7,14 +7,11 @@ import java.io.Serializable;
 
 @Entity
 @Table(name="executedexamsinfo")
-public class ExecutedExamInfo implements Serializable {
-
+public class ExecutedExamInfo implements Serializable
+{
     public enum ExamType{
         Virtual,Manual;
     }
-
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id ;
