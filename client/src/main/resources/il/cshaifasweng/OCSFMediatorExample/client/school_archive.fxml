@@ -7,25 +7,25 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.PrincipleMenu">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.SchoolArchiveController">
    <children>
       <ImageView fitHeight="619.0" fitWidth="1011.0" layoutX="-9.0" layoutY="-7.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/school_archive_wallpaper.png" />
          </image>
       </ImageView>
-      <Button fx:id="p_questions" layoutX="111.0" layoutY="311.0" mnemonicParsing="false" onAction="#view_questions" prefHeight="60.0" prefWidth="146.0" style="-fx-background-color: x;" text="Questions" textFill="WHITE">
-         <font>
-            <Font size="24.0" />
-         </font></Button>
-      <Button fx:id="p_exam" layoutX="704.0" layoutY="412.0" mnemonicParsing="false" onAction="#view_exams" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: x;" text="Exams" textFill="WHITE">
+      <Button fx:id="p_questions" layoutX="89.0" layoutY="311.0" mnemonicParsing="false" onAction="#view_questions" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: x;" text="Questions" textFill="WHITE">
          <font>
             <Font size="26.0" />
          </font></Button>
-      <Text fx:id="exam_name_text" fill="#063970" layoutX="38.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 32;" text="View Questions &amp; Exams" wrappingWidth="422.77471923828125" />
+      <Button fx:id="p_exam" layoutX="666.0" layoutY="408.0" mnemonicParsing="false" onAction="#view_exams" prefHeight="60.0" prefWidth="160.0" style="-fx-background-color: x;" text="Exams" textFill="WHITE">
+         <font>
+            <Font size="28.0" />
+         </font></Button>
+      <Text fx:id="exam_name_text" fill="#abdbe3" layoutX="38.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 32;" text="Questions &amp; Exams Drawer" wrappingWidth="422.77471923828125" />
       <ImageView fitHeight="67.0" fitWidth="73.0" layoutX="904.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../images/home_orange.png" />
+            <Image url="@../../../../images/home_lblue.png" />
          </image>
       </ImageView>
       <Button fx:id="p_back_btn" layoutX="901.0" layoutY="30.0" mnemonicParsing="false" onAction="#go_back" prefHeight="60.0" prefWidth="73.0" style="-fx-background-color: x;">

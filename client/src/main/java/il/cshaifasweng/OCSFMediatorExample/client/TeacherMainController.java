@@ -28,7 +28,7 @@ public class TeacherMainController {
     Text welcome_text;
 
     @FXML
-    private Button createQuestionButton, createExamButton, ExamsDrawerButton, seeStatisticsButton, QuestionsDrawerButton;
+    private Button createQuestionButton, createExamButton, ArchiveButton, seeStatisticsButton;
 
     @FXML
     private Button logOutBtn;
@@ -48,7 +48,7 @@ public class TeacherMainController {
     @FXML
     void initialize()
     {
-        welcome_text.setText("Welcome\n" + App.getUser().getUserName());
+        welcome_text.setText("Welcome\nMs. " + App.getUser().getUserName());
 
         setUser1(App.getUser());
         assert createExamButton != null : "fx:id=\"createExamButton\" was not injected: check your FXML file 'teacherMain.fxml'.";
@@ -64,18 +64,13 @@ public class TeacherMainController {
     }
 
     @FXML
-    void questionsDrawerButton(ActionEvent event) throws IOException {
-        App.setRoot("questions_drawer");
-    }
-
-    @FXML
     void createExamButton(ActionEvent event) throws IOException {
         App.setRoot("create_exam");
     }
 
     @FXML
-    public void ExamDrawerClick(ActionEvent actionEvent) throws IOException {
-        App.setRoot("exams_drawer");
+    public void ArchiveClick(ActionEvent actionEvent) throws IOException {
+        App.setRoot("school_archive");
     }
 
     @FXML
@@ -105,16 +100,10 @@ public class TeacherMainController {
     }
 
     public void exams_drawer_in(MouseEvent mouseEvent) {
-        App.setButtonColor(ExamsDrawerButton, "green");
+        App.setButtonColor(ArchiveButton, "green");
     }
     public void exams_drawer_out(MouseEvent mouseEvent) {
-        App.setButtonColor(ExamsDrawerButton, "orange");
+        App.setButtonColor(ArchiveButton, "orange");
     }
 
-    public void questions_drawer_in(MouseEvent mouseEvent) {
-        App.setButtonColor(QuestionsDrawerButton, "green");
-    }
-    public void questions_drawer_out(MouseEvent mouseEvent) {
-        App.setButtonColor(QuestionsDrawerButton, "orange");
-    }
 }

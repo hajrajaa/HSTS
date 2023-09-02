@@ -63,14 +63,14 @@ public class PrincipleHomepage {
 
     @FXML
     public void go_to_p_data(ActionEvent actionEvent) throws IOException {
-        App.setRoot("principle_menu");
+        App.setRoot("school_archive");
     }
 
 
     @FXML
     void initialize()
     {
-        welcome_text.setText("Welcome\n" + App.getUser().getUserName());
+        welcome_text.setText("Welcome\nPrinciple " + App.getUser().getUserName());
 
         setUser1(App.getUser());
         assert logOutBtn != null : "fx:id=\"logOutBtn\" was not injected: check your FXML file 'principle_homepage.fxml'.";
