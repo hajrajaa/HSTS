@@ -43,6 +43,21 @@ public class ExecutedVirtual extends ExecutedExam implements Serializable {
 
     public ExecutedVirtual() {}
 
+    public double culcGrade()
+    {
+        double grade = 0;
+        List<ExamQuestion> tempList = this.getExam().getExamQuestion();
+        for (int i=0; i < this.solutions.size(); i++)
+        {
+            int correctAnswer = tempList.get(i).getQuestion().getCorrect_answer();
+            // System.out.println("---> " + i + " correctAnswer=" + correctAnswer + " realAnswer=" + this.solutions.get(i));
+            if (this.solutions.get(i) == correctAnswer)
+            {
+                grade += tempList.get(i).getPoints();
+            }
+        }
+        return grade;
+    }
 
     public String getNote() {return note;}
     public void setNote(String note) {this.note = note;}

@@ -252,7 +252,7 @@ public class ExecutedExam implements Serializable {
     public void setExam(Exam exam) {
         this.exam = exam;
         if (exam != null) {
-            if(exam.getExecutedExams()!=null) {exam.getExecutedExams().add(this);}
+            exam.addExecutedExam(this);
         }
     }
 

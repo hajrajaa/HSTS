@@ -968,6 +968,7 @@ public class SimpleServer extends AbstractServer {
 					client.sendToClient(new Message("#UpdateGradeWarning", warning));
 				} else {
 					currExam.setGrade(newGrade);
+					currExam.getTestDate().updateGradesInfo();
 					ExecutedExam copyExam=new ExecutedExam(currExam);
 					client.sendToClient(new Message("#UpdateGradeSuccessfully", copyExam));
 					session.update(currExam);
@@ -1268,6 +1269,8 @@ public class SimpleServer extends AbstractServer {
 						System.out.println("v7");
 						vExam.setExam(exam);
 						System.out.println("v8");
+						vExam.setGrade(vExam.culcGrade());
+						System.out.println("v8.5");
 						vExam.setExecutedExamInfo(eInfo);
 						System.out.println("v9");
 						try

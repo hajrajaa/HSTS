@@ -184,6 +184,13 @@ public class Exam implements Serializable
         e.setExam(this);
     }
 
+    public void addExecutedExam (ExecutedExam ee){
+        if(this.executedExams == null){
+            this.executedExams = new ArrayList<>();
+        }
+        this.executedExams.add(ee);
+    }
+
     public List<ExecutedExam> getExecutedExams() {
         return executedExams;
     }
