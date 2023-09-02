@@ -224,8 +224,10 @@ public class ExamsDrawerController
         Exam_Column.setCellValueFactory(new PropertyValueFactory<>("title"));
         if(tableInitFlag){
             initViewTableColumn();
-            initEditTableColumn();
-            initExecuteTableColumn();
+            if(App.getUser().getType()==User.UserType.Teacher){
+                initEditTableColumn();
+                initExecuteTableColumn();
+            }
             tableInitFlag = false;
         }
     }
@@ -390,6 +392,12 @@ public class ExamsDrawerController
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
         EventBus.getDefault().unregister(this);
-        App.setRoot("teacherMain");
+        if(App.getUser().getType()==User.UserType.Teacher){
+            App.setRoot("teacherMain");
+        }else if(App.getUser().getType()==User.UserType.Princiaple){
+            App.setRoot("principle_homepage");
+        }else {
+            App.setRoot("login1");
+        }
     }
 }

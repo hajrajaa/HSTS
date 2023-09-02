@@ -25,12 +25,12 @@ public class PrincipleMenu {
 
     @FXML
     public void view_questions(ActionEvent actionEvent) throws IOException {
-        App.setRoot("principle_view_questions");
+        App.setRoot("questions_drawer");
     }
 
     @FXML
     public void view_exams(ActionEvent actionEvent) throws IOException {
-        App.setRoot("principle_view_exams");
+        App.setRoot("exams_drawer");
     }
 
 //    @FXML
