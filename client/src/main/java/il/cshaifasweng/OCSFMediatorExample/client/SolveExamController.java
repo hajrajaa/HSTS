@@ -46,12 +46,13 @@ public class SolveExamController
     private Text exam_name_text, date_text, question_number_text, question_text, student_note_text, clock_text, extra_time_text;
     @FXML
     ImageView note_ImageView;
+
+    private Timeline clock;
     @FXML
     ImageView clock_0,clock_1,clock_2,clock_3,clock_4,clock_5,clock_6,clock_7,clock_8;
     ImageView[] clks;
     private int clks_counter, extraTime;
     private LocalTime startTime;
-
     private boolean timeUpFlag;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,7 +98,7 @@ public class SolveExamController
         LocalTime endTime = startTime.plusMinutes(duration);
         LocalTime endWithExtra = endTime.plusMinutes(extraTime);
 
-        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+        clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalTime currentTime = LocalTime.now();
             long diff = currentTime.until(endWithExtra, ChronoUnit.SECONDS);
 
@@ -250,6 +251,7 @@ public class SolveExamController
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        clock.stop();
         EventBus.getDefault().unregister(this);
         App.setRoot("studentMain");
     }

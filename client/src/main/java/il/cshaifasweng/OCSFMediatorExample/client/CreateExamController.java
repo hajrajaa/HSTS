@@ -301,11 +301,14 @@ public class CreateExamController
         else if (!isNumber(time)){
             error_bar_text.setText("Exam Time Must Be a Number");
         }
-        else{
+        else if(allExamQuestions.size() == 0) {
+            error_bar_text.setText("Please Choose At Lease One Question");
+        }
+        else
+        {
             error_bar_text.setText("Creating Exam ...");
             SimpleExam simpleExam = new SimpleExam(Integer.valueOf(code), title, Integer.valueOf(time), studentDesc, teacherDesc, App.getUser().getUserName(), selectedCourseName);
             Object [] data = {simpleExam, allExamQuestions};
-//            data=null;
 
             try {
                 SimpleClient.getClient().sendToServer(new Message("#CreateNewExam", data));
@@ -313,7 +316,6 @@ public class CreateExamController
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-//            client.closeConnection();
             EventBus.getDefault().unregister(this);
             App.setRoot("teacherMain");
         }
