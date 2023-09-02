@@ -1,16 +1,12 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.*;
-import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
@@ -19,13 +15,13 @@ import org.greenrobot.eventbus.Subscribe;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-public class CreateExamController
+public class EditExamController
 {
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// Class Fields ///////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
     public SimpleClient client;
+    private Exam baseExam;
     private boolean selectQuestionFlag, removeColumnFlag;
     private String selectedCourseName;
     @FXML
@@ -41,7 +37,7 @@ public class CreateExamController
     private Button Answer1, Answer2, Answer3, Answer4;
     private Button [] answersButtons;
     @FXML
-    ComboBox SelectQuestionComboBox, Subject_ComboBox, Course_ComboBox;
+    ComboBox SelectQuestionComboBox;
     @FXML
     TableView Table;
     @FXML
@@ -56,16 +52,25 @@ public class CreateExamController
         client = SimpleClient.getClient();
         client.openConnection();
 
+        baseExam = App.getExam();
+
         answersButtons = new Button[4];
         selectQuestionFlag = false;
         removeColumnFlag = true;
         error_bar_text.setText("");
         initializeButtons();
-        allExamQuestions = new ArrayList<ExamQuestion>();
 
-        Course_ComboBox.setDisable(true);
+        Title_TextField.setText(baseExam.getTitle());
+        Time_TextField.setText(Integer.toString(baseExam.getTime()));
+        Teacher_Desc_TextField.setText(baseExam.getDescForTeacher());
+        Student_Desc_TextField.setText(baseExam.getDescForStudent());
+
+        allExamQuestions = baseExam.getExamQuestion();
+        selectedCourseName = baseExam.getCourseName();
+        refreshTable();
+
         try {
-            SimpleClient.getClient().sendToServer(new Message("#GetAllSubjectsNames"));
+            SimpleClient.getClient().sendToServer(new Message("#GetAllQuestionsByCourse", selectedCourseName));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -89,6 +94,17 @@ public class CreateExamController
         Answer4.setDisable(false);
         setButtonColor(Answer4, "orange");
         answersButtons[3] = Answer4;
+    }
+
+    private String getCourseName ()
+    {
+        List<Course> temp = baseExam.getCoursesList();
+        if(temp != null){
+            if(temp.size() == 1){
+                return temp.get(0).getCourseName();
+            }
+        }
+        return "";
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,6 +157,7 @@ public class CreateExamController
     private void loadNewQuestion (Question question)
     {
         selectQuestionFlag = true;
+
         currentQuestion = question;
         initializeButtons();
         question_text.setText(currentQuestion.getQuestion());
@@ -248,25 +265,6 @@ public class CreateExamController
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Subscribe
-    public void getAllSubjectsNames_Replay(EventGetAllSubjectsNames event)
-    {
-        ArrayList<String> allSubjectsNames = new ArrayList<>(event.getAllSubjectsNames());
-        ObservableList<String> basesList = FXCollections.observableArrayList(allSubjectsNames);
-        Subject_ComboBox.setItems(basesList);
-        error_bar_text.setText("Please Choose a Subject");
-    }
-
-    @Subscribe
-    public void GetAllCoursesBySubject_Replay(EventGetAllCoursesBySubject event)
-    {
-        ArrayList<String> allNames = new ArrayList<>(event.getAllCoursesNames());
-        ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
-        Course_ComboBox.setDisable(false);
-        Course_ComboBox.setItems(basesList);
-        error_bar_text.setText("All Courses Loaded");
-    }
-
-    @Subscribe
     public void GetAllQuestionsByCourse_Replay(EventGetAllQuestionsByCourse event)
     {
         allQuestions = new ArrayList<>(event.getAllQuestions());
@@ -301,8 +299,11 @@ public class CreateExamController
         else if (!isNumber(time)){
             error_bar_text.setText("Exam Time Must Be a Number");
         }
-        else if(allExamQuestions.size() == 0) {
+        else if (allExamQuestions.size() == 0) {
             error_bar_text.setText("Please Choose At Lease One Question");
+        }
+        else if (!App.validatePointsSum(allExamQuestions)){
+            error_bar_text.setText("The Sum Of All Questions' Points Must Be 100");
         }
         else
         {
@@ -342,36 +343,7 @@ public class CreateExamController
             String student_note = Student_Note_TextField.getText().toString();
             allExamQuestions.add(new ExamQuestion(currentQuestion, Npoints, teacher_note, student_note));
             refreshTable();
-            Subject_ComboBox.setDisable(true);
-            Course_ComboBox.setDisable(true);
             error_bar_text.setText("The Question Has Been Added To The Exam");
-        }
-    }
-
-    public void SubjectSelected(ActionEvent actionEvent)
-    {
-        if(Subject_ComboBox.getValue() == null) {return;}
-        String subjectName = Subject_ComboBox.getValue().toString();
-
-        try {
-            SimpleClient.getClient().sendToServer(new Message("#GetAllCoursesBySubject", subjectName));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    public void CourseSelected(ActionEvent actionEvent)
-    {
-        if(Course_ComboBox.getValue() == null) {return;}
-        String courseName = Course_ComboBox.getValue().toString();
-        selectedCourseName = courseName;
-
-        try {
-            SimpleClient.getClient().sendToServer(new Message("#GetAllQuestionsByCourse", selectedCourseName));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
     }
 

@@ -11,11 +11,8 @@ import java.util.List;
 public class Question implements Serializable {
     @Id
     private int code;
-
     private String question;
-
     private String[] answers;
-
     private int correct_answer;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

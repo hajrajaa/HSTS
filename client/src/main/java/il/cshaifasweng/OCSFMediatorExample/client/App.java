@@ -215,6 +215,19 @@ public class App extends Application {
         return formatter.format(today);
     }
 
+    public static boolean validatePointsSum (List<ExamQuestion> allExamQuestions)
+    {
+        int sum = 0;
+        if(allExamQuestions != null){
+            for (ExamQuestion e : allExamQuestions){
+                sum += e.getPoints();
+            }
+        }
+        if (sum == 100){
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {

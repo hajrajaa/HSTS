@@ -238,7 +238,7 @@ public class ExecutedExamInfo implements Serializable
 
     private void addToHist (double newGrade)
     {
-        if(newGrade == 100) {
+        if(newGrade >= 100) {
             this.hist[9]++;
         }else{
             this.hist[(int)newGrade/10]++;

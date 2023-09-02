@@ -29,7 +29,7 @@ public class ExamsDrawerController
     @FXML
     private TextField Title_TextField, Code_TextField, Time_TextField, Teacher_Desc_TextField, Student_Desc_TextField;
     @FXML
-    private Text error_bar_text, Exam_text, question_number_text;
+    private Text error_bar_text, Exam_text, question_number_text, question_text;
 //    private Question currentQuestion;
 //    private ArrayList<Question> allQuestions;
     private List<Exam> allExams;
@@ -49,9 +49,6 @@ public class ExamsDrawerController
     private TableColumn<Exam, String> Code_Column, Exam_Column;
     @FXML
     Button Home_Button;
-    @FXML
-    TextArea question_text_area;
-
     private boolean tableInitFlag;
     private int examLength;
 
@@ -140,7 +137,7 @@ public class ExamsDrawerController
         int correctAnswerNumber = currentQuestion.getQuestion().getCorrect_answer() - 1;
         App.setButtonColor(answersButtons[correctAnswerNumber], "green");
 
-        question_text_area.setText(currentQuestion.getQuestion().getQuestion());
+        question_text.setText(currentQuestion.getQuestion().getQuestion());
         for(int i=0; i<answersButtons.length; i++)
         {
             String tempAnswer = currentQuestion.getQuestion().getAnswers()[i];
@@ -247,7 +244,8 @@ public class ExamsDrawerController
                             try {
                                 Exam edit_exam = getTableView().getItems().get(getIndex());
                                 unregisterMe();
-                                App.setRoot("create_exam");
+                                App.setExam(edit_exam);
+                                App.setRoot("edit_exam");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }

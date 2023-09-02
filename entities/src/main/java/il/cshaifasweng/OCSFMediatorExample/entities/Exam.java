@@ -16,6 +16,7 @@ public class Exam implements Serializable
     private int time;
     private String descForStudent;
     private String descForTeacher;
+    private String courseName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id2")
@@ -56,6 +57,7 @@ public class Exam implements Serializable
         this.coursesList = new ArrayList<>();
         this.coursesList.add(course);
         course.getExamsList().add(this);
+        courseName = course.getCourseName();
 
         this.teacher = teacher;
         teacher.getExams().add(this);
@@ -73,6 +75,7 @@ public class Exam implements Serializable
         this.coursesList = new ArrayList<>();
         this.coursesList.add(course);
         course.getExamsList().add(this);
+        courseName = course.getCourseName();
 
         this.teacher = teacher;
         teacher.getExams().add(this);
@@ -86,6 +89,7 @@ public class Exam implements Serializable
         this.time = exam.getTime();
         this.descForStudent = exam.getDescForStudent();
         this.descForTeacher = exam.getDescForTeacher();
+        this.courseName = exam.getCourseName();
 
         if(exam.getExamQuestion() != null)
         {
@@ -150,6 +154,9 @@ public class Exam implements Serializable
     public String getTitle() {
         return title;
     }
+
+    public String getCourseName() {return courseName;}
+    public void setCourseName(String courseName) {this.courseName = courseName;}
 
     public List<Course> getCoursesList() {return coursesList;}
 

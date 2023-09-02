@@ -26,8 +26,6 @@ public class ExamQuestion implements Serializable{
 
     private String questionMll;
 
-
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
     private Exam exam;
