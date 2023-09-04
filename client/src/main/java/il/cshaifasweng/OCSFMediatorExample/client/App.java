@@ -39,7 +39,7 @@ public class App extends Application {
     public  static Question questionToEdit;
     public static ExecutedExamInfo.ExamType examType;
     public static int examInfoID;
-
+    public static ExecutedVirtual examCopy;
     public  static List<Student> studentList;
 
     public  static List<Teacher> teacherList;
@@ -192,10 +192,12 @@ public class App extends Application {
     public static Question getQuestionToEdit() {
         return questionToEdit;
     }
-
     public static void setQuestionToEdit(Question questionToEdit) {
         App.questionToEdit = questionToEdit;
     }
+
+    public static ExecutedVirtual getExamCopy() {return examCopy;}
+    public static void setExamCopy(ExecutedVirtual examCopy) {App.examCopy = examCopy;}
 
     public static void setButtonColor(Button B, String color)
     {
@@ -494,6 +496,12 @@ public class App extends Application {
                     }
                 }
         );
+    }
+
+    @Subscribe
+    public void EventGetExamCopy(EventGetExamCopy event) throws IOException {
+        App.setExamCopy(event.getvExamCopy());
+        App.setRoot("get_exam_copy");
     }
 
     private void changeScene()

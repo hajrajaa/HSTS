@@ -19,7 +19,8 @@ public class SimpleClient extends AbstractClient {
 	}
 
 	@Override
-	protected void handleMessageFromServer(Object msg) throws IOException {
+	protected void handleMessageFromServer(Object msg) throws IOException
+	{
 		Message message = (Message) msg;
 		String messageSt = message.getMessage();
 		System.out.println("message: "+messageSt);
@@ -233,7 +234,7 @@ public class SimpleClient extends AbstractClient {
 			EventGetAllExamsByCourse newEvent = new EventGetAllExamsByCourse(list);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
-    else if (messageSt.equals("#GetAllQuestionsByCourse_Replay"))
+    	else if (messageSt.equals("#GetAllQuestionsByCourse_Replay"))
 		{
 			List<Question> list = (List<Question>) message.getObject1();
 			EventGetAllQuestionsByCourse newEvent = new EventGetAllQuestionsByCourse(list);
@@ -249,14 +250,14 @@ public class SimpleClient extends AbstractClient {
 			);
 		}
 		else if (messageSt.equals("#GetAllExcutedExamRes"))
-	{
-		List<ExecutedExamInfo> allexcutedInfo = (List<ExecutedExamInfo>) message.getObject1();
-		ExcutedExamViewEvent newevent= new ExcutedExamViewEvent(allexcutedInfo);
-		Platform.runLater(()->{
-					EventBus.getDefault().post(newevent);
-				}
-		);
-	}
+		{
+			List<ExecutedExamInfo> allexcutedInfo = (List<ExecutedExamInfo>) message.getObject1();
+			ExcutedExamViewEvent newevent= new ExcutedExamViewEvent(allexcutedInfo);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newevent);
+					}
+			);
+		}
 		else if(messageSt.equals("#GetExcutedExamRes"))
 		{
 			List<ExecutedExam> allExcutedExams = (List<ExecutedExam>) message.getObject1();
@@ -322,6 +323,12 @@ public class SimpleClient extends AbstractClient {
 		else if(messageSt.equals(("#drawExamRes")))
 		{
 			App.setRoot("exams_drawer");
+		}
+		else if(messageSt.equals(("#getExamCopy_Replay")))
+		{
+			ExecutedVirtual vExam = (ExecutedVirtual) message.getObject1();
+			EventGetExamCopy newEvent = new EventGetExamCopy(vExam);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
 
 	}

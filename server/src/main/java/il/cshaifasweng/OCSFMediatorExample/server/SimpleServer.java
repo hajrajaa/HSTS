@@ -1238,7 +1238,7 @@ public class SimpleServer extends AbstractServer {
 			}
 			session.getTransaction().commit();
 		}
-		else if (msgString.equals("#newExecutedVirtualExam")) //
+		else if (msgString.equals("#newExecutedVirtualExam")) ///
 		{
 			session.beginTransaction();
 			System.out.println("v1");
@@ -1280,7 +1280,6 @@ public class SimpleServer extends AbstractServer {
 							System.out.println("v11");
 							session.flush();
 							System.out.println("v12");
-
 							if(inTime){
 								client.sendToClient(new Message("#successAlert", "The Exam Has Been Finished And Saved In Time"));
 							}else {
@@ -1296,6 +1295,18 @@ public class SimpleServer extends AbstractServer {
 				}
 			}
 			System.out.println("vx");
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#getExamCopy")) ///
+		{
+			session.beginTransaction();
+
+			int examNum = (int) message.getObject1();
+			ExecutedVirtual vExam = session.find(ExecutedVirtual.class, examNum);
+
+			if(vExam != null){
+				client.sendToClient(new Message("#getExamCopy_Replay", new ExecutedVirtual(vExam)));
+			}
 			session.getTransaction().commit();
 		}
 

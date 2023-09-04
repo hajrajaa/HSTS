@@ -41,6 +41,13 @@ public class ExecutedVirtual extends ExecutedExam implements Serializable {
         this.solutions=solutions;
     }
 
+    public ExecutedVirtual(ExecutedVirtual vExam) {
+        super(vExam.getExam(), vExam.getGrade(), vExam.getTitle(), vExam.getExamDate());
+        System.out.println("v a a");
+        this.solutions=new ArrayList<>(vExam.getSolutions());
+        System.out.println("v a b");
+    }
+
     public ExecutedVirtual() {}
 
     public double culcGrade()

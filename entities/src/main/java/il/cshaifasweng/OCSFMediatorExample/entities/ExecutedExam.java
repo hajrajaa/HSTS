@@ -147,6 +147,17 @@ public class ExecutedExam implements Serializable {
         this.marked = exam.isMarked();
     }
 
+    public ExecutedExam(Exam e, double grade, String title, String date) {
+        super();
+        System.out.println("v a --> x");
+        this.title=title;
+        this.examDate=date;
+        this.grade=grade;
+        System.out.println("v a     xxx");
+        this.exam = new Exam(e);
+        System.out.println("v a <--");
+    }
+
     public int getInfoID() { return infoID; }
     public void setInfoID(int infoID) { this.infoID = infoID; }
 
