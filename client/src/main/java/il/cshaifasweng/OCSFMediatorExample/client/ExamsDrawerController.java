@@ -29,7 +29,7 @@ public class ExamsDrawerController
     @FXML
     private TextField Title_TextField, Code_TextField, Time_TextField, Teacher_Desc_TextField, Student_Desc_TextField;
     @FXML
-    private Text error_bar_text, Exam_text, question_number_text;
+    private Text error_bar_text, Exam_text, question_number_text, question_text;
 //    private Question currentQuestion;
 //    private ArrayList<Question> allQuestions;
     private List<Exam> allExams;
@@ -49,9 +49,6 @@ public class ExamsDrawerController
     private TableColumn<Exam, String> Code_Column, Exam_Column;
     @FXML
     Button Home_Button;
-    @FXML
-    TextArea question_text_area;
-
     private boolean tableInitFlag;
     private int examLength;
 
@@ -75,7 +72,9 @@ public class ExamsDrawerController
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() throws IOException
+    {
+        System.out.println("\n--------------------------------------------> ExamsDrawerController");
         EventBus.getDefault().register(this);
         client = SimpleClient.getClient();
         client.openConnection();
@@ -138,7 +137,7 @@ public class ExamsDrawerController
         int correctAnswerNumber = currentQuestion.getQuestion().getCorrect_answer() - 1;
         App.setButtonColor(answersButtons[correctAnswerNumber], "green");
 
-        question_text_area.setText(currentQuestion.getQuestion().getQuestion());
+        question_text.setText(currentQuestion.getQuestion().getQuestion());
         for(int i=0; i<answersButtons.length; i++)
         {
             String tempAnswer = currentQuestion.getQuestion().getAnswers()[i];
@@ -183,25 +182,34 @@ public class ExamsDrawerController
     @Subscribe
     public void GetAllCoursesBySubject_Replay(EventGetAllCoursesBySubject event)
     {
+        System.out.println("cc1");
         ArrayList<String> allNames = new ArrayList<>(event.getAllCoursesNames());
+        System.out.println("cc2");
         ObservableList<String> basesList = FXCollections.observableArrayList(allNames);
+        System.out.println("cc3");
         Course_ComboBox.setDisable(false);
+        System.out.println("cc4");
         Course_ComboBox.setItems(basesList);
+        System.out.println("cc5");
         error_bar_text.setText("All Courses Loaded");
     }
 
     @Subscribe
     public void GetAllExamsByCourse_Replay(EventGetAllExamsByCourse event)
     {
+        System.out.println("e1");
         allExams = event.getAllExams();
+        System.out.println("e2");
         if(allExams == null) {
             error_bar_text.setText("No Exams Found");
         } else if(allExams.size() == 0){
             error_bar_text.setText("No Exams Found");
         }
+        System.out.println("e3");
 //        else {
             initTable();
 //        }
+        System.out.println("e4");
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -216,8 +224,10 @@ public class ExamsDrawerController
         Exam_Column.setCellValueFactory(new PropertyValueFactory<>("title"));
         if(tableInitFlag){
             initViewTableColumn();
-            initEditTableColumn();
-            initExecuteTableColumn();
+            if(App.getUser().getType()==User.UserType.Teacher){
+                initEditTableColumn();
+                initExecuteTableColumn();
+            }
             tableInitFlag = false;
         }
     }
@@ -235,9 +245,9 @@ public class ExamsDrawerController
                         btn.setOnAction((ActionEvent event) -> {
                             try {
                                 Exam edit_exam = getTableView().getItems().get(getIndex());
-//                                client.closeConnection();
-                                EventBus.getDefault().unregister(this);
-                                App.setRoot("create_exam");
+                                unregisterMe();
+                                App.setExam(edit_exam);
+                                App.setRoot("edit_exam");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
@@ -261,6 +271,11 @@ public class ExamsDrawerController
         Table.getColumns().add(colBtn);
     }
 
+    private void unregisterMe ()
+    {
+        EventBus.getDefault().unregister(this);
+    }
+
     private void initExecuteTableColumn() {
         TableColumn<Exam, Void> colBtn = new TableColumn("");
 
@@ -269,14 +284,13 @@ public class ExamsDrawerController
             public TableCell<Exam, Void> call(final TableColumn<Exam, Void> param) {
                 final TableCell<Exam, Void> cell = new TableCell<Exam, Void>() {
 
-                    private final Button btn = new Button("Draw");
+                    private final Button btn = new Button("Begin");
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Exam exe_exam = getTableView().getItems().get(getIndex());
                             setExecutedExamCode(exe_exam.getCodeExam());
                             try {
-//                                client.closeConnection();
-                                EventBus.getDefault().unregister(this);
+                                unregisterMe();
                                 App.setRoot("exam_drawer");
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -378,6 +392,12 @@ public class ExamsDrawerController
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
         EventBus.getDefault().unregister(this);
-        App.setRoot("teacherMain");
+        if(App.getUser().getType()==User.UserType.Teacher){
+            App.setRoot("teacherMain");
+        }else if(App.getUser().getType()==User.UserType.Princiaple){
+            App.setRoot("principle_homepage");
+        }else {
+            App.setRoot("login1");
+        }
     }
 }

@@ -16,6 +16,7 @@ public class Exam implements Serializable
     private int time;
     private String descForStudent;
     private String descForTeacher;
+    private String courseName;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id2")
@@ -56,6 +57,25 @@ public class Exam implements Serializable
         this.coursesList = new ArrayList<>();
         this.coursesList.add(course);
         course.getExamsList().add(this);
+        courseName = course.getCourseName();
+
+        this.teacher = teacher;
+        teacher.getExams().add(this);
+    }
+
+    public Exam(SimpleExam simpleExam, Teacher teacher, Course course)
+    {
+        super();
+        this.title = simpleExam.getTitle();
+        this.codeExam = generateExamCode(simpleExam.getCodeExam(), course);
+        this.time = simpleExam.getTime();
+        this.descForStudent = simpleExam.getDescForStudent();
+        this.descForTeacher = simpleExam.getDescForTeacher();
+
+        this.coursesList = new ArrayList<>();
+        this.coursesList.add(course);
+        course.getExamsList().add(this);
+        courseName = course.getCourseName();
 
         this.teacher = teacher;
         teacher.getExams().add(this);
@@ -69,11 +89,16 @@ public class Exam implements Serializable
         this.time = exam.getTime();
         this.descForStudent = exam.getDescForStudent();
         this.descForTeacher = exam.getDescForTeacher();
+        this.courseName = exam.getCourseName();
 
-        this.examQuestion = new ArrayList<>();
-        for (ExamQuestion eq : exam.getExamQuestion()){
-            this.examQuestion.add(new ExamQuestion(eq));
+        if(exam.getExamQuestion() != null)
+        {
+            this.examQuestion = new ArrayList<>();
+            for (ExamQuestion eq : exam.getExamQuestion()){
+                this.examQuestion.add(new ExamQuestion(eq));
+            }
         }
+
 //        this.coursesList = new ArrayList<>();
 //
 //        this.teacher = exam.getTeacher();
@@ -130,6 +155,9 @@ public class Exam implements Serializable
         return title;
     }
 
+    public String getCourseName() {return courseName;}
+    public void setCourseName(String courseName) {this.courseName = courseName;}
+
     public List<Course> getCoursesList() {return coursesList;}
 
     public void setCoursesList(List<Course> coursesList) {this.coursesList = coursesList;}
@@ -161,6 +189,13 @@ public class Exam implements Serializable
         }
         this.examQuestion.add(e);
         e.setExam(this);
+    }
+
+    public void addExecutedExam (ExecutedExam ee){
+        if(this.executedExams == null){
+            this.executedExams = new ArrayList<>();
+        }
+        this.executedExams.add(ee);
     }
 
     public List<ExecutedExam> getExecutedExams() {

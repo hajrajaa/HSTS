@@ -144,7 +144,7 @@ public class SimpleServer extends AbstractServer {
 			session.flush();
 
 
-			Teacher newTeacher2 = new Teacher(1, "Ms. Tina", "123");
+			Teacher newTeacher2 = new Teacher(1, "Tina", "123");
 			teachersList.add(newTeacher2);
 			session.save(newTeacher2);
 			session.flush();
@@ -168,7 +168,7 @@ public class SimpleServer extends AbstractServer {
 			session.save(principle);
 			session.flush();
 
-			Princiaple p = new Princiaple(545, "Principle Malki", "121");
+			Princiaple p = new Princiaple(545, "Malki", "121");
 			session.save(p);
 			session.flush();
 
@@ -320,7 +320,6 @@ public class SimpleServer extends AbstractServer {
 			exam1.addExamQuestion(eq4);
 			exam1.addExamQuestion(eq5);
 
-
 			session.save(eq1);
 			session.save(eq2);
 			session.save(eq3);
@@ -329,39 +328,86 @@ public class SimpleServer extends AbstractServer {
 			session.save(exam1);
 			session.flush();
 
-			ExecutedExam ex1 = new ExecutedExam(1,newStudent1,"15/8/2023","10:00",90,true,exam1,true);
-			session.save(ex1);
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////// Exams 2 /////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+
+			String[] Calculus1_1 = {"Derivative", "Integral", "Limit", "Function"};
+			Question q26 = new Question(622, "What is the mathematical concept that represents the rate of change of a function?", Calculus1_1, 1, calculus);
+
+			String[] Calculus1_2 = {"x^2 + C", "2x + C", "x + C", "x^2 / 2 + C"};
+			Question q27 = new Question(722, "What is the indefinite integral of 2x with respect to x?", Calculus1_2, 2, calculus);
+
+			String[] Calculus1_3 = {"lim(x -> 0) (sin(x) / x)", "lim(x -> ∞) (1 / x)", "lim(x -> 1) (e^x - 1 / x - 1)", "lim(x -> π/2) (cos(x) / sin(x))"};
+			Question q28 = new Question(822, "Which limit represents the fundamental constant e?", Calculus1_3, 1, calculus);
+
+			String[] Calculus1_4 = {"Area under the curve", "Derivative", "Tangent line", "Concavity"};
+			Question q29 = new Question(922, "The definite integral of a function represents what geometric concept?", Calculus1_4, 1, calculus);
+
+			String[] Calculus1_5 = {"x^3 / 3 + C", "3x^2 + C", "x^2 + C", "3x + C"};
+			Question q30 = new Question(122, "What is the indefinite integral of 3x^2 with respect to x?", Calculus1_5, 1, calculus);
+
+			ExamQuestion x1 = new ExamQuestion(q26, 10, "", "");
+			ExamQuestion x2 = new ExamQuestion(q27, 15, "", "");
+			ExamQuestion x3 = new ExamQuestion(q28, 20, "", "");
+			ExamQuestion x4 = new ExamQuestion(q29, 30, "", "Think Hard!");
+			ExamQuestion x5 = new ExamQuestion(q30, 25, "", "");
+
+			Exam exam2 = new Exam(66, "Calculus 1 Final Exam", 5, "", "", newTeacher2, calculus);
+			exam2.addExamQuestion(x1);
+			exam2.addExamQuestion(x2);
+			exam2.addExamQuestion(x3);
+			exam2.addExamQuestion(x4);
+			exam2.addExamQuestion(x5);
+
+			session.save(q26);
+			session.save(q27);
+			session.save(q28);
+			session.save(q29);
+			session.save(q30);
+			session.save(x1);
+			session.save(x2);
+			session.save(x3);
+			session.save(x4);
+			session.save(x5);
+			session.save(exam2);
 			session.flush();
 
-			newStudent1.addExam1(ex1);
-			session.merge(newStudent1);
-			session.flush();
-			int[] hist1 = {1,2,0,4,2,1,2,4,5,2,2};
+			/// Bshara ///
 
-			int[] hist2 = {2,1,2,1,2,4,1,3,3,6,2};
-
-			ExecutedExamInfo moeda = new ExecutedExamInfo(173155,"1234","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,hist1);
-			session.save(moeda);
-			session.flush();
-
-			ExecutedExamInfo moedb = new ExecutedExamInfo(173155,"6789","Discrete Mathematics B",70,65,ExecutedExamInfo.ExamType.Virtual,hist2);
-			session.save(moedb);
-			session.flush();
-
-			dmath.addExam(exam1);
-			session.save(dmath);
-			session.flush();
-
-			newTeacherX.addExecutedExamInfo(moeda);
-			session.merge(newTeacherX);
-
-			ExecutedExamInfo moedc = new ExecutedExamInfo(1122,"4545","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
-			moeda.addExecutedExam(ex1);
-			session.save(moedc);
-			session.flush();
-
-			newTeacherX.addExecutedExamInfo(moedb);
-			session.merge(newTeacherX);
+//			ExecutedExam ex1 = new ExecutedExam(1,newStudent1,"15/8/2023","10:00",90,true,exam1,true);
+//			session.save(ex1);
+//			session.flush();
+//
+//			newStudent1.addExam1(ex1);
+//			session.merge(newStudent1);
+//			session.flush();
+//			int[] hist1 = {1,2,0,4,2,1,2,4,5,2,2};
+//
+//			int[] hist2 = {2,1,2,1,2,4,1,3,3,6,2};
+//
+//			ExecutedExamInfo moeda = new ExecutedExamInfo(173155,"1234","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,hist1);
+//			session.save(moeda);
+//			session.flush();
+//
+//			ExecutedExamInfo moedb = new ExecutedExamInfo(173155,"6789","Discrete Mathematics B",70,65,ExecutedExamInfo.ExamType.Virtual,hist2);
+//			session.save(moedb);
+//			session.flush();
+//
+//			dmath.addExam(exam1);
+//			session.save(dmath);
+//			session.flush();
+//
+//			newTeacherX.addExecutedExamInfo(moeda);
+//			session.merge(newTeacherX);
+//
+//			ExecutedExamInfo moedc = new ExecutedExamInfo(1122,"4545","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
+//			moeda.addExecutedExam(ex1);
+//			session.save(moedc);
+//			session.flush();
+//
+//			newTeacherX.addExecutedExamInfo(moedb);
+//			session.merge(newTeacherX);
 
 			session.getTransaction().commit(); // Save everything.
 
@@ -761,15 +807,15 @@ public class SimpleServer extends AbstractServer {
 				if(teacher != null){
 					newExecExam.setTeacher(teacher);
 				}
-				client.sendToClient(new Message("#drawExamRes"));
 				session.save(newExecExam);
-				session.save(teacher);
+				session.merge(teacher);
 				session.flush();
+
+				client.sendToClient(new Message("#drawExamRes"));
 				session.getTransaction().commit();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-
 		}
 		else if(msgString.equals("#StartSolveExam"))
 		{
@@ -789,12 +835,13 @@ public class SimpleServer extends AbstractServer {
 						codeExist=true;
 						if(ex.getPassword().equals(examPassword))
 						{
-							passwordExist=true;
-							Exam currExam=session.find(Exam.class,examCode);
-							Exam newExam= new Exam(currExam);
-							ExecutedExamInfo.ExamType examType=ex.getType();
+							passwordExist = true;
+							Exam currExam = session.find(Exam.class,examCode);
+							Exam newExam = new Exam(currExam);
+							ExecutedExamInfo.ExamType examType = ex.getType();
+							int ExamInfoID = ex.getId();
 							System.out.println(examType);
-							Object[] obj = {newExam,examType};
+							Object[] obj = {newExam,examType,ExamInfoID};
 							client.sendToClient(new Message("#StartSolveSuccessfully",obj));
 						}
 					}
@@ -804,7 +851,7 @@ public class SimpleServer extends AbstractServer {
 					Warning warning = new Warning("Exam Code Doesn't Exist");
 					client.sendToClient(new Message("#StartSolveWarning", warning));
 				}
-				if(!passwordExist){
+				else if(!passwordExist){
 					Warning warning = new Warning("Exam Password Is Not Correct");
 					client.sendToClient(new Message("#StartSolveWarning", warning));
 				}
@@ -814,7 +861,6 @@ public class SimpleServer extends AbstractServer {
 			}
 			session.getTransaction().commit();
 		}
-
 		else if(msgString.equals("#GetTeacherAllExams"))
 		{
 				session.beginTransaction();
@@ -922,6 +968,7 @@ public class SimpleServer extends AbstractServer {
 					client.sendToClient(new Message("#UpdateGradeWarning", warning));
 				} else {
 					currExam.setGrade(newGrade);
+					currExam.getTestDate().updateGradesInfo();
 					ExecutedExam copyExam=new ExecutedExam(currExam);
 					client.sendToClient(new Message("#UpdateGradeSuccessfully", copyExam));
 					session.update(currExam);
@@ -965,13 +1012,9 @@ public class SimpleServer extends AbstractServer {
 				throw new RuntimeException(e);
 			}
 			session.getTransaction().commit();
-
-
-
-
 		}
 
-		////////////////////////////////////////////////////////////////23////////////////////
+		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////////////////////
 		////////////////////////////////////// Michel //////////////////////////////////////
@@ -1045,31 +1088,39 @@ public class SimpleServer extends AbstractServer {
 		{
 			session.beginTransaction();
 			String name = (String) message.getObject1();
+			System.out.println("GetAllExamsByCourse   1");
 			List<Course> list = getAllObjects(Course.class);
 			Course course = null;
+			System.out.println("GetAllExamsByCourse   2");
 			for(Course c : list){
 				if(c.getCourseName().equals(name)){
 					course = c;
 					break;
 				}
 			}
+			System.out.println("GetAllExamsByCourse   3");
 			try {
 				if(course != null){
+					System.out.println("GetAllExamsByCourse   4");
 					ArrayList<Exam> allExams = new ArrayList<>();
 					for (Exam e : course.getExamsList()){
+						System.out.println("GetAllExamsByCourse   --> "+e.getTitle());
 						allExams.add(new Exam(e));
+						System.out.println("GetAllExamsByCourse   <-- "+e.getTitle());
 					}
+					System.out.println("GetAllExamsByCourse   5");
 					client.sendToClient(new Message("#GetAllExamsByCourse_Replay", allExams));
 				}else{
 					Warning warning = new Warning("Course Name doesn't exist");
 					client.sendToClient(new Message("#loginWarning", warning));
 				}
+				System.out.println("GetAllExamsByCourse   xx");
 				session.getTransaction().commit();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		else if (msgString.equals("#GetAllQuestionsByCourse")) //
+		else if (msgString.equals("#GetAllQuestionsByCourse")) ///
 		{
 			session.beginTransaction();
 			String name = (String) message.getObject1();
@@ -1121,7 +1172,141 @@ public class SimpleServer extends AbstractServer {
 				session.merge(c);
 				session.flush();
 			}
+			client.sendToClient(new Message("#successAlert", "Question Saved"));
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#CreateNewExam")) ///
+		{
+			System.out.println("p1");
+			session.beginTransaction();
+			Object [] data = (Object []) message.getObject1();
+			System.out.println("p2");
 
+			SimpleExam simpleExam = (SimpleExam) data[0];
+			System.out.println("p3");
+			ArrayList<ExamQuestion> allExamQuestions = new ArrayList<>((List<ExamQuestion>) data[1]);
+			System.out.println("p4");
+
+			String teacherName = simpleExam.getTeacherName();
+			Teacher teacher = session.find(Teacher.class, teacherName);
+			System.out.println("p5");
+
+			String courseName = simpleExam.getCourseName();
+			Course course = null;
+			System.out.println("p6");
+
+			ArrayList<Course> allCoursesList = new ArrayList<>(getAllObjects(Course.class));
+			for(Course c : allCoursesList){
+				if(c.getCourseName().equals(courseName)){
+					course = c;
+					break;
+				}
+			}
+			System.out.println("p66 --> " + course.getCourseName());
+
+			Exam exam = new Exam(simpleExam, teacher, course);
+			System.out.println("p7");
+
+			if(allExamQuestions != null)
+			{
+				System.out.println("p7 -s-");
+				for(ExamQuestion eq : allExamQuestions){
+					Question question = session.find(Question.class, eq.getQuestion().getCode());
+					if(question != null){
+						System.out.println("p7 ---> "+question.getQuestion());
+						ExamQuestion examQuestion = new ExamQuestion(question, eq.getPoints(), eq.getTeacher_note(), eq.getStudent_note());
+						System.out.println("p7 --->   A");
+						exam.addExamQuestion(examQuestion);
+						System.out.println("p7 --->   B");
+						session.save(examQuestion);
+						System.out.println("p7 <---s "+question.getQuestion());
+					}
+				}
+				System.out.println("p7 -f-");
+			}
+
+			session.save(exam);
+			System.out.println("p8");
+			session.flush();
+			System.out.println("ppx");
+			try
+			{
+				client.sendToClient(new Message("#successAlert", "Exam Saved"));
+			}
+			catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#newExecutedVirtualExam")) ///
+		{
+			session.beginTransaction();
+			System.out.println("v1");
+			ExecutedVirtual vExam = (ExecutedVirtual) message.getObject1();
+			System.out.println("v2");
+			boolean inTime = vExam.isSubmitInTime();
+
+			Student student = session.find(Student.class, vExam.getStudentName());
+			System.out.println("v3");
+			if (student == null){
+				Warning warning = new Warning("Error1! Could Not Save Exam");
+				client.sendToClient(new Message("#loginWarning", warning));
+			}else{
+				System.out.println("v4");
+				ExecutedExamInfo eInfo = session.find(ExecutedExamInfo.class, vExam.getInfoID());
+				if (eInfo == null){
+					Warning warning = new Warning("Error2! Could Not Save Exam");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}else{
+					System.out.println("v5");
+					Exam exam = session.find(Exam.class, eInfo.getCode());
+					if (exam == null){
+						Warning warning = new Warning("Error3! Could Not Save Exam");
+						client.sendToClient(new Message("#loginWarning", warning));
+					}else{
+						System.out.println("v6");
+						vExam.setStudent(student);
+						System.out.println("v7");
+						vExam.setExam(exam);
+						System.out.println("v8");
+						vExam.setGrade(vExam.culcGrade());
+						System.out.println("v8.5");
+						vExam.setExecutedExamInfo(eInfo);
+						System.out.println("v9");
+						try
+						{
+							System.out.println("v10");
+							session.save(vExam);
+							System.out.println("v11");
+							session.flush();
+							System.out.println("v12");
+							if(inTime){
+								client.sendToClient(new Message("#successAlert", "The Exam Has Been Finished And Saved In Time"));
+							}else {
+								Warning warning = new Warning("Time Is Up! The Exam Has Been Automatically Saved");
+								client.sendToClient(new Message("#loginWarning", warning));
+							}
+						}
+						catch (Exception e1) {
+							e1.printStackTrace();
+						}
+
+					}
+				}
+			}
+			System.out.println("vx");
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#getExamCopy")) ///
+		{
+			session.beginTransaction();
+
+			int examNum = (int) message.getObject1();
+			ExecutedVirtual vExam = session.find(ExecutedVirtual.class, examNum);
+
+			if(vExam != null){
+				client.sendToClient(new Message("#getExamCopy_Replay", new ExecutedVirtual(vExam)));
+			}
 			session.getTransaction().commit();
 		}
 

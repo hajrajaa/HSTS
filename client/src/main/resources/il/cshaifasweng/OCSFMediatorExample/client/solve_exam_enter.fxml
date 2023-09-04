@@ -16,13 +16,13 @@
                 <Image url="@../../../../images/paper.png" />
             </image>
         </ImageView>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="146.0" prefHeight="34.0" prefWidth="233.0" text="Start Exam" textFill="#e28743">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="384.0" layoutY="158.0" prefHeight="34.0" prefWidth="233.0" text="Start Exam" textFill="#e28743">
             <font>
                 <Font size="36.0" />
             </font>
         </Label>
         <TextField fx:id="ExamCode_TextField" alignment="CENTER" layoutX="410.0" layoutY="256.0" prefHeight="40.0" prefWidth="196.0" promptText="Exam Code" style="-fx-background-color: abdbe3;" />
-        <Button fx:id="Start_Button" layoutX="658.0" layoutY="440.0" mnemonicParsing="false" onAction="#Start_Click" onMouseEntered="#msin" onMouseExited="#msout" prefHeight="40.0" prefWidth="99.0" style="-fx-background-color: e28743;" text="Start" textFill="WHITE" textOverrun="CLIP">
+        <Button fx:id="Start_Button" layoutX="667.0" layoutY="440.0" mnemonicParsing="false" onAction="#Start_Click" onMouseEntered="#msin" onMouseExited="#msout" prefHeight="40.0" prefWidth="99.0" style="-fx-background-color: e28743;" text="Start" textFill="WHITE" textOverrun="CLIP">
          <font>
             <Font size="18.0" />
          </font>
@@ -38,15 +38,15 @@
                 <Image url="@../../../../images/lock_c.png" />
             </image>
         </ImageView>
-      <ImageView fitHeight="65.0" fitWidth="70.0" layoutX="897.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="53.0" fitWidth="53.0" layoutX="909.0" layoutY="37.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/home_lblue.png" />
          </image>
       </ImageView>
-      <Button layoutX="897.0" layoutY="37.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="65.0" prefWidth="65.0" style="-fx-background-color: transparent;" />
-      <Text fx:id="error_bar_text" fill="#e28743" layoutX="376.0" layoutY="458.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" textAlignment="CENTER" wrappingWidth="232.9999953508377">
+      <Button layoutX="909.0" layoutY="37.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="53.0" prefWidth="53.0" style="-fx-background-color: transparent;" />
+      <Text fx:id="error_bar_text" fill="#e28743" layoutX="375.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" textAlignment="CENTER" wrappingWidth="266.9999953508377">
          <font>
-            <Font size="16.0" />
+            <Font size="18.0" />
          </font>
       </Text>
     </children>

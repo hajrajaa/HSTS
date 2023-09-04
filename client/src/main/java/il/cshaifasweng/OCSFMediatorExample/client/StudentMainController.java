@@ -36,12 +36,12 @@ public class StudentMainController {
 
     @FXML
     void GetExamCopyButton(ActionEvent event) {
-//        try {
-//            SimpleClient.getClient().sendToServer(new Message("#GetExamCopy", examCodeTxt.getText()));
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#getExamCopy", 1));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 

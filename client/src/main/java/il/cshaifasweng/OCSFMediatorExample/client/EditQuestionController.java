@@ -1,9 +1,9 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
-import il.cshaifasweng.OCSFMediatorExample.entities.*;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
+import il.cshaifasweng.OCSFMediatorExample.entities.Course;
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
+import il.cshaifasweng.OCSFMediatorExample.entities.Question;
+import il.cshaifasweng.OCSFMediatorExample.entities.Subject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,18 +19,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateQuestionController
+public class EditQuestionController
 {
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////// Class Fields ///////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
     public SimpleClient client;
+    private Question baseQuestion;
     static int correctAnswerG=0;
     private List<Subject> allSubjects;
     private Subject selectedSubject;
     private List<Course> allCourses;
 
-//    private ArrayList<String> allCoursesNames;
+    //    private ArrayList<String> allCoursesNames;
     private List<Course> chosenCourses;
     @FXML
     private Button Answer1_Button, Answer2_Button, Answer3_Button, Answer4_Button, Save_Button;
@@ -62,6 +63,15 @@ public class CreateQuestionController
         answers = new Button[4];
         chosenCourses = new ArrayList<>();
         initializeButtons();
+
+        baseQuestion = App.getQuestionToEdit();
+        QuestionCode_TextField.setText("");
+        Question_TextArea.setText(baseQuestion.getQuestion());
+        Answer1_TextField.setText(baseQuestion.getAnswers()[0]);
+        Answer2_TextField.setText(baseQuestion.getAnswers()[1]);
+        Answer3_TextField.setText(baseQuestion.getAnswers()[2]);
+        Answer4_TextField.setText(baseQuestion.getAnswers()[3]);
+        setCorrectAnswer(baseQuestion.getCorrect_answer());
 
         try {
             SimpleClient.getClient().sendToServer(new Message("#GetAllSubjects"));
@@ -143,7 +153,15 @@ public class CreateQuestionController
             }
             ObservableList<String> basesList = FXCollections.observableArrayList(allSubjectsNames);
             Subject_ComboBox.setItems(basesList);
-            error_bar_text.setText("Please Choose a Subject");
+
+            if(baseQuestion.getCoursesList() != null){
+                if(baseQuestion.getCoursesList().size() > 0){
+                    System.out.println("eee q");
+                    chosenCourses = baseQuestion.getCoursesList();
+                    setCoursesBySubject(baseQuestion.getCoursesList().get(0).getSubject().getSubName());
+                }
+            }
+
         }
     }
 
@@ -296,11 +314,18 @@ public class CreateQuestionController
     {
         if(Subject_ComboBox.getValue() == null) {return;}
         String subjectName = Subject_ComboBox.getValue().toString();
+
+        setCoursesBySubject(subjectName);
+    }
+
+    public void setCoursesBySubject (String subjectName)
+    {
         selectedSubject = null;
 
         for(Subject s : allSubjects){
             if(s.getSubName().equals(subjectName)){
                 selectedSubject = s;
+                System.out.println("eee " + s);
                 break;
             }
         }

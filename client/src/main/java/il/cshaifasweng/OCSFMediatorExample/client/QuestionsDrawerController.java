@@ -192,6 +192,9 @@ public class QuestionsDrawerController
 
         if(tableFlag){
             initViewTableColumn();
+            if(App.getUser().getType()==User.UserType.Teacher){
+                initEditTableColumn();
+            }
             tableFlag = false;
         }
     }
@@ -229,6 +232,49 @@ public class QuestionsDrawerController
         Table.getColumns().add(colBtn);
     }
 
+    private void initEditTableColumn() {
+        TableColumn<Question, Void> colBtn = new TableColumn("");
+
+        Callback<TableColumn<Question, Void>, TableCell<Question, Void>> cellFactory = new Callback<TableColumn<Question, Void>, TableCell<Question, Void>>() {
+            @Override
+            public TableCell<Question, Void> call(final TableColumn<Question, Void> param) {
+                final TableCell<Question, Void> cell = new TableCell<Question, Void>() {
+
+                    private final Button btn = new Button("Edit");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            Question question = getTableView().getItems().get(getIndex());
+                            App.setQuestionToEdit(question);
+                            try {
+                                unregisterMe();
+                                App.setRoot("edit_question");
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        Table.getColumns().add(colBtn);
+    }
+
+    private void unregisterMe ()
+    {
+        EventBus.getDefault().unregister(this);
+    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////// On Action Functions ///////////////////////////////////////
@@ -261,9 +307,14 @@ public class QuestionsDrawerController
     }
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
-//        client.closeConnection();
         EventBus.getDefault().unregister(this);
-        App.setRoot("teacherMain");
+        if(App.getUser().getType()==User.UserType.Teacher){
+            App.setRoot("teacherMain");
+        }else if(App.getUser().getType()==User.UserType.Princiaple){
+            App.setRoot("principle_homepage");
+        }else {
+            App.setRoot("login1");
+        }
     }
 
 }

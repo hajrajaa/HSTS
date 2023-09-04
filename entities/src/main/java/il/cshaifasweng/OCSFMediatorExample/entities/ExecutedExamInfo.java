@@ -2,19 +2,17 @@ package il.cshaifasweng.OCSFMediatorExample.entities;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.io.Serializable;
 
 @Entity
 @Table(name="executedexamsinfo")
-public class ExecutedExamInfo implements Serializable {
-
+public class ExecutedExamInfo implements Serializable
+{
     public enum ExamType{
         Virtual,Manual;
     }
-
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id ;
@@ -25,9 +23,8 @@ public class ExecutedExamInfo implements Serializable {
     private double average;
     private double median;
     private ExamType type;
-
-
     private int[] hist;
+    private ArrayList<Double> allGrades;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "testDate")
     private List<ExecutedExam> executedExamList;
@@ -54,7 +51,9 @@ public class ExecutedExamInfo implements Serializable {
         this.median = median;
         this.type=type;
         this.hist = new int[10];
+        for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executedExamList = new ArrayList<ExecutedExam>();
+        this.allGrades = new ArrayList<>();
         setExecutingTeacher(teacher);
     }
 
@@ -68,6 +67,7 @@ public class ExecutedExamInfo implements Serializable {
         this.type=type;
         this.hist = hist;
         this.executedExamList = new ArrayList<ExecutedExam>();
+        this.allGrades = new ArrayList<>();
     }
 
     public ExecutedExamInfo(ExecutedExamInfo exam)
@@ -81,6 +81,7 @@ public class ExecutedExamInfo implements Serializable {
         this.median = exam.getMedian();
         this.type = exam.getType();
         this.hist = exam.getHist();
+        this.allGrades = new ArrayList<>();
     }
 
     public  ExecutedExamInfo(int code,String password,ExamType type)
@@ -89,7 +90,9 @@ public class ExecutedExamInfo implements Serializable {
         this.password=password;
         this.type=type;
         this.hist = new int[10];
+        for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executedExamList = new ArrayList<ExecutedExam>();
+        this.allGrades = new ArrayList<>();
     }
 
     public  ExecutedExamInfo(int code,String password,ExamType type, String title, Teacher teacher)
@@ -98,6 +101,7 @@ public class ExecutedExamInfo implements Serializable {
         this.password=password;
         this.type=type;
         this.hist = new int[10];
+        for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executingTeacher=teacher;
         teacher.addExecutedExamsInfo(this);
         this.title=title;
@@ -105,6 +109,7 @@ public class ExecutedExamInfo implements Serializable {
         this.overtime=0;
         this.average=0;
         this.median=0;
+        this.allGrades = new ArrayList<>();
     }
 
     public ExecutedExamInfo() {}
@@ -166,9 +171,15 @@ public class ExecutedExamInfo implements Serializable {
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int[] getHist() {
+        return hist;
+    }
+    public void setHist(int[] hist) {
+        this.hist = hist;
     }
 
     public void setExecutedExamList(List<ExecutedExam> executedExamList) {
@@ -186,7 +197,6 @@ public class ExecutedExamInfo implements Serializable {
         {
             teacher.getExecutedExamsInfo().add(this);
         }
-
     }
 
     public void addExecutedExam (ExecutedExam ex){
@@ -194,14 +204,70 @@ public class ExecutedExamInfo implements Serializable {
             this.executedExamList = new ArrayList<>();
         }
         this.executedExamList.add(ex);
-        ex.setExecutedExamInfo(this);
-    }
-  
-    public int[] getHist() {
-        return hist;
+        updateGradesInfo();
     }
 
-    public void setHist(int[] hist) {
-        this.hist = hist;
+    public void updateGradesInfo ()
+    {
+        refreshAllGradesList();
+        this.createHist();
+        this.setAverage(culcAverage());
+        this.setMedian(culcMedian());
+    }
+
+    private void refreshAllGradesList ()
+    {
+        if(this.executedExamList != null){
+            this.allGrades = new ArrayList<>();
+            for (ExecutedExam ee : this.executedExamList){
+                this.allGrades.add(ee.getGrade());
+            }
+        }
+    }
+
+    private void createHist ()
+    {
+        ArrayList<Double> values = new ArrayList<>(allGrades);
+        for (int i=0; i < this.hist.length; i++) {
+            this.hist[i] = 0;
+        }
+        for (int i=0; i < values.size(); i++) {
+            addToHist(values.get(i));
+        }
+    }
+
+    private void addToHist (double newGrade)
+    {
+        if(newGrade >= 100) {
+            this.hist[9]++;
+        }else{
+            this.hist[(int)newGrade/10]++;
+        }
+
+    }
+
+    private double culcAverage ()
+    {
+        ArrayList<Double> values = new ArrayList<>(allGrades);
+        double sum = 0;
+        for (int i=0; i < values.size(); i++) {
+            sum += values.get(i);
+        }
+        return sum / values.size();
+    }
+
+    private double culcMedian ()
+    {
+        ArrayList<Double> values = new ArrayList<>(allGrades);
+        Collections.sort(values);
+
+        if (values.size() % 2 == 1)
+            return values.get((values.size() + 1) / 2 - 1);
+        else {
+            double lower = values.get(values.size() / 2 - 1);
+            double upper = values.get(values.size() / 2);
+
+            return (lower + upper) / 2.0;
+        }
     }
 }

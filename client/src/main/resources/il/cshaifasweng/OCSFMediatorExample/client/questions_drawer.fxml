@@ -23,7 +23,7 @@
                 <TableView fx:id="Table" prefHeight="420.0" prefWidth="475.0">
                     <columns>
                         <TableColumn fx:id="Code_Column" prefWidth="55.33331298828125" text="Code" />
-                        <TableColumn fx:id="Question_Column" prefWidth="352.3333740234375" text="Question" />
+                        <TableColumn fx:id="Question_Column" prefWidth="298.0" text="Question" />
                     </columns>
                 </TableView>
             </children></VBox>
@@ -35,7 +35,7 @@
         <Button fx:id="Answer4" alignment="TOP_LEFT" layoutX="571.0" layoutY="441.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="363.0" style="-fx-background-color: #e28743;" text="Answer 4" />
         <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="545.0" layoutY="571.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="error_bar" wrappingWidth="415.0000065565109" />
       <Text fx:id="code_text" layoutX="571.0" layoutY="514.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Code:" wrappingWidth="362.99998313188553" />
-      <Text fx:id="question_number_text11" layoutX="545.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Course:" wrappingWidth="85.10799968242645" />
+      <Text fx:id="question_number_text11" layoutX="545.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Course:" wrappingWidth="85.10799968242645" />
       <ComboBox fx:id="Subject_ComboBox" layoutX="130.0" layoutY="87.0" onAction="#SubjectSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Subject" style="-fx-background-color: #ffffff;" />
       <ComboBox fx:id="Course_ComboBox" layoutX="624.0" layoutY="87.0" onAction="#CourseSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Course" style="-fx-background-color: #ffffff;" />
       <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="916.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">

@@ -7,16 +7,13 @@ import il.cshaifasweng.OCSFMediatorExample.entities.ExecutedExamInfo;
 public class StartSolveExamEvent {
 
     Exam exam;
-
-
-
     ExecutedExamInfo.ExamType examType;
+    int examInfoID;
 
-
-
-    public StartSolveExamEvent(Exam exam , ExecutedExamInfo.ExamType type) {
+    public StartSolveExamEvent(Exam exam , ExecutedExamInfo.ExamType type, int examInfoID) {
         this.exam=exam;
         this.examType=type;
+        this.examInfoID=examInfoID;
     }
 
     public Exam getExam() {
@@ -33,6 +30,14 @@ public class StartSolveExamEvent {
 
     public void setExamType(ExecutedExamInfo.ExamType examType) {
         this.examType = examType;
+    }
+
+    public int getExamInfoID() {
+        return examInfoID;
+    }
+
+    public void stExamInfoID(int examInfoID) {
+        this.examInfoID=examInfoID;
     }
 
 }

@@ -14,15 +14,11 @@
             <Image url="@../../../../images/teacher_wallpaper.png" />
          </image>
       </ImageView>
-      <Button fx:id="QuestionsDrawerButton" layoutX="611.0" layoutY="186.0" mnemonicParsing="false" onAction="#questionsDrawerButton" onMouseEntered="#questions_drawer_in" onMouseExited="#questions_drawer_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="Questions Drawer">
+      <Button fx:id="createExamButton" layoutX="611.0" layoutY="246.0" mnemonicParsing="false" onAction="#createExamButton" onMouseEntered="#create_exam_in" onMouseExited="#create_exam_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="Create Exam">
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="createExamButton" layoutX="611.0" layoutY="270.0" mnemonicParsing="false" onAction="#createExamButton" onMouseEntered="#create_exam_in" onMouseExited="#create_exam_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="Create Exam">
-         <font>
-            <Font size="18.0" />
-         </font></Button>
-      <Button fx:id="seeStatisticsButton" layoutX="611.0" layoutY="438.0" mnemonicParsing="false" onAction="#seeStatisticsButton" onMouseEntered="#statistics_in" onMouseExited="#statistics_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="See Statistics">
+      <Button fx:id="seeStatisticsButton" layoutX="611.0" layoutY="414.0" mnemonicParsing="false" onAction="#seeStatisticsButton" onMouseEntered="#statistics_in" onMouseExited="#statistics_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="See Statistics">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -31,7 +27,7 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="ExamsDrawerButton" layoutX="611.0" layoutY="355.0" mnemonicParsing="false" onAction="#ExamDrawerClick" onMouseEntered="#exams_drawer_in" onMouseExited="#exams_drawer_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="Exams Drawer">
+      <Button fx:id="ArchiveButton" layoutX="611.0" layoutY="331.0" mnemonicParsing="false" onAction="#ArchiveClick" onMouseEntered="#exams_drawer_in" onMouseExited="#exams_drawer_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="Archive">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -40,7 +36,7 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <Button fx:id="createQuestionButton" layoutX="611.0" layoutY="102.0" mnemonicParsing="false" onAction="#createQuestionButton" onMouseEntered="#create_question_in" onMouseExited="#create_question_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="Create Question">
+      <Button fx:id="createQuestionButton" layoutX="611.0" layoutY="163.0" mnemonicParsing="false" onAction="#createQuestionButton" onMouseEntered="#create_question_in" onMouseExited="#create_question_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="Create Question">
          <font>
             <Font size="18.0" />
          </font>

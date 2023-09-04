@@ -46,11 +46,14 @@ public class SolveExamController
     private Text exam_name_text, date_text, question_number_text, question_text, student_note_text, clock_text, extra_time_text;
     @FXML
     ImageView note_ImageView;
+
+    private Timeline clock;
     @FXML
     ImageView clock_0,clock_1,clock_2,clock_3,clock_4,clock_5,clock_6,clock_7,clock_8;
     ImageView[] clks;
     private int clks_counter, extraTime;
     private LocalTime startTime;
+    private boolean timeUpFlag;
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////// Initialize ///////////////////////////////////////////
@@ -65,7 +68,7 @@ public class SolveExamController
         exam_name_text.setText(exam.getTitle());
         date_text.setText(App.getDate());
 
-
+        timeUpFlag = true;
         extraTime = 0;
         extra_time_text.setText("");
         startTime = LocalTime.now();
@@ -81,9 +84,11 @@ public class SolveExamController
 
         currentQuestionNumber = 0;
         loadNewQuestion(currentQuestionNumber);
-
-        vexam = new ExecutedVirtual(exam, (Student)App.getUser(), startTime.toString());
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// Clock //////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void initClock(int duration)
     {
@@ -93,27 +98,44 @@ public class SolveExamController
         LocalTime endTime = startTime.plusMinutes(duration);
         LocalTime endWithExtra = endTime.plusMinutes(extraTime);
 
-        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            loadNextClk();
-
+        clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
             LocalTime currentTime = LocalTime.now();
             long diff = currentTime.until(endWithExtra, ChronoUnit.SECONDS);
 
             if(extraTime > 0) {extra_time_text.setText("Extra Time: " + extraTime + "min");}
 
             LocalTime defaultTime = LocalTime.parse("00:00:00");
-            if(diff<=0){
-                exam_name_text.setText("FINISHED");
+            if(diff<=0 && timeUpFlag){
+                timeUpFlag = false;
+                exam_name_text.setText("Time Is Up !");
                 clock_text.setText(defaultTime.format(dtf));
+                try {
+                    endExam(false);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }else{
                 LocalTime remaining = defaultTime.plusSeconds(diff);
                 clock_text.setText(remaining.format(dtf));
+                loadNextClk();
             }
         }),
                 new KeyFrame(Duration.seconds(1))
         );
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
+    }
+
+    private String getStartTime ()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return  startTime.format(dtf);
+    }
+
+    private String getEndTime ()
+    {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return  LocalTime.now().format(dtf);
     }
 
     private void initClockImages()
@@ -142,6 +164,10 @@ public class SolveExamController
         clks_counter = (clks_counter+1)%9;
         clks[clks_counter].setVisible(true);
     }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// Common /////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////
 
     private void loadNewQuestion (int questionNumber)
     {
@@ -183,45 +209,20 @@ public class SolveExamController
     private void initializeButtons ()
     {
         answer1_button.setDisable(false);
-        setButtonColor(answer1_button, "gray");
+        App.setButtonColor(answer1_button, "gray");
         answersButtons[0] = answer1_button;
 
         answer2_button.setDisable(false);
-        setButtonColor(answer2_button, "gray");
+        App.setButtonColor(answer2_button, "gray");
         answersButtons[1] = answer2_button;
 
         answer3_button.setDisable(false);
-        setButtonColor(answer3_button, "gray");
+        App.setButtonColor(answer3_button, "gray");
         answersButtons[2] = answer3_button;
 
         answer4_button.setDisable(false);
-        setButtonColor(answer4_button, "gray");
+        App.setButtonColor(answer4_button, "gray");
         answersButtons[3] = answer4_button;
-    }
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////////////////// Common /////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private void setButtonColor (Button B, String color)
-    {
-        String colorID = "#ffffff"; // default white
-        if(color.equals("black")){
-            colorID = "#000000";
-        } else if (color.equals("orange")) {
-            colorID = "#e28743";
-        } else if (color.equals("dblue")) {
-            colorID = "#063970";
-        } else if (color.equals("lblue")) {
-            colorID = "#abdbe3";
-        } else if (color.equals("green")) {
-            colorID = "#34b048";
-        } else if (color.equals("red")) {
-            colorID = "#ff0404";
-        } else if (color.equals("gray")) {
-            colorID =  "#a5a9ab";
-        }
-        B.setStyle("-fx-background-color: " + colorID);
     }
 
     private void setCorrectAnswer (int n)
@@ -232,12 +233,27 @@ public class SolveExamController
         for (int i=0; i<answersButtons.length; i++)
         {
             if(i == correctAnswerNumber){
-                setButtonColor(answersButtons[i], "orange");
+                App.setButtonColor(answersButtons[i], "orange");
             }
             else {
-                setButtonColor(answersButtons[i], "gray");
+                App.setButtonColor(answersButtons[i], "gray");
             }
         }
+    }
+
+    private void endExam (boolean inTime) throws IOException
+    {
+        ExecutedExam eExam = new ExecutedExam (exam.getTitle(), App.getExamInfoID(), App.getUser().getUserName(), date_text.getText(), getStartTime(), getEndTime(), inTime, false);
+        ExecutedVirtual vExam = new ExecutedVirtual (eExam, (ArrayList) examAnswers);
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#newExecutedVirtualExam", vExam));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        clock.stop();
+        EventBus.getDefault().unregister(this);
+        App.setRoot("studentMain");
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -275,11 +291,7 @@ public class SolveExamController
     }
 
     public void finish_exam_click(ActionEvent actionEvent) throws IOException {
-        // TODO: Implement
-//        client.closeConnection();
-        EventBus.getDefault().unregister(this);
-        App.setRoot("studentMain");
-
+        endExam(true);
     }
 
     public void prev_button_click(ActionEvent actionEvent)
@@ -294,10 +306,10 @@ public class SolveExamController
     }
 
     public void msin() {
-        setButtonColor(finish_exam_button,"green");
+        App.setButtonColor(finish_exam_button,"green");
     }
     public void msout() {
-        setButtonColor(finish_exam_button,"orange");
+        App.setButtonColor(finish_exam_button,"orange");
     }
 
 }

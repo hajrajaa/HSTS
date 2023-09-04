@@ -10,6 +10,8 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class ExecutedExam implements Serializable {
     @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int examNum;
 
     private String title;
@@ -20,33 +22,15 @@ public class ExecutedExam implements Serializable {
 
     private  String startime;
 
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
     private String studentName;
 
     private String endtime;
 
-    private  double grade;
-
-    public Exam getExam() {
-        return exam;
-    }
-
-    public boolean isMarked() {
-        return marked;
-    }
-
-    public void setMarked(boolean marked) {
-        this.marked = marked;
-    }
+    private double grade;
 
     private boolean marked;
+
+    private boolean submitInTime;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "exam_id")
@@ -56,25 +40,57 @@ public class ExecutedExam implements Serializable {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    public boolean isSubmitInTime() {
-        return submitInTime;
-    }
-
-    public void setSubmitInTime(boolean submitInTime) {
-        this.submitInTime = submitInTime;
-    }
-
-    private boolean submitInTime;
-
-    public void setExecutedExamInfo(ExecutedExamInfo testDate) {
-        this.testDate = testDate;
-    }
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "testDate_id")
     private ExecutedExamInfo testDate;
 
-    public ExecutedExam() {
+    public String getStudentName() {
+        return studentName;
+    }
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public boolean isMarked() {
+        return marked;
+    }
+    public void setMarked(boolean marked) {
+        this.marked = marked;
+    }
+
+    public boolean isSubmitInTime() {
+        return submitInTime;
+    }
+    public void setSubmitInTime(boolean submitInTime) {
+        this.submitInTime = submitInTime;
+    }
+
+    public ExecutedExam() {}
+
+    ///
+    public ExecutedExam(String title, int infoID, String studentName, String examDate, String startime, String endtime, boolean submitInTime, boolean marked, double grade) {
+        this.title = title;
+        this.infoID = infoID;
+        this.examDate = examDate;
+        this.startime = startime;
+        this.studentName = studentName;
+        this.endtime = endtime;
+        this.grade = grade;
+        this.marked = marked;
+        this.submitInTime = submitInTime;
+    }
+
+    ///
+    public ExecutedExam(String title, int infoID, String studentName, String examDate, String startime, String endtime, boolean submitInTime, boolean marked) {
+        this.title = title;
+        this.infoID = infoID;
+        this.examDate = examDate;
+        this.startime = startime;
+        this.studentName = studentName;
+        this.endtime = endtime;
+        this.grade = grade;
+        this.marked = marked;
+        this.submitInTime = submitInTime;
     }
 
     public ExecutedExam(int examNum, Student student, String examDate, String startime, double grade, boolean submitInTime, Exam exam,ExecutedExamInfo examInfo) {
@@ -131,18 +147,26 @@ public class ExecutedExam implements Serializable {
         this.marked = exam.isMarked();
     }
 
-    public int getInfoID() { return infoID; }
+    public ExecutedExam(Exam e, double grade, String title, String date) {
+        super();
+        System.out.println("v a --> x");
+        this.title=title;
+        this.examDate=date;
+        this.grade=grade;
+        System.out.println("v a     xxx");
+        this.exam = new Exam(e);
+        System.out.println("v a <--");
+    }
 
+    public int getInfoID() { return infoID; }
     public void setInfoID(int infoID) { this.infoID = infoID; }
 
     public int getExamNum() {return examNum;}
-
     public void setExamNum(int examNum) {this.examNum = examNum;}
 
     public String getExamDate() {
         return examDate;
     }
-
     public void setExamDate(String examDate) {
         this.examDate = examDate;
     }
@@ -150,19 +174,20 @@ public class ExecutedExam implements Serializable {
     public String getStartime() {
         return startime;
     }
-
     public void setStartime(String startime) {
         this.startime = startime;
     }
 
+    public String getEndtime() {
+        return endtime;
+    }
     public void setEndtime(String endtime) {
-        this.startime = endtime;
+        this.endtime = endtime;
     }
 
     public double getGrade() {
         return grade;
     }
-
     public void setGrade(double grade) {
         this.grade = grade;
     }
@@ -170,7 +195,6 @@ public class ExecutedExam implements Serializable {
     public boolean isInDuration() {
         return submitInTime;
     }
-
     public void setInDuration(boolean inDuration) {
         this.submitInTime = inDuration;
     }
@@ -178,13 +202,8 @@ public class ExecutedExam implements Serializable {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public ExecutedExamInfo getTestDate() {
-        return testDate;
     }
 
     public void setTestDate(ExecutedExamInfo testDate) {
@@ -228,22 +247,37 @@ public class ExecutedExam implements Serializable {
 //        }
 //    }
 
-    public void setStudent (Student s){
+    public void setStudent (Student s)
+    {
         this.student=s;
-    }
-
-    public void setExam(Exam exam) {
-        if (this.exam != null) {
-            this.exam.getExecutedExams().remove(this);
-        }
-        this.exam = exam;
-        if (exam != null) {
-            if(exam.getExecutedExams()!=null) {exam.getExecutedExams().add(this);}
+        if(s != null){
+            s.addExam(this);
         }
     }
-
     public Student getStudent() {
         return student;
     }
+
+    public Exam getExam() {return this.exam;}
+
+    public void setExam(Exam exam) {
+        this.exam = exam;
+        if (exam != null) {
+            exam.addExecutedExam(this);
+        }
+    }
+
+    public ExecutedExamInfo getTestDate() {
+        return testDate;
+    }
+
+    public void setExecutedExamInfo(ExecutedExamInfo executedExamInfo) {
+        this.testDate=executedExamInfo;
+        if(executedExamInfo != null){
+            executedExamInfo.addExecutedExam(this);
+        }
+    }
+
+
 
 }

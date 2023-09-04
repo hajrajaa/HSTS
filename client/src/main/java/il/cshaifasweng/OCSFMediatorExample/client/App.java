@@ -36,10 +36,10 @@ public class App extends Application {
 
     public  static Exam exam;
 
-
+    public  static Question questionToEdit;
     public static ExecutedExamInfo.ExamType examType;
-
-
+    public static int examInfoID;
+    public static ExecutedVirtual examCopy;
     public  static List<Student> studentList;
 
     public  static List<Teacher> teacherList;
@@ -100,8 +100,6 @@ public class App extends Application {
 
     public  static List<ExecutedExam> executedExams;
 
-
-
     public static ExecutedExamInfo executedExamInfo;
 
     public static List<ExecutedExamInfo> getWrittenExamInfoList() {
@@ -159,7 +157,6 @@ public class App extends Application {
         App.exam = exam;
     }
 
-
     public static Exam getExam() {
         return exam;
     }
@@ -184,6 +181,23 @@ public class App extends Application {
         App.examType = examType;
     }
 
+    public static int getExamInfoID() {
+        return examInfoID;
+    }
+
+    public static void setExamInfoID(int examInfoID) {
+        App.examInfoID = examInfoID;
+    }
+
+    public static Question getQuestionToEdit() {
+        return questionToEdit;
+    }
+    public static void setQuestionToEdit(Question questionToEdit) {
+        App.questionToEdit = questionToEdit;
+    }
+
+    public static ExecutedVirtual getExamCopy() {return examCopy;}
+    public static void setExamCopy(ExecutedVirtual examCopy) {App.examCopy = examCopy;}
 
     public static void setButtonColor(Button B, String color)
     {
@@ -213,6 +227,19 @@ public class App extends Application {
         return formatter.format(today);
     }
 
+    public static boolean validatePointsSum (List<ExamQuestion> allExamQuestions)
+    {
+        int sum = 0;
+        if(allExamQuestions != null){
+            for (ExamQuestion e : allExamQuestions){
+                sum += e.getPoints();
+            }
+        }
+        if (sum == 100){
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -251,7 +278,16 @@ public class App extends Application {
         	);
         	alert.show();
     	});
-    	
+    }
+
+    @Subscribe
+    public void successAlertEvent(WarningSuccessEvent event) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.INFORMATION,
+                    event.getInfo()
+            );
+            alert.show();
+        });
     }
 
     @Subscribe
@@ -267,6 +303,7 @@ public class App extends Application {
     {
         setExam(event.getExam());
         setExamType1(event.getExamType());
+        setExamInfoID(event.getExamInfoID());
         changeScene1();
     }
 
@@ -459,6 +496,12 @@ public class App extends Application {
                     }
                 }
         );
+    }
+
+    @Subscribe
+    public void EventGetExamCopy(EventGetExamCopy event) throws IOException {
+        App.setExamCopy(event.getvExamCopy());
+        App.setRoot("get_exam_copy");
     }
 
     private void changeScene()

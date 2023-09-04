@@ -4,7 +4,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -38,12 +37,7 @@
         <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="545.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="error_bar" wrappingWidth="415.0000065565109" />
         <Text fx:id="question_number_text11" layoutX="550.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Course:" wrappingWidth="85.10799968242645" />
         <ComboBox fx:id="Subject_ComboBox" layoutX="127.0" layoutY="89.0" onAction="#SubjectSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Subject" style="-fx-background-color: #ffffff;" />
-        <ComboBox fx:id="Course_ComboBox" layoutX="624.0" layoutY="88.0" onAction="#CourseSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Course" style="-fx-background-color: #ffffff;" />
-      <TextArea fx:id="question_text_area" editable="false" layoutX="566.0" layoutY="337.0" prefHeight="97.0" prefWidth="375.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </TextArea>
+        <ComboBox fx:id="Course_ComboBox" layoutX="624.0" layoutY="89.0" onAction="#CourseSelected" prefHeight="25.0" prefWidth="316.0" promptText="Choose a Course" style="-fx-background-color: #ffffff;" />
       <Text fx:id="question_number_text" layoutX="645.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Questions" textAlignment="CENTER" wrappingWidth="223.77471923828125" />
       <Button fx:id="next_button" layoutX="901.0" layoutY="254.0" mnemonicParsing="false" onAction="#next_button_click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #e28743;" text="&gt;">
          <font>
@@ -65,5 +59,6 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <Text fx:id="question_text" layoutX="565.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 21;" text="Question" wrappingWidth="375.0000079162419" />
     </children>
 </AnchorPane>
