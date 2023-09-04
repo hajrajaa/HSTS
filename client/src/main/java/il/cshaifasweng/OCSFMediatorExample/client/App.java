@@ -35,6 +35,8 @@ public class App extends Application {
     public static User user;
 
     public  static Exam exam;
+
+    public  static Question questionToEdit;
     public static ExecutedExamInfo.ExamType examType;
     public static int examInfoID;
 
@@ -185,6 +187,14 @@ public class App extends Application {
 
     public static void setExamInfoID(int examInfoID) {
         App.examInfoID = examInfoID;
+    }
+
+    public static Question getQuestionToEdit() {
+        return questionToEdit;
+    }
+
+    public static void setQuestionToEdit(Question questionToEdit) {
+        App.questionToEdit = questionToEdit;
     }
 
     public static void setButtonColor(Button B, String color)

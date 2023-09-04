@@ -304,6 +304,9 @@ public class CreateExamController
         else if(allExamQuestions.size() == 0) {
             error_bar_text.setText("Please Choose At Lease One Question");
         }
+        else if (!App.validatePointsSum(allExamQuestions)){
+            error_bar_text.setText("Sum Of All Questions' Points Must Be 100");
+        }
         else
         {
             error_bar_text.setText("Creating Exam ...");

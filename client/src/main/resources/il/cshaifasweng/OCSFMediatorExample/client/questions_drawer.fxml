@@ -23,7 +23,7 @@
                 <TableView fx:id="Table" prefHeight="420.0" prefWidth="475.0">
                     <columns>
                         <TableColumn fx:id="Code_Column" prefWidth="55.33331298828125" text="Code" />
-                        <TableColumn fx:id="Question_Column" prefWidth="352.3333740234375" text="Question" />
+                        <TableColumn fx:id="Question_Column" prefWidth="298.0" text="Question" />
                     </columns>
                 </TableView>
             </children></VBox>

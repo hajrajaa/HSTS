@@ -303,7 +303,7 @@ public class EditExamController
             error_bar_text.setText("Please Choose At Lease One Question");
         }
         else if (!App.validatePointsSum(allExamQuestions)){
-            error_bar_text.setText("The Sum Of All Questions' Points Must Be 100");
+            error_bar_text.setText("Sum Of All Questions' Points Must Be 100");
         }
         else
         {
