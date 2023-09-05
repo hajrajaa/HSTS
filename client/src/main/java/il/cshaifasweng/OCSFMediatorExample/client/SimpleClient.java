@@ -330,6 +330,12 @@ public class SimpleClient extends AbstractClient {
 			EventGetExamCopy newEvent = new EventGetExamCopy(vExam);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
+		else if(messageSt.equals(("#GetAllOvertimeRequests_Replay")))
+		{
+			ArrayList<OvertimeRequest> list = (ArrayList<OvertimeRequest>) message.getObject1();
+			EventGetAllOvertimeRequests newEvent = new EventGetAllOvertimeRequests(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
 
 	}
 	

@@ -15,7 +15,7 @@ public class ExecutedExamInfo implements Serializable
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id ;
+    private int id;
     private int code;
     private String password;
     private String title;
