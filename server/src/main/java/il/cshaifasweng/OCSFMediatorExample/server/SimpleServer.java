@@ -1347,6 +1347,36 @@ public class SimpleServer extends AbstractServer {
 
 			session.getTransaction().commit();
 		}
+		else if (msgString.equals("#ApproveOvertimeRequest")) ///
+		{
+			session.beginTransaction();
+
+			int id = (int) message.getObject1();
+			OvertimeRequest request = session.find(OvertimeRequest.class, id);
+			if(request != null){
+				session.delete(request);
+				session.flush();
+
+				Object [] data = {request.getInfoID(), request.getTimeToAdd()};
+
+				sendToAllClients(new Message("ApproveOvertimeRequest_Replay", data));
+			}
+
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#DenyOvertimeRequest")) ///
+		{
+			session.beginTransaction();
+
+			int id = (int) message.getObject1();
+			OvertimeRequest request = session.find(OvertimeRequest.class, id);
+			if(request != null){
+				session.delete(request);
+				session.flush();
+			}
+
+			session.getTransaction().commit();
+		}
 
 	} /////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -60,7 +60,7 @@ public class OvertimeRequestsController
         initTable();
 
         try {
-            SimpleClient.getClient().sendToServer(new Message("#ApproveOvertimeRequest", req));
+            SimpleClient.getClient().sendToServer(new Message("#ApproveOvertimeRequest", req.getId()));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class OvertimeRequestsController
         initTable();
 
         try {
-            SimpleClient.getClient().sendToServer(new Message("#DenyOvertimeRequest", req));
+            SimpleClient.getClient().sendToServer(new Message("#DenyOvertimeRequest", req.getId()));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
