@@ -337,6 +337,26 @@ public class SimpleClient extends AbstractClient {
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
 
+		else if (messageSt.equals("#GetStudentExecutedExams_Replay"))
+		{
+			ArrayList<ExecutedVirtual> executedVirtual=(ArrayList<ExecutedVirtual>) message.getObject1();
+			GetStudentExamsEvent newEvent=new GetStudentExamsEvent(executedVirtual);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+		else if(messageSt.equals("#GetRefreshExcutedExamsRes"))
+	{
+		List<ExecutedExam> allExcutedExams = (List<ExecutedExam>) message.getObject1();
+
+		refreshExecExam  newEvent=new refreshExecExam(allExcutedExams);
+		Platform.runLater(()->{
+					EventBus.getDefault().post(newEvent);
+				}
+		);
+	}
+
 	}
 	
 	public static SimpleClient getClient() {

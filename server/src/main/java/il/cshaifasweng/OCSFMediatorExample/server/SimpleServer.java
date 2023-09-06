@@ -56,14 +56,24 @@ public class SimpleServer extends AbstractServer {
 		return configuration.buildSessionFactory(serviceRegistry);
 	}
 
-	private static <T> List<T> getAllObjects(Class<T> object) {
+//	private static <T> List<T> getAllObjects(Class<T> object) {
+//		CriteriaBuilder builder = session.getCriteriaBuilder();
+//		CriteriaQuery<T> query = builder.createQuery(object);
+//		Root<T> rootEnter = query.from(object);
+//		query.select(rootEnter);
+//		query.where(builder.isNotNull(rootEnter.get("id")));
+//
+//		TypedQuery<T> queries = session.createQuery(query);
+//		return queries.getResultList();
+//	}
+
+	private static <T> List<T> getAllObjects(Class<T> object){
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<T> query = builder.createQuery(object);
-		Root<T> rootEnter = query.from(object);
-		query.select(rootEnter);
-		query.where(builder.isNotNull(rootEnter.get("id")));
+		Root<T> rootEnter= query.from(object);
+		CriteriaQuery<T> criteriaQueries = query.select(rootEnter);
 
-		TypedQuery<T> queries = session.createQuery(query);
+		TypedQuery<T> queries=session.createQuery(criteriaQueries);
 		return queries.getResultList();
 	}
 
@@ -958,13 +968,14 @@ public class SimpleServer extends AbstractServer {
 		}
 		else if(msgString.equals("#UpdateGradeRequest"))
 		{
+			session.beginTransaction();
 			Object[] obj = (Object[]) message.getObject1();
 			int id =(int)obj[0];
 			double newGrade=(double) obj[1];
 			String explanation=(String) obj[2];
 			ExecutedExam currExam = session.find(ExecutedExam.class, id);
 			try {
-				session.beginTransaction();
+				//session.beginTransaction();
 				if (!isGrade(newGrade)) {
 					Warning warning = new Warning("Invalid Grade");
 					client.sendToClient(new Message("#UpdateGradeWarning", warning));
@@ -983,7 +994,7 @@ public class SimpleServer extends AbstractServer {
 				session.getTransaction().commit();
 
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				e.printStackTrace();
 			}
 
 		}
@@ -1002,7 +1013,8 @@ public class SimpleServer extends AbstractServer {
 						currExam.setMarked(true);
 						Warning warning = new Warning("Grade approved Successfully");
 						client.sendToClient(new Message("#GradeApprovedSuccessfully", warning));
-						session.update(currExam);
+						//session.update(currExam);
+						session.merge(currExam);
 						session.flush();
 					}
 					else
@@ -1012,11 +1024,13 @@ public class SimpleServer extends AbstractServer {
 					}
 
 				}
+				session.getTransaction().commit();
 			}
 			catch (IOException e) {
-				throw new RuntimeException(e);
+				e.printStackTrace();
 			}
-			session.getTransaction().commit();
+
+
 		}
 
 		////////////////////////////////////////////////////////////////////////////////////
@@ -1376,6 +1390,67 @@ public class SimpleServer extends AbstractServer {
 			}
 
 			session.getTransaction().commit();
+		}
+
+		else if (msgString.equals("#GetStudentGrades"))
+		{
+			session.beginTransaction();
+			String userName = (String) message.getObject1();
+			System.out.println(userName);
+			System.out.println("BBBBBBBBBBB1");
+			List<ExecutedVirtual> allExecutedExams=getAllObjects(ExecutedVirtual.class);
+			System.out.println("BBBBBBBBBBB2");
+			if(allExecutedExams!=null) {
+				ArrayList<ExecutedVirtual> studentExecExams = new ArrayList<>();
+				boolean studentExist = false;
+
+				for (ExecutedVirtual e : allExecutedExams) {
+					System.out.println(e.getStudentName());
+					if (userName.equals(e.getStudent().getUserName())) {
+						ExecutedVirtual res = new ExecutedVirtual(e);
+						studentExecExams.add(res);
+						System.out.println(e.isMarked());
+						System.out.println(res.isMarked());
+						studentExist = true;
+					}
+				}
+				if (!studentExist) {
+					Warning warning = new Warning("Student don't have any virtual executed exams");
+					client.sendToClient(new Message("#loginWarning", warning));
+				} else {
+					client.sendToClient(new Message("#GetStudentExecutedExams_Replay",studentExecExams ));
+				}
+			}
+			else {
+				System.out.println("AAAAAAAAAAAA");
+				Warning warning = new Warning("There are no executed exams");
+				client.sendToClient(new Message("#loginWarning", warning));
+			}
+
+			session.getTransaction().commit();
+
+		}
+
+		else if (msgString.equals("#GetRefreshExcutedExams"))
+		{
+			session.beginTransaction();
+			int currId=(int)message.getObject1();
+			ExecutedExamInfo realInfo = session.find(ExecutedExamInfo.class, currId);
+			List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
+			ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
+			for(ExecutedExam ex:executedExams)
+			{
+				copyexecutedExams.add(new ExecutedExam(ex));
+			}
+
+			try {
+				client.sendToClient(new Message("#GetRefreshExcutedExamsRes", copyexecutedExams));
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			session.getTransaction().commit();
+
 		}
 
 	} /////////////////////////////////////////////////////////////////////////////////////////////////////

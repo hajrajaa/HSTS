@@ -1,27 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.GetGradeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.GetGradesController">
     <children>
-        <Text fx:id="exam_name_text" fill="#abdbe3" layoutX="38.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Get Grade" wrappingWidth="294.77471923828125" />
-        <Button fx:id="Back_Button" layoutX="38.0" layoutY="539.0" mnemonicParsing="false" onAction="#Click_Back" prefHeight="31.0" prefWidth="107.0" style="-fx-background-color: #34b048;" text="Back">
-            <font>
-                <Font size="18.0" />
-            </font></Button>
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="122.0" layoutX="38.0" layoutY="72.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #e28743;" width="358.0" />
-        <Text fx:id="question_number_text11" layoutX="52.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" text="Exam Code:" wrappingWidth="107.00002312660217" />
-        <TextField fx:id="Code_TextField" layoutX="161.0" layoutY="82.0" prefHeight="31.0" prefWidth="217.0" />
-        <Text fx:id="error_bar_text" layoutX="171.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="error_bar" wrappingWidth="206.33329391479492" />
-      <Button fx:id="GetGradeButton" layoutX="52.0" layoutY="138.0" mnemonicParsing="false" onAction="#Click_GetGrade" prefHeight="39.0" prefWidth="107.0" style="-fx-background-color: #063970;" text="Get Grade" textFill="WHITE">
+      <Text fill="#abdbe3" layoutX="31.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Excuted Exam View">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <TableView fx:id="examsTable" layoutX="141.0" layoutY="96.0" prefHeight="460.0" prefWidth="659.0">
+         <columns>
+            <TableColumn fx:id="codeCol" prefWidth="89.0" text="Code" />
+            <TableColumn fx:id="titleCol" prefWidth="106.0" text="Title" />
+            <TableColumn fx:id="DateCol" prefWidth="128.0" text="Date" />
+            <TableColumn fx:id="gradeCol" prefWidth="124.0" text="Grade " />
+         </columns>
+      </TableView>
+      <Text fx:id="error_bar" fill="#e28743" layoutX="141.0" layoutY="580.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="897.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/home_lblue.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="Home_Button" layoutX="897.0" layoutY="29.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
+        
     </children>
 </AnchorPane>

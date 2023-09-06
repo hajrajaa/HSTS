@@ -154,14 +154,14 @@ public class  ViewExcExamDrawer {
         }
 
 
-       if(examInfo!=null)
-       {
-           String avg=examInfo.getAverage().toString();
-           String med=examInfo.getMedian().toString();
+        if(examInfo!=null)
+        {
+            String avg=examInfo.getAverage().toString();
+            String med=examInfo.getMedian().toString();
 
-           txtAverage.setText(avg);
-           txtMedian.setText(med);
-       }
+            txtAverage.setText(avg);
+            txtMedian.setText(med);
+        }
 
         TableInitFlag=false;
 
@@ -193,6 +193,25 @@ public class  ViewExcExamDrawer {
             TableInitFlag=true;
         }
     }
+
+    private void refreshTable()
+    {
+        ObservableList<ExecutedExam> excutedExams = FXCollections.observableArrayList(executedExamList1);
+        exeExamTable.setItems(excutedExams);
+    }
+
+    @Subscribe
+    public  void refreshExecEventFunc(refreshExecExam event)
+    {
+        executedExamList1= (event.getExecutedExamList());
+        if(executedExamList1!=null)
+        {
+            initTable();
+        }
+
+    }
+
+
 
 
     public  void initApproveTableColumn()
@@ -311,23 +330,29 @@ public class  ViewExcExamDrawer {
         exeExamTable.refresh();
 
         if (selectedExam != null) {
-                //initTable();
-                String avg = examInfo.getAverage().toString();
-                String med = examInfo.getMedian().toString();
+            //initTable();
+            String avg = examInfo.getAverage().toString();
+            String med = examInfo.getMedian().toString();
 
-                txtAverage.setText(avg);
-                txtMedian.setText(med);
-            }
-            error_bar.setText("Grade Updated Successfully");
-            // updateBtn.setDisable(true);
-            editgradePane.setDisable(true);
-            studentNameTxt.setText("");
-            expTxt.clear();
-            newGradeTxt.clear();
-            exeExamTable.refresh();
-
-
+            txtAverage.setText(avg);
+            txtMedian.setText(med);
         }
+        error_bar.setText("Grade Updated Successfully");
+        editgradePane.setDisable(true);
+        studentNameTxt.setText("");
+        expTxt.clear();
+        newGradeTxt.clear();
+        exeExamTable.refresh();
+        try
+        {
+            SimpleClient.getClient().sendToServer(new Message("#GetRefreshExcutedExams",examInfo.getId()));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
