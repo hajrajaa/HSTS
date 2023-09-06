@@ -42,7 +42,7 @@ public class ExecutedVirtual extends ExecutedExam implements Serializable {
     }
 
     public ExecutedVirtual(ExecutedVirtual vExam) {
-        super(vExam.getExam(), vExam.getGrade(), vExam.getTitle(), vExam.getExamDate());
+        super(vExam.getExam(), vExam.getGrade(), vExam.getTitle(), vExam.getExamDate(), vExam.isMarked(),vExam.getInfoID(),vExam.getExamNum());
         System.out.println("v a a");
         this.solutions=new ArrayList<>(vExam.getSolutions());
         System.out.println("v a b");

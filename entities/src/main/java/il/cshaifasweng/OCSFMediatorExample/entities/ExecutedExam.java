@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class ExecutedExam implements Serializable {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @GeneratedValue(strategy = GenerationType.TABLE)
     private int examNum;
 
@@ -80,7 +79,7 @@ public class ExecutedExam implements Serializable {
         this.submitInTime = submitInTime;
     }
 
-    ///
+    //
     public ExecutedExam(String title, int infoID, String studentName, String examDate, String startime, String endtime, boolean submitInTime, boolean marked) {
         this.title = title;
         this.infoID = infoID;
@@ -88,7 +87,7 @@ public class ExecutedExam implements Serializable {
         this.startime = startime;
         this.studentName = studentName;
         this.endtime = endtime;
-        this.grade = grade;
+        this.grade = -1;
         this.marked = marked;
         this.submitInTime = submitInTime;
     }
@@ -147,7 +146,7 @@ public class ExecutedExam implements Serializable {
         this.marked = exam.isMarked();
     }
 
-    public ExecutedExam(Exam e, double grade, String title, String date) {
+    public ExecutedExam(Exam e, double grade, String title, String date, boolean isMarked,int infoID,int examNum) {
         super();
         System.out.println("v a --> x");
         this.title=title;
@@ -155,6 +154,9 @@ public class ExecutedExam implements Serializable {
         this.grade=grade;
         System.out.println("v a     xxx");
         this.exam = new Exam(e);
+        this.marked = isMarked;
+        this.infoID=infoID;
+        this.examNum=examNum;
         System.out.println("v a <--");
     }
 
