@@ -47,6 +47,7 @@ public class SimpleServer extends AbstractServer {
 		configuration.addAnnotatedClass(Course.class);
 		configuration.addAnnotatedClass(Subject.class);
 		configuration.addAnnotatedClass(Princiaple.class);
+		configuration.addAnnotatedClass(OvertimeRequest.class);
 
 		ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
 				.applySettings(configuration.getProperties())
@@ -123,6 +124,10 @@ public class SimpleServer extends AbstractServer {
 
 		try {
 			session.beginTransaction();
+
+			OvertimeRequest req = new OvertimeRequest("myExam", "Mr. ZOZO", 1, "sdncsdncsdcsc	sdc	qssc", 5);
+			session.save(req);
+			session.flush();
 
 			ArrayList<Student> studentsList = new ArrayList<>();
 
@@ -1307,6 +1312,69 @@ public class SimpleServer extends AbstractServer {
 			if(vExam != null){
 				client.sendToClient(new Message("#getExamCopy_Replay", new ExecutedVirtual(vExam)));
 			}
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#NewOvertimeRequest")) ///
+		{
+			session.beginTransaction();
+
+			OvertimeRequest request = (OvertimeRequest) message.getObject1();
+			if(request != null){
+				ExecutedExamInfo info = (ExecutedExamInfo) session.find(ExecutedExamInfo.class, request.getInfoID());
+				if(info != null){
+					info.setIsRequestedOvertime(true);
+					session.save(info);
+				}
+				session.save(request);
+				session.flush();
+			}
+
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#GetAllOvertimeRequests")) ///
+		{
+			session.beginTransaction();
+
+			List list = getAllObjects(OvertimeRequest.class);
+			if(list != null){
+				ArrayList<OvertimeRequest> allReq = new ArrayList(list);
+				ArrayList<OvertimeRequest> res = new ArrayList<>();
+				for (OvertimeRequest req : allReq){
+					res.add(new OvertimeRequest(req));
+				}
+				client.sendToClient(new Message("#GetAllOvertimeRequests_Replay", res));
+			}
+
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#ApproveOvertimeRequest")) ///
+		{
+			session.beginTransaction();
+
+			int id = (int) message.getObject1();
+			OvertimeRequest request = session.find(OvertimeRequest.class, id);
+			if(request != null){
+				session.delete(request);
+				session.flush();
+
+				Object [] data = {request.getInfoID(), request.getTimeToAdd()};
+
+				sendToAllClients(new Message("ApproveOvertimeRequest_Replay", data));
+			}
+
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#DenyOvertimeRequest")) ///
+		{
+			session.beginTransaction();
+
+			int id = (int) message.getObject1();
+			OvertimeRequest request = session.find(OvertimeRequest.class, id);
+			if(request != null){
+				session.delete(request);
+				session.flush();
+			}
+
 			session.getTransaction().commit();
 		}
 

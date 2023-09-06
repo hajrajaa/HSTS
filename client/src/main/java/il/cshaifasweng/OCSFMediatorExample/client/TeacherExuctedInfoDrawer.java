@@ -178,6 +178,7 @@ public class TeacherExuctedInfoDrawer {
         writtenFlag=false;
         if(!excutedTableInitFlag){
            initViewTableColumnExc();
+           initOvertimeTableColumnExc();
            excutedTableInitFlag=true;
         }
 
@@ -257,6 +258,52 @@ public class TeacherExuctedInfoDrawer {
                         } else {
                             setGraphic(btn);
                         }
+                    }
+                };
+                return cell;
+            }
+        };
+        colBtn.setCellFactory(cellFactory);
+        ExecutedExamTable.getColumns().add(colBtn);
+    }
+
+    private void initOvertimeTableColumnExc() {
+        TableColumn<ExecutedExamInfo, Void> colBtn = new TableColumn("");
+
+        Callback<TableColumn<ExecutedExamInfo, Void>, TableCell<ExecutedExamInfo, Void>> cellFactory = new Callback<TableColumn<ExecutedExamInfo, Void>, TableCell<ExecutedExamInfo, Void>>() {
+            @Override
+            public TableCell<ExecutedExamInfo, Void> call(final TableColumn<ExecutedExamInfo, Void> param) {
+                final TableCell<ExecutedExamInfo, Void> cell = new TableCell<ExecutedExamInfo, Void>() {
+
+                    private final Button btn = new Button("Request Overtime");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            selectedExecutedExam = getTableView().getItems().get(getIndex());
+                            if(selectedExecutedExam!=null)
+                            {
+                                try {
+                                    App.setRoot("overtime_for_exam_info");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            ExecutedExamInfo info = getTableView().getItems().get(getIndex());
+                            if(info.getIsRequestedOvertime())
+                            {
+                                btn.setDisable(true);
+                            }
+                            setGraphic(btn);
+                        }
+
                     }
                 };
                 return cell;

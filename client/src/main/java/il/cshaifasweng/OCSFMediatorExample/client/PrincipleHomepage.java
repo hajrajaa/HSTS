@@ -58,7 +58,12 @@ public class PrincipleHomepage {
 
     @FXML
     public void go_to_p_req(ActionEvent actionEvent) throws IOException {
-        App.setRoot("principle_requests");
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#GetAllOvertimeRequests"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @FXML

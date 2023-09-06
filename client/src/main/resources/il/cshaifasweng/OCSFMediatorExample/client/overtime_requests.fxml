@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OvertimeRequestsController">
+    <children>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="424.0" layoutX="36.0" layoutY="89.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="936.0" />
+        <Text fill="#abdbe3" layoutX="36.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Overtime Requests" wrappingWidth="294.77471923828125" />
+        <Button fx:id="ApproveAll_Button" layoutX="36.0" layoutY="531.0" mnemonicParsing="false" onAction="#approve_all_click" onMouseEntered="#save_in" onMouseExited="#save_out" prefHeight="43.0" prefWidth="135.0" style="-fx-background-color: #e28743;" text="Approve All">
+            <font>
+                <Font size="18.0" />
+            </font></Button>
+        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="524.0" layoutY="556.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="320.9999922271818" />
+        <TableView fx:id="Table" layoutX="53.0" layoutY="108.0" prefHeight="386.0" prefWidth="903.0">
+            <columns>
+                <TableColumn fx:id="Exam_Column" prefWidth="143.0" text="Exam" />
+            <TableColumn fx:id="Teacher_Column" prefWidth="81.0" text="Teacher" />
+            <TableColumn fx:id="Time_Column" prefWidth="58.0" text="Time" />
+            <TableColumn fx:id="Reasons_Column" prefWidth="468.0" text="Reasons" />
+            </columns>
+        </TableView>
+        <ImageView fitHeight="51.0" fitWidth="55.0" layoutX="916.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/home_lblue.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="Home_Button" layoutX="916.0" layoutY="15.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: transparent;">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
