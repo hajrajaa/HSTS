@@ -245,6 +245,17 @@ public class App extends Application {
         return false;
     }
 
+    public static boolean isNumber(String s)
+    {
+        char [] arr = s.toCharArray();
+        for(char c : arr){
+            if((c < '0') || (c > '9')){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public void start(Stage stage) throws IOException {
     	EventBus.getDefault().register(this);

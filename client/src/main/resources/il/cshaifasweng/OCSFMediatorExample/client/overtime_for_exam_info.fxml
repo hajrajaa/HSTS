@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.OvertimeForExamInfoController">
+    <children>
+        <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/paper.png" />
+            </image>
+        </ImageView>
+        <Text fill="#abdbe3" layoutX="36.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Send Overtime Request" wrappingWidth="294.77471923828125" />
+        <Button fx:id="Send_Button" layoutX="666.0" layoutY="450.0" mnemonicParsing="false" onAction="#send_click" onMouseEntered="#save_in" onMouseExited="#save_out" prefHeight="42.0" prefWidth="112.0" style="-fx-background-color: #e28743;" text="Send">
+            <font>
+                <Font size="21.0" />
+            </font></Button>
+        <ImageView fitHeight="51.0" fitWidth="55.0" layoutX="916.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../../../images/home_lblue.png" />
+            </image>
+        </ImageView>
+        <Button fx:id="Home_Button" layoutX="916.0" layoutY="15.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="51.0" prefWidth="51.0" style="-fx-background-color: transparent;">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+      <Text fx:id="Title_Text" fill="#063970" layoutX="245.0" layoutY="186.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Exam Title" wrappingWidth="509.77471923828125" />
+      <Text fill="#063970" layoutX="245.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Overtime to Request For Exam:                  minutes" wrappingWidth="537.7747192382812" />
+      <TextField fx:id="Minutes_TextField" layoutX="588.0" layoutY="227.0" prefHeight="31.0" prefWidth="79.0" style="-fx-background-color: #ffffff;" />
+      <Text fill="#063970" layoutX="245.0" layoutY="309.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Reason:" wrappingWidth="125.77471923828125" />
+      <TextArea fx:id="Reason_TextArea" layoutX="245.0" layoutY="318.0" prefHeight="106.0" prefWidth="538.0" />
+      <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="228.0" layoutY="546.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="error_bar" wrappingWidth="570.7747192382812" />
+    </children>
+</AnchorPane>

@@ -1314,6 +1314,23 @@ public class SimpleServer extends AbstractServer {
 			}
 			session.getTransaction().commit();
 		}
+		else if (msgString.equals("#NewOvertimeRequest")) ///
+		{
+			session.beginTransaction();
+
+			OvertimeRequest request = (OvertimeRequest) message.getObject1();
+			if(request != null){
+				ExecutedExamInfo info = (ExecutedExamInfo) session.find(ExecutedExamInfo.class, request.getInfoID());
+				if(info != null){
+					info.setIsRequestedOvertime(true);
+					session.save(info);
+				}
+				session.save(request);
+				session.flush();
+			}
+
+			session.getTransaction().commit();
+		}
 		else if (msgString.equals("#GetAllOvertimeRequests")) ///
 		{
 			session.beginTransaction();

@@ -20,6 +20,7 @@ public class ExecutedExamInfo implements Serializable
     private String password;
     private String title;
     private int overtime;
+    private boolean isRequestedOvertime;
     private double average;
     private double median;
     private ExamType type;
@@ -50,6 +51,7 @@ public class ExecutedExamInfo implements Serializable
         this.average = average;
         this.median = median;
         this.type=type;
+        this.isRequestedOvertime = false;
         this.hist = new int[10];
         for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executedExamList = new ArrayList<ExecutedExam>();
@@ -65,6 +67,7 @@ public class ExecutedExamInfo implements Serializable
         this.average = average;
         this.median = median;
         this.type=type;
+        this.isRequestedOvertime = false;
         this.hist = hist;
         this.executedExamList = new ArrayList<ExecutedExam>();
         this.allGrades = new ArrayList<>();
@@ -77,6 +80,7 @@ public class ExecutedExamInfo implements Serializable
         this.password = exam.getPassword();
         this.title = exam.getTitle();
         this.overtime = 0;
+        this.isRequestedOvertime = exam.getIsRequestedOvertime();
         this.average = exam.getAverage();
         this.median = exam.getMedian();
         this.type = exam.getType();
@@ -89,6 +93,7 @@ public class ExecutedExamInfo implements Serializable
         this.code=code;
         this.password=password;
         this.type=type;
+        this.isRequestedOvertime = false;
         this.hist = new int[10];
         for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executedExamList = new ArrayList<ExecutedExam>();
@@ -100,6 +105,7 @@ public class ExecutedExamInfo implements Serializable
         this.code=code;
         this.password=password;
         this.type=type;
+        this.isRequestedOvertime = false;
         this.hist = new int[10];
         for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executingTeacher=teacher;
@@ -269,5 +275,18 @@ public class ExecutedExamInfo implements Serializable
 
             return (lower + upper) / 2.0;
         }
+    }
+
+    public int getOvertime() {
+        return overtime;
+    }
+
+
+    public boolean getIsRequestedOvertime() {
+        return isRequestedOvertime;
+    }
+
+    public void setIsRequestedOvertime(boolean isRequestedOvertime) {
+        this.isRequestedOvertime = isRequestedOvertime;
     }
 }
