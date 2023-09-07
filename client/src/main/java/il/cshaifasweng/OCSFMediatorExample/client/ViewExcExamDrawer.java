@@ -118,21 +118,10 @@ public class  ViewExcExamDrawer {
 
     }
 
-    @Subscribe
-    public  void ExcutedExamEventFunc(ExcutedExamEvent event)
-    {
-        executedExamList1= (event.getExecutedExamList());
-        if(executedExamList1!=null)
-        {
-            initTable();
-        }
-
-    }
 
     @FXML
     void initialize() throws IOException {
 
-        //updateBtn.setDisable(true);
         editgradePane.setDisable(true);
         error_bar.setText("");
         txtAverage.setText("");
@@ -194,14 +183,8 @@ public class  ViewExcExamDrawer {
         }
     }
 
-    private void refreshTable()
-    {
-        ObservableList<ExecutedExam> excutedExams = FXCollections.observableArrayList(executedExamList1);
-        exeExamTable.setItems(excutedExams);
-    }
-
     @Subscribe
-    public  void refreshExecEventFunc(refreshExecExam event)
+    public  void ExcutedExamEventFunc(ExcutedExamEvent event)
     {
         executedExamList1= (event.getExecutedExamList());
         if(executedExamList1!=null)
@@ -211,11 +194,46 @@ public class  ViewExcExamDrawer {
 
     }
 
+    @Subscribe
+    public  void refreshExecEventFunc(refreshExecExam event)
+    {
+        executedExamList1= (event.getExecutedExamList());
+        examInfo=(event.getExamInfo());
+        if(executedExamList1!=null)
+        {
+            initTable();
+        }
+        if(examInfo!=null)
+        {
+            String avg = examInfo.getAverage().toString();
+            String med = examInfo.getMedian().toString();
 
+            txtAverage.setText(avg);
+            txtMedian.setText(med);
+        }
 
+    }
+    @Subscribe
+    public  void approveGradeEventFunc(ApproveGradeEvent event)
+    {
+        selectedExam = (event.getExecutedExam());
+        exeExamTable.refresh();
+        if (selectedExam != null)
+        {
+            if (selectedExam.isMarked())
+            {
+                for (ExecutedExam executedExam : executedExamList1) {
+                    if (executedExam.getExamNum() == selectedExam.getExamNum()) {
+                        executedExam.setMarked(true);
+                        initTable();
+                    }
+                }
+            }
+        }
+        error_bar.setText("Grade Approved Successfully");
+    }
 
     public  void initApproveTableColumn()
-
     {
         TableColumn<ExecutedExam, Void> colBtn = new TableColumn("");
 
@@ -251,6 +269,7 @@ public class  ViewExcExamDrawer {
                             if(exam.isMarked())
                             {
                                 btn.setStyle("-fx-background-color: green;");
+                                btn.setText("Approved");
                             }
                             else {
                                 btn.setStyle(null); // Reset style to default
@@ -280,9 +299,9 @@ public class  ViewExcExamDrawer {
                             selectedExam = getTableView().getItems().get(getIndex());
                             if(selectedExam!=null)
                             {
+                                error_bar.setText("");
                                 String name=selectedExam.getStudentName();
                                 studentNameTxt.setText(name.toString());
-                                //updateBtn.setDisable(false);
                                 editgradePane.setDisable(false);
 
                             }
@@ -318,19 +337,20 @@ public class  ViewExcExamDrawer {
         try {
             SimpleClient.getClient().sendToServer(new Message("#UpdateGradeRequest",obj));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
     }
 
     @Subscribe
-    public  void UpdateGradeEventFunc(UpdateGradeEvent event) {
+    public  void UpdateGradeEventFunc(UpdateGradeEvent event)
+    {
 
         selectedExam = (event.getExecutedExam());
         exeExamTable.refresh();
 
         if (selectedExam != null) {
-            //initTable();
+
             String avg = examInfo.getAverage().toString();
             String med = examInfo.getMedian().toString();
 
@@ -353,6 +373,7 @@ public class  ViewExcExamDrawer {
 
 
     }
+
 
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {

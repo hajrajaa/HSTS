@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ManualExam">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ManualExamController">
     <children>
         <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -70,7 +70,7 @@
                 <Image url="@../../../../images/clock_8.png" />
             </image>
         </ImageView>
-      <Button fx:id="download_button" layoutX="267.0" layoutY="278.0" mnemonicParsing="false" onAction="#download_Action" prefHeight="68.0" prefWidth="187.0" style="-fx-font-size: 14; -fx-background-color: #e28743;" text="Download Document" textAlignment="CENTER" />
+      <Button fx:id="download_button" layoutX="267.0" layoutY="278.0" mnemonicParsing="false" onAction="#download_Exam" prefHeight="68.0" prefWidth="187.0" style="-fx-font-size: 14; -fx-background-color: #e28743;" text="Download Document" textAlignment="CENTER" />
       <Button fx:id="upload_button" layoutX="555.0" layoutY="278.0" mnemonicParsing="false" onAction="#upload_Action" prefHeight="68.0" prefWidth="187.0" style="-fx-font-size: 14; -fx-background-color: #e28743;" text="Upload Document" textAlignment="CENTER" />
     </children>
 </AnchorPane>

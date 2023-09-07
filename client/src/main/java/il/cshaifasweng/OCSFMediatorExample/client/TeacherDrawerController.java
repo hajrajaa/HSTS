@@ -69,39 +69,44 @@ public class TeacherDrawerController {
         error_bar_text.setText("");
 
         String ExecPassword=execCodeTxt.getText().toString();
+
         if(ExecPassword== null)
         {
             error_bar_text.setText("Please enter a exam executing password");
+            execCodeTxt.clear();
         }
-        Toggle selectedToggle = radioGroup.getSelectedToggle();
-     
-        
-        if(selectedToggle!=null)
+       else if(ExecPassword.length()!=4)
         {
-            ExecutedExamInfo.ExamType selectedType = null;
-            if (selectedToggle == manualTypeBtn)
-            {
-                selectedType= ExecutedExamInfo.ExamType.Manual;
-            }
-            else if (selectedToggle == virtualTypeBtn)
-            {
-                selectedType= ExecutedExamInfo.ExamType.Virtual;
-            }
-            ExecutedExamInfo exeExam= new ExecutedExamInfo(ExamsDrawerController.getExecutedExamCode(),ExecPassword,selectedType,"",(Teacher) App.getUser());
-            System.out.println(exeExam.getCode());
-            System.out.println(ExamsDrawerController.getExecutedExamCode());
-
-            try {
-                SimpleClient.getClient().sendToServer(new Message("#drawExamRequest", exeExam));
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
+            error_bar_text.setText("Please Choose Another Password ,Executing Password Must Be A 4 Digit Number");
+            execCodeTxt.clear();
         }
-        else
-        {
-            error_bar_text.setText("Please Choose Exam Type");
+       else {
+            error_bar_text.setText("");
+            Toggle selectedToggle = radioGroup.getSelectedToggle();
+
+            if (selectedToggle != null) {
+                ExecutedExamInfo.ExamType selectedType = null;
+                if (selectedToggle == manualTypeBtn) {
+                    selectedType = ExecutedExamInfo.ExamType.Manual;
+                } else if (selectedToggle == virtualTypeBtn) {
+                    selectedType = ExecutedExamInfo.ExamType.Virtual;
+                }
+                ExecutedExamInfo exeExam = new ExecutedExamInfo(ExamsDrawerController.getExecutedExamCode(), ExecPassword, selectedType, "", (Teacher) App.getUser());
+                System.out.println(exeExam.getCode());
+                System.out.println(ExamsDrawerController.getExecutedExamCode());
+
+                try {
+                    SimpleClient.getClient().sendToServer(new Message("#drawExamRequest", exeExam));
+                    execCodeTxt.clear();
+                    radioGroup.selectToggle(null);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                error_bar_text.setText("Please Choose Exam Type");
+            }
         }
 
     }

@@ -28,7 +28,14 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	<build>
+    <dependencies>
+        <dependency>
+            <groupId>poi</groupId>
+            <artifactId>poi-contrib-2.5-final</artifactId>
+            <version>20040302</version>
+        </dependency>
+    </dependencies>
+    <build>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
 				defaults (may be moved to parent pom) -->
 			<plugins>
