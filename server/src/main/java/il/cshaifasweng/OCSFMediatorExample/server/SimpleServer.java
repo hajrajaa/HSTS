@@ -855,8 +855,9 @@ public class SimpleServer extends AbstractServer {
 							Exam newExam = new Exam(currExam);
 							ExecutedExamInfo.ExamType examType = ex.getType();
 							int ExamInfoID = ex.getId();
+							int overtime = ex.getOvertime();
 							System.out.println(examType);
-							Object[] obj = {newExam,examType,ExamInfoID};
+							Object[] obj = {newExam,examType,ExamInfoID,overtime};
 							client.sendToClient(new Message("#StartSolveSuccessfully",obj));
 						}
 					}
@@ -1364,16 +1365,29 @@ public class SimpleServer extends AbstractServer {
 		else if (msgString.equals("#ApproveOvertimeRequest")) ///
 		{
 			session.beginTransaction();
-
+			System.out.println("+++ ApproveOvertimeRequest +++");
 			int id = (int) message.getObject1();
+			System.out.println(id);
 			OvertimeRequest request = session.find(OvertimeRequest.class, id);
+			System.out.println(request);
 			if(request != null){
+				System.out.println("o1");
 				session.delete(request);
+				System.out.println("o2");
 				session.flush();
+				System.out.println("o3");
+
+				ExecutedExamInfo info = session.find(ExecutedExamInfo.class, request.getInfoID());
+				if(info != null){
+					info.setOvertime(request.getTimeToAdd());
+					session.update(info);
+					session.flush();
+				}
 
 				Object [] data = {request.getInfoID(), request.getTimeToAdd()};
-
+				System.out.println("o4");
 				sendToAllClients(new Message("ApproveOvertimeRequest_Replay", data));
+				System.out.println("o5");
 			}
 
 			session.getTransaction().commit();

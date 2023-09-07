@@ -34,7 +34,9 @@ public class App extends Application {
 
     public static User user;
 
-    public  static Exam exam;
+    public static Exam exam;
+
+    public static int overtimeInSolvingExam;
 
     public  static Question questionToEdit;
     public static ExecutedExamInfo.ExamType examType;
@@ -319,6 +321,7 @@ public class App extends Application {
         setExam(event.getExam());
         setExamType1(event.getExamType());
         setExamInfoID(event.getExamInfoID());
+        overtimeInSolvingExam=event.getOvertime();
         changeScene1();
     }
 

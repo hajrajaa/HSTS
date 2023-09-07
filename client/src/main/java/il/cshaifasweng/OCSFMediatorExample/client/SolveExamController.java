@@ -69,8 +69,8 @@ public class SolveExamController
         date_text.setText(App.getDate());
 
         timeUpFlag = true;
-        extraTime = 0;
-        extra_time_text.setText("");
+        extraTime = App.overtimeInSolvingExam;
+        setExtraTime();
         startTime = LocalTime.now();
         initClock(exam.getTime());
 
@@ -101,6 +101,9 @@ public class SolveExamController
             LocalTime endWithExtra = endTime.plusMinutes(extraTime);
             LocalTime currentTime = LocalTime.now();
             long diff = currentTime.until(endWithExtra, ChronoUnit.SECONDS);
+            System.out.println("endWithExtra = "+endWithExtra);
+            System.out.println("currentTime = "+currentTime);
+            System.out.println("diff = "+diff);
 
             LocalTime defaultTime = LocalTime.parse("00:00:00");
             if(diff<=0 && timeUpFlag){
@@ -122,6 +125,17 @@ public class SolveExamController
         );
         clock.setCycleCount(Animation.INDEFINITE);
         clock.play();
+    }
+
+    private void setExtraTime ()
+    {
+        if(extraTime == 0){
+            extra_time_text.setText("");
+        }else if(extraTime == 1){
+            extra_time_text.setText("Extra Time Added: " + extraTime + " minute");
+        }else if(extraTime > 1){
+            extra_time_text.setText("Extra Time Added: " + extraTime + " minutes");
+        }
     }
 
     private String getStartTime ()
@@ -265,7 +279,7 @@ public class SolveExamController
         // TODO need to set the infoID to the vxam according to the ExecutedExamInfo
         if(event.getInfoID() == App.getExamInfoID()){
             extraTime = event.getOvertimeDuration();
-            extra_time_text.setText("Extra Time Added: " + extraTime + "minutes");
+            setExtraTime();
         }
     }
 

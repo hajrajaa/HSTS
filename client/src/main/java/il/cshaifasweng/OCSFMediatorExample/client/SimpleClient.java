@@ -76,8 +76,9 @@ public class SimpleClient extends AbstractClient {
 			Exam exam=(Exam)obj[0];
 			ExecutedExamInfo.ExamType examType=(ExecutedExamInfo.ExamType)obj[1];
 			int examInfoID = (int)obj[2];
+			int overtime = (int)obj[3];
 
-			StartSolveExamEvent newEvent = new StartSolveExamEvent(exam,examType,examInfoID);
+			StartSolveExamEvent newEvent = new StartSolveExamEvent(exam,examType,examInfoID,overtime);
 			Platform.runLater(()->{
 						EventBus.getDefault().post(newEvent);
 					}

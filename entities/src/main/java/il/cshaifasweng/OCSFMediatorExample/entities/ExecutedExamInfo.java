@@ -79,7 +79,8 @@ public class ExecutedExamInfo implements Serializable
         this.code = exam.getCode();
         this.password = exam.getPassword();
         this.title = exam.getTitle();
-        this.overtime = 0;
+        this.overtime = exam.getOvertime();
+        this.isRequestedOvertime = exam.getIsRequestedOvertime();
         this.isRequestedOvertime = exam.getIsRequestedOvertime();
         this.average = exam.getAverage();
         this.median = exam.getMedian();

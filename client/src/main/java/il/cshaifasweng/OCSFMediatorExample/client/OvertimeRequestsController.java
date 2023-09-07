@@ -60,6 +60,7 @@ public class OvertimeRequestsController
         initTable();
 
         try {
+            System.out.println("---> OvertimeRequest " + req.getId());
             SimpleClient.getClient().sendToServer(new Message("#ApproveOvertimeRequest", req.getId()));
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -135,6 +136,8 @@ public class OvertimeRequestsController
                         btn.setOnAction((ActionEvent event) ->
                         {
                             OvertimeRequest req = getTableView().getItems().get(getIndex());
+                            System.out.println(req);
+                            System.out.println(req.getId());
                             approveRequest(req);
                         });
                     }
