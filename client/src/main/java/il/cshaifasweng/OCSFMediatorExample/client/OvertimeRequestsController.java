@@ -201,8 +201,10 @@ public class OvertimeRequestsController
 
     public void approve_all_click(ActionEvent actionEvent)
     {
-        for (OvertimeRequest req : allOvertimeRequests){
-            approveRequest(req);
+        if(allOvertimeRequests != null){
+            while (allOvertimeRequests.size() > 0){
+                approveRequest(allOvertimeRequests.get(0));
+            }
         }
     }
 

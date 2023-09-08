@@ -195,7 +195,7 @@ public class TeacherExuctedInfoDrawer {
             public TableCell<ExecutedExamInfo, Void> call(final TableColumn<ExecutedExamInfo, Void> param) {
                 final TableCell<ExecutedExamInfo, Void> cell = new TableCell<ExecutedExamInfo, Void>() {
 
-                    private final Button btn = new Button("view");
+                    private final Button btn = new Button("Statistics");
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             selectedWrittenExam = getTableView().getItems().get(getIndex());
@@ -235,7 +235,7 @@ public class TeacherExuctedInfoDrawer {
             public TableCell<ExecutedExamInfo, Void> call(final TableColumn<ExecutedExamInfo, Void> param) {
                 final TableCell<ExecutedExamInfo, Void> cell = new TableCell<ExecutedExamInfo, Void>() {
 
-                    private final Button btn = new Button("view");
+                    private final Button btn = new Button("Statistics");
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             selectedExecutedExam = getTableView().getItems().get(getIndex());

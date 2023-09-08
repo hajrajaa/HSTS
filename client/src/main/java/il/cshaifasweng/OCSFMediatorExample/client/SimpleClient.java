@@ -333,8 +333,10 @@ public class SimpleClient extends AbstractClient {
 		}
 		else if(messageSt.equals(("#GetAllOvertimeRequests_Replay")))
 		{
-			ArrayList<OvertimeRequest> list = (ArrayList<OvertimeRequest>) message.getObject1();
-			EventGetAllOvertimeRequests newEvent = new EventGetAllOvertimeRequests(list);
+			Object [] data = (Object[]) message.getObject1();
+			ArrayList<OvertimeRequest> list = (ArrayList<OvertimeRequest>) data[0];
+			boolean switchPage = (boolean) data[1];
+			EventGetAllOvertimeRequests newEvent = new EventGetAllOvertimeRequests(list, switchPage);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
 

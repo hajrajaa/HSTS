@@ -522,11 +522,13 @@ public class App extends Application {
         App.setRoot("get_exam_copy");
     }
 
-    @Subscribe
-    public void EventGetAllOvertimeRequests(EventGetAllOvertimeRequests event) throws IOException {
-        App.setAllOvertimeReq(event.getAllRequests());
-        App.setRoot("overtime_requests");
-    }
+//    @Subscribe
+//    public void EventGetAllOvertimeRequests(EventGetAllOvertimeRequests event) throws IOException {
+//        App.setAllOvertimeReq(event.getAllRequests());
+//        if(event.isSwitchPage()){
+//            App.setRoot("overtime_requests");
+//        }
+//    }
 
     private void changeScene()
     {

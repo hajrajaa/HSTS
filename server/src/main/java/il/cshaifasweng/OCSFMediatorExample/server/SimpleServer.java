@@ -1342,6 +1342,18 @@ public class SimpleServer extends AbstractServer {
 				}
 				session.save(request);
 				session.flush();
+				client.sendToClient(new Message("#successAlert", "Overtime Request Sent Successfully"));
+
+				List list = getAllObjects(OvertimeRequest.class);
+				if(list != null){
+					ArrayList<OvertimeRequest> allReq = new ArrayList(list);
+					ArrayList<OvertimeRequest> resList = new ArrayList<>();
+					for (OvertimeRequest req : allReq){
+						resList.add(new OvertimeRequest(req));
+					}
+					Object [] data = {resList, false};
+					sendToAllClients(new Message("#GetAllOvertimeRequests_Replay", data));
+				}
 			}
 
 			session.getTransaction().commit();
@@ -1353,11 +1365,29 @@ public class SimpleServer extends AbstractServer {
 			List list = getAllObjects(OvertimeRequest.class);
 			if(list != null){
 				ArrayList<OvertimeRequest> allReq = new ArrayList(list);
-				ArrayList<OvertimeRequest> res = new ArrayList<>();
+				ArrayList<OvertimeRequest> resList = new ArrayList<>();
 				for (OvertimeRequest req : allReq){
-					res.add(new OvertimeRequest(req));
+					resList.add(new OvertimeRequest(req));
 				}
-				client.sendToClient(new Message("#GetAllOvertimeRequests_Replay", res));
+				Object [] data = {resList, true};
+				client.sendToClient(new Message("#GetAllOvertimeRequests_Replay", data));
+			}
+
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#GetAllOvertimeRequestsWithoutSwitch")) ///
+		{
+			session.beginTransaction();
+
+			List list = getAllObjects(OvertimeRequest.class);
+			if(list != null){
+				ArrayList<OvertimeRequest> allReq = new ArrayList(list);
+				ArrayList<OvertimeRequest> resList = new ArrayList<>();
+				for (OvertimeRequest req : allReq){
+					resList.add(new OvertimeRequest(req));
+				}
+				Object [] data = {resList, false};
+				client.sendToClient(new Message("#GetAllOvertimeRequests_Replay", data));
 			}
 
 			session.getTransaction().commit();
