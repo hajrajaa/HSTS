@@ -837,37 +837,48 @@ public class SimpleServer extends AbstractServer {
 			Object[] newExecExam = (Object[]) message.getObject1();
 			int examCode = (int) Integer.valueOf((String) newExecExam[0]);
 			String examPassword = (String) newExecExam[1];
+			String studentName = (String) newExecExam[2];
 
 			boolean codeExist=false;
 			boolean passwordExist=false;
+			boolean studentFirstTime=false;
 			try {
 				session.beginTransaction();
-				List<ExecutedExamInfo> executedExamInfoList=getAllObjects(ExecutedExamInfo.class);
+				List<ExecutedExamInfo> executedExamInfoList = getAllObjects(ExecutedExamInfo.class);
 
-				for (ExecutedExamInfo ex : executedExamInfoList){
+				for (ExecutedExamInfo ex : executedExamInfoList)
+				{
 					if(ex.getCode() == examCode)
 					{
 						codeExist=true;
-						if(ex.getPassword().equals(examPassword))
+						if(!isStudentExist(ex, studentName))
 						{
-							passwordExist = true;
-							Exam currExam = session.find(Exam.class,examCode);
-							Exam newExam = new Exam(currExam);
-							ExecutedExamInfo.ExamType examType = ex.getType();
-							int ExamInfoID = ex.getId();
-							int overtime = ex.getOvertime();
-							System.out.println(examType);
-							Object[] obj = {newExam,examType,ExamInfoID,overtime};
-							client.sendToClient(new Message("#StartSolveSuccessfully",obj));
+							studentFirstTime = true;
+							if(ex.getPassword().equals(examPassword))
+							{
+								passwordExist = true;
+								Exam currExam = session.find(Exam.class,examCode);
+								Exam newExam = new Exam(currExam);
+								ExecutedExamInfo.ExamType examType = ex.getType();
+								int ExamInfoID = ex.getId();
+								int overtime = ex.getOvertime();
+								System.out.println(examType);
+								Object[] obj = {newExam,examType,ExamInfoID,overtime};
+								client.sendToClient(new Message("#StartSolveSuccessfully",obj));
+							}
 						}
+
 					}
 				}
-				if(!codeExist)
-				{
+				if(!codeExist) {
 					Warning warning = new Warning("Exam Code Doesn't Exist");
 					client.sendToClient(new Message("#StartSolveWarning", warning));
 				}
-				else if(!passwordExist){
+				else if(!studentFirstTime) {
+					Warning warning = new Warning("You Have Done This Exam Before");
+					client.sendToClient(new Message("#StartSolveWarning", warning));
+				}
+				else if(!passwordExist) {
 					Warning warning = new Warning("Exam Password Is Not Correct");
 					client.sendToClient(new Message("#StartSolveWarning", warning));
 				}
@@ -1590,6 +1601,20 @@ public class SimpleServer extends AbstractServer {
 	public boolean isGrade(double grade)
 	{
 		return (grade>=0 && grade <=100) ;
+	}
+
+	private boolean isStudentExist(ExecutedExamInfo info, String studentName)
+	{
+		if(info != null){
+			if(info.getExecutedExamList() != null){
+				for(ExecutedExam exe : info.getExecutedExamList()){
+					if(exe.getStudent().getUserName().equals(studentName)){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }
 
