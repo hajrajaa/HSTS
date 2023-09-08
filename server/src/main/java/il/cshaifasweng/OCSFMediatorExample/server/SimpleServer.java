@@ -1392,6 +1392,17 @@ public class SimpleServer extends AbstractServer {
 			session.getTransaction().commit();
 
 		}
+//		else if(msgString.equals("ManualExamSave_req"))
+//		{
+//			session.beginTransaction();
+//			Object[] obj = (Object[]) message.getObject1();
+//			Exam exam =(Exam) obj[0];
+//			String sol_path=(String) obj[1];
+//			ExecutedManual newExam=new ExecutedManual();
+//			/////ADDD SAVE EXAM
+//
+//
+//		}
 
 	} /////////////////////////////////////////////////////////////////////////////////////////////////////
 

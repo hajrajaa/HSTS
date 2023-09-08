@@ -3,6 +3,7 @@ package il.cshaifasweng.OCSFMediatorExample.client;
 import il.cshaifasweng.OCSFMediatorExample.entities.Exam;
 import il.cshaifasweng.OCSFMediatorExample.entities.ExamQuestion;
 
+import il.cshaifasweng.OCSFMediatorExample.entities.Message;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -24,6 +25,10 @@ import javafx.stage.FileChooser;
 
 public class ManualExamController {
 
+
+
+    public  static  String ManualSolutionPath;
+
     Exam currExam;
 
     public Exam getCurrExam1() {
@@ -33,6 +38,15 @@ public class ManualExamController {
     public void setCurrExam1(Exam currExam) {
         this.currExam = currExam;
     }
+
+    public static String getManualSolutionPath() {
+        return ManualSolutionPath;
+    }
+
+    public static void setManualSolutionPath(String manualSolutionPath) {
+        ManualSolutionPath = manualSolutionPath;
+    }
+
 
     @FXML
     Text error_bar_text, exam_name_text;
@@ -57,12 +71,31 @@ public class ManualExamController {
     }
     @FXML
    void upload_Action(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Word Files", "*.docx"));
 
+        File selectedFile = fileChooser.showOpenDialog(null);
 
+        if (selectedFile != null) {
+            ManualSolutionPath = selectedFile.getAbsolutePath();
+            error_bar_text.setText("Exam document uploaded successfully");
+            System.out.println(ManualSolutionPath);
+        }
+        else
+        {
+            error_bar_text.setText("Error, please select a document");
+        }
     }
 
     @FXML
-   void submit_click(ActionEvent actionEvent) {
+   void submit_click(ActionEvent actionEvent)
+    {
+//        Object[] obj={currExam,ManualSolutionPath};
+//        try {
+//            SimpleClient.getClient().sendToServer(new Message("#ManualExamSave_req", obj));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
    }
 
     public void generateWordDocument(Exam exam, List<ExamQuestion> examQuestionList, String filePath) {
@@ -78,7 +111,6 @@ public class ManualExamController {
             titleRun.addBreak();
             titleRun.addBreak();
             titleRun.addBreak();
-            titleRun.addBreak();
             titleRun.setFontSize(24);
 
             int questionNumber = 1;
@@ -87,7 +119,9 @@ public class ManualExamController {
                 questionParagraph.setAlignment(ParagraphAlignment.LEFT);
                 XWPFRun questionRun = questionParagraph.createRun();
 
-                questionRun.setText("Question " + questionNumber + ": " + question.getStudent_note());
+                questionRun.setText("Question " + questionNumber + ": " + question.getQuestion());
+                questionRun.addBreak();
+                questionRun.setText("Note :"+question.getStudent_note());
                 questionRun.addBreak();
                 String[] answers = question.getQuestion().getAnswers();
                 int answerCount = 1;
@@ -110,7 +144,8 @@ public class ManualExamController {
 
 
     @FXML
-    void download_Exam(ActionEvent event) {
+    void download_Exam(ActionEvent event)
+    {
 
         List<ExamQuestion> examQuestionList = currExam.getExamQuestion();
         FileChooser fileChooser = new FileChooser();
@@ -119,15 +154,20 @@ public class ManualExamController {
         fileChooser.setInitialFileName(fileName);
         File selectedFile = fileChooser.showSaveDialog(null);
 
-        if (selectedFile != null) {
+        if (selectedFile != null)
+        {
 
             String filePath = selectedFile.getAbsolutePath();
-            generateWordDocument(currExam, examQuestionList, filePath); // Pass the file path
-
+            generateWordDocument(currExam, examQuestionList, filePath);
 
             upload_button.setVisible(true);
+            upload_button.setDisable(false);
             download_button.setDisable(true);
             download_button.setVisible(false);
+            error_bar_text.setText("Exam document downloaded successfully");
+        }
+        else {
+            error_bar_text.setText("Something wrong, Exam document can't downloaded successfully");
         }
 
 
