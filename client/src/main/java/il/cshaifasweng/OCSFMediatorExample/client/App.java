@@ -50,6 +50,8 @@ public class App extends Application {
     public static ArrayList<StatisticsFilter> teachersStatisticsFilterList;
     public static ArrayList<StatisticsFilter> coursesStatisticsFilterList;
 
+    public static ArrayList<StatisticsInfo> statisticsInfoList;
+
     public static ArrayList<ExecutedExam> getStudentExecutedExamsList() {
         return studentsExecutedExams;
     }
@@ -317,6 +319,11 @@ public class App extends Application {
         changeScene();
     }
 
+    @Subscribe
+    public void EventAllStatisticsInfo(EventAllStatisticsInfo event) throws IOException {
+        statisticsInfoList = event.getList();
+        App.setRoot("principle_statistics_exams_info");
+    }
 
     @Subscribe
     public void startSolveExamEvent(StartSolveExamEvent event)

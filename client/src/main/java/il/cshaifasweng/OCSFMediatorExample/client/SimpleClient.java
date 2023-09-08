@@ -356,7 +356,8 @@ public class SimpleClient extends AbstractClient {
 						EventBus.getDefault().post(newEvent);
 					}
 			);
-		}else if(messageSt.equals("#PrincipleStatisticsLists_Replay"))
+		}
+		else if(messageSt.equals("#PrincipleStatisticsLists_Replay"))
 		{
 			Object [] data = (Object[]) message.getObject1();
 			ArrayList<StatisticsFilter> studentsList = (ArrayList<StatisticsFilter>) data[0];
@@ -364,12 +365,15 @@ public class SimpleClient extends AbstractClient {
 			ArrayList<StatisticsFilter> coursesList = (ArrayList<StatisticsFilter>) data[2];
 
 			EventPrincipleStatisticsLists newEvent = new EventPrincipleStatisticsLists(studentsList,teachersList,coursesList);
-			Platform.runLater(()->{
-						EventBus.getDefault().post(newEvent);
-					}
-			);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
+		else if(messageSt.equals("#GetAllExamsInfoByFilter_Replay"))
+		{
+			ArrayList<StatisticsInfo> list = (ArrayList<StatisticsInfo>) message.getObject1();
 
+			EventAllStatisticsInfo newEvent = new EventAllStatisticsInfo(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
 
 	}
 	

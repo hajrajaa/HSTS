@@ -37,7 +37,6 @@ public class PrincipleStatisticsController
     {
         System.out.println("\n--------------------------------------------> PrincipleStatisticsController");
 
-
         initTable(StudentsTable, App.studentsStatisticsFilterList, titleCol_s, 0);
         initTable(TeachersTable, App.teachersStatisticsFilterList, titleCol_t, 1);
         initTable(CoursesTable, App.coursesStatisticsFilterList, titleCol_c, 2);
@@ -70,11 +69,12 @@ public class PrincipleStatisticsController
                     private final Button btn = new Button("view");
                     {
                         btn.setOnAction((ActionEvent event) -> {
-                            StatisticsFilter exam = getTableView().getItems().get(getIndex());
+                            StatisticsFilter filter = getTableView().getItems().get(getIndex());
                             try {
-                                App.setRoot("exam_drawer");
+                                SimpleClient.getClient().sendToServer(new Message("#GetAllExamsInfoByFilter", filter));
                             } catch (IOException e) {
-                                throw new RuntimeException(e);
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
                             }
                         });
                     }

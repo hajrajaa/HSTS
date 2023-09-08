@@ -29,29 +29,26 @@
         </Text>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="32.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="308.0" />
         <Text fx:id="Exam_text" layoutX="32.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Students" textAlignment="CENTER" wrappingWidth="307.99999833106995" />
-        <TableView fx:id="StudentsTable" layoutX="32.0" layoutY="155.0" prefHeight="415.0" prefWidth="308.0">
+        <TableView fx:id="StudentsTable" layoutX="32.0" layoutY="155.0" prefHeight="428.0" prefWidth="308.0" style="-fx-background-color: abdbe3;">
             <columns>
-                <TableColumn fx:id="codeCol_s" prefWidth="54.0" text="Code" />
-                <TableColumn fx:id="titleCol_s" prefWidth="197.0" text="Exam" />
+                <TableColumn fx:id="titleCol_s" prefWidth="245.0" text="Name" />
             </columns>
         </TableView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="350.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="308.0" />
       <Text fx:id="Exam_text1" layoutX="350.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Teachers" textAlignment="CENTER" wrappingWidth="307.99999833106995" />
-      <TableView fx:id="TeachersTable" layoutX="350.0" layoutY="155.0" prefHeight="415.0" prefWidth="308.0">
+      <TableView fx:id="TeachersTable" layoutX="350.0" layoutY="155.0" prefHeight="428.0" prefWidth="308.0" style="-fx-background-color: abdbe3;">
          <columns>
-            <TableColumn fx:id="codeCol_t" prefWidth="54.0" text="Code" />
-            <TableColumn fx:id="titleCol_t" prefWidth="197.0" text="Exam" />
+            <TableColumn fx:id="titleCol_t" prefWidth="245.0" text="Name" />
          </columns>
       </TableView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="669.0" layoutY="90.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="308.0" />
       <Text fx:id="Exam_text2" layoutX="669.0" layoutY="123.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Courses" textAlignment="CENTER" wrappingWidth="307.99999833106995" />
-      <TableView fx:id="CoursesTable" layoutX="669.0" layoutY="155.0" prefHeight="415.0" prefWidth="308.0">
+      <TableView fx:id="CoursesTable" layoutX="669.0" layoutY="155.0" prefHeight="428.0" prefWidth="308.0" style="-fx-background-color: abdbe3;">
          <columns>
-            <TableColumn fx:id="codeCol_c" prefWidth="54.0" text="Code" />
-            <TableColumn fx:id="titleCol_c" prefWidth="197.0" text="Exam" />
+            <TableColumn fx:id="titleCol_c" prefWidth="245.0" text="Name" />
          </columns>
       </TableView>
-      <ImageView fitHeight="243.0" fitWidth="168.0" layoutX="-3.0" layoutY="357.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="243.0" fitWidth="168.0" layoutX="-3.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/statistics_man.png" />
          </image>

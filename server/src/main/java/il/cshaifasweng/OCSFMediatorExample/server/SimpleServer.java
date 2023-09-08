@@ -1446,7 +1446,7 @@ public class SimpleServer extends AbstractServer {
 
 			session.getTransaction().commit();
 		}
-		else if (msgString.equals("#PrincipleStatisticsLists")) //
+		else if (msgString.equals("#PrincipleStatisticsLists")) ///
 		{
 			session.beginTransaction();
 
@@ -1477,6 +1477,56 @@ public class SimpleServer extends AbstractServer {
 			Object [] data = {studentsList,teachersList,coursesList};
 			try {
 				client.sendToClient(new Message("#PrincipleStatisticsLists_Replay", data));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			session.getTransaction().commit();
+		}
+		else if (msgString.equals("#GetAllExamsInfoByFilter")) ///
+		{
+			session.beginTransaction();
+
+			StatisticsFilter filter = (StatisticsFilter) message.getObject1();
+			ArrayList<StatisticsInfo> allInfoFilteredList = new ArrayList<>();
+
+			if(filter != null){
+				switch (filter.getFilter()){
+					case StudentFilter:
+						Student student = session.find(Student.class, filter.getText());
+						if(student != null){
+							for(ExecutedExam ex : student.getMyExams()){
+								allInfoFilteredList.add(new StatisticsInfo(ex.getTestDate()));
+							}
+						}
+						break;
+
+					case TeacherFilter:
+						Teacher teacher = session.find(Teacher.class, filter.getText());
+						if(teacher != null){
+							for(ExecutedExamInfo ex : teacher.getExecutedExamsInfo()){
+								allInfoFilteredList.add(new StatisticsInfo(ex));
+							}
+						}
+						break;
+
+					case CourseFilter:
+						List<ExecutedExamInfo> infoList = getAllObjects(ExecutedExamInfo.class);
+						if(infoList != null){
+							for(ExecutedExamInfo info : infoList){
+								Exam exe = session.find(Exam.class, info.getCode());
+								if(exe != null){
+									if(exe.getCourseName().equals(filter.getText())){
+										allInfoFilteredList.add(new StatisticsInfo(info));
+									}
+								}
+							}
+						}
+						break;
+				}
+			}
+			try {
+				client.sendToClient(new Message("#GetAllExamsInfoByFilter_Replay", allInfoFilteredList));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
