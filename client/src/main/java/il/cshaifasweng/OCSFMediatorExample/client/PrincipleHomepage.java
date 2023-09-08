@@ -59,8 +59,13 @@ public class PrincipleHomepage {
 
     @FXML
     public void go_to_p_stat(ActionEvent actionEvent) throws IOException {
+        try {
+            SimpleClient.getClient().sendToServer(new Message("#PrincipleStatisticsLists"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         EventBus.getDefault().unregister(this);
-        App.setRoot("principle_stat_menu");
     }
 
     @FXML

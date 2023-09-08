@@ -280,7 +280,6 @@ public class SimpleClient extends AbstractClient {
 			);
 
 		}
-
 		else if (messageSt.equals("#UpdateGradeWarning"))
 		{
 			Platform.runLater(()->{
@@ -302,7 +301,6 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
-
 		else if (messageSt.equals("#UpdateGradeSuccessfully"))
 		{
 			ExecutedExam executedExam=(ExecutedExam) message.getObject1();
@@ -350,15 +348,28 @@ public class SimpleClient extends AbstractClient {
 			);
 		}
 		else if(messageSt.equals("#GetRefreshExcutedExamsRes"))
-	{
-		List<ExecutedExam> allExcutedExams = (List<ExecutedExam>) message.getObject1();
+		{
+			List<ExecutedExam> allExcutedExams = (List<ExecutedExam>) message.getObject1();
 
-		refreshExecExam  newEvent=new refreshExecExam(allExcutedExams);
-		Platform.runLater(()->{
-					EventBus.getDefault().post(newEvent);
-				}
-		);
-	}
+			refreshExecExam  newEvent=new refreshExecExam(allExcutedExams);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}else if(messageSt.equals("#PrincipleStatisticsLists_Replay"))
+		{
+			Object [] data = (Object[]) message.getObject1();
+			ArrayList<StatisticsFilter> studentsList = (ArrayList<StatisticsFilter>) data[0];
+			ArrayList<StatisticsFilter> teachersList = (ArrayList<StatisticsFilter>) data[1];
+			ArrayList<StatisticsFilter> coursesList = (ArrayList<StatisticsFilter>) data[2];
+
+			EventPrincipleStatisticsLists newEvent = new EventPrincipleStatisticsLists(studentsList,teachersList,coursesList);
+			Platform.runLater(()->{
+						EventBus.getDefault().post(newEvent);
+					}
+			);
+		}
+
 
 	}
 	

@@ -44,8 +44,11 @@ public class App extends Application {
     public static ExecutedVirtual examCopy;
     public  static List<Student> studentList;
     public  static List<Teacher> teacherList;
-
     public static ArrayList<OvertimeRequest> allOvertimeReq;
+
+    public static ArrayList<StatisticsFilter> studentsStatisticsFilterList;
+    public static ArrayList<StatisticsFilter> teachersStatisticsFilterList;
+    public static ArrayList<StatisticsFilter> coursesStatisticsFilterList;
 
     public static ArrayList<ExecutedExam> getStudentExecutedExamsList() {
         return studentsExecutedExams;
@@ -520,6 +523,14 @@ public class App extends Application {
     public void EventGetExamCopy(EventGetExamCopy event) throws IOException {
         App.setExamCopy(event.getvExamCopy());
         App.setRoot("get_exam_copy");
+    }
+
+    @Subscribe
+    public void EventPrincipleStatisticsLists(EventPrincipleStatisticsLists event) throws IOException {
+        studentsStatisticsFilterList = event.getStudentsList();
+        teachersStatisticsFilterList = event.getTeachersList();
+        coursesStatisticsFilterList = event.getCoursesList();
+        App.setRoot("principle_statistics");
     }
 
 //    @Subscribe

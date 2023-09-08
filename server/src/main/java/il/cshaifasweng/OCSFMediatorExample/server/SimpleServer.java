@@ -1446,6 +1446,45 @@ public class SimpleServer extends AbstractServer {
 
 			session.getTransaction().commit();
 		}
+		else if (msgString.equals("#PrincipleStatisticsLists")) //
+		{
+			session.beginTransaction();
+
+			ArrayList<StatisticsFilter> studentsList = new ArrayList<>();
+			ArrayList<StatisticsFilter> teachersList = new ArrayList<>();
+			ArrayList<StatisticsFilter> coursesList = new ArrayList<>();
+
+			List<Student> students = getAllObjects(Student.class);
+			List<Teacher> teachers = getAllObjects(Teacher.class);
+			List<Course> courses = getAllObjects(Course.class);
+
+			if(students != null){
+				for (Student s : students){
+					studentsList.add(new StatisticsFilter(s.getUserName(), StatisticsFilter.FilterBy.StudentFilter));
+				}
+			}
+			if(teachers != null){
+				for (Teacher t : teachers){
+					teachersList.add(new StatisticsFilter(t.getUserName(), StatisticsFilter.FilterBy.TeacherFilter));
+				}
+			}
+			if(courses != null){
+				for (Course c : courses){
+					coursesList.add(new StatisticsFilter(c.getCourseName(), StatisticsFilter.FilterBy.CourseFilter));
+				}
+			}
+
+			Object [] data = {studentsList,teachersList,coursesList};
+			try {
+				client.sendToClient(new Message("#PrincipleStatisticsLists_Replay", data));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			session.getTransaction().commit();
+		}
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////
 
 		else if (msgString.equals("#GetStudentGrades"))
 		{
@@ -1485,7 +1524,6 @@ public class SimpleServer extends AbstractServer {
 			session.getTransaction().commit();
 
 		}
-
 		else if (msgString.equals("#GetRefreshExcutedExams"))
 		{
 			session.beginTransaction();
@@ -1500,7 +1538,6 @@ public class SimpleServer extends AbstractServer {
 
 			try {
 				client.sendToClient(new Message("#GetRefreshExcutedExamsRes", copyexecutedExams));
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
