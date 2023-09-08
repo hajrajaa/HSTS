@@ -1491,12 +1491,17 @@ public class SimpleServer extends AbstractServer {
 			ArrayList<StatisticsInfo> allInfoFilteredList = new ArrayList<>();
 
 			if(filter != null){
+				System.out.println("f1");
 				switch (filter.getFilter()){
 					case StudentFilter:
 						Student student = session.find(Student.class, filter.getText());
 						if(student != null){
-							for(ExecutedExam ex : student.getMyExams()){
-								allInfoFilteredList.add(new StatisticsInfo(ex.getTestDate()));
+							System.out.println("f f2 "+student);
+							if(student.getMyExams() != null){
+								for(ExecutedExam ex : student.getMyExams()){
+									System.out.println("f ---> "+ex);
+									allInfoFilteredList.add(new StatisticsInfo(ex.getTestDate()));
+								}
 							}
 						}
 						break;
@@ -1526,6 +1531,7 @@ public class SimpleServer extends AbstractServer {
 				}
 			}
 			try {
+				System.out.println("f3");
 				client.sendToClient(new Message("#GetAllExamsInfoByFilter_Replay", allInfoFilteredList));
 			} catch (IOException e) {
 				e.printStackTrace();

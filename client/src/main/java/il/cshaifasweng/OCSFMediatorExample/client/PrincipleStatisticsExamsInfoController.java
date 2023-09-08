@@ -8,7 +8,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
@@ -36,8 +38,11 @@ public class PrincipleStatisticsExamsInfoController
     @FXML
     ComboBox Exam1_ComboBox, Exam2_ComboBox;
     @FXML
+    private BarChart<String, Double> Histogram;
+    @FXML
     PieChart Exam1_Pie, Exam2_Pie;
     private PieChart [] allPieCharts;
+    private XYChart.Series<String, Double> [] allHist;
     private Text [] allAvgTexts;
     private Text [] allMedianText;
 
@@ -50,6 +55,9 @@ public class PrincipleStatisticsExamsInfoController
         System.out.println("\n--------------------------------------------> PrincipleStatisticsExamsInfoController");
 
         allExamsInfoList = App.statisticsInfoList;
+
+        initHistogram();
+        allHist = new XYChart.Series[2];
 
         allPieCharts = new PieChart[2];
         allPieCharts[0] = Exam1_Pie;
@@ -101,11 +109,47 @@ public class PrincipleStatisticsExamsInfoController
         inTimeNode.setStyle("-fx-pie-color: #34b048;"); // green
         timeUpNode.setStyle("-fx-pie-color: #ff0404;"); // red
 
-        inTimeNode.setOnMouseEntered(event -> {chart.setTitle("Submit In Time: " + (int)(inTimeVal/sumVal) + "%");});
+        inTimeNode.setOnMouseEntered(event -> {chart.setTitle("Submit In Time: " + (int)(inTimeVal/sumVal)*100 + "%");});
         inTimeNode.setOnMouseExited(event -> {chart.setTitle("Submit In Time");});
 
-        timeUpNode.setOnMouseEntered(event -> {chart.setTitle("Not In Time: " + (int)(timeUpVal/sumVal) + "%");});
+        timeUpNode.setOnMouseEntered(event -> {chart.setTitle("Not In Time: " + (int)(timeUpVal/sumVal)*100 + "%");});
         timeUpNode.setOnMouseExited(event -> {chart.setTitle("Submit In Time");});
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// Histogram //////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void initHistogram ()
+    {
+        Histogram.setAnimated(false);
+        Histogram.setTitle("Grades Histogram");
+        XYChart.Series<String, Double> s1 = new XYChart.Series();
+        XYChart.Series<String, Double> s2 = new XYChart.Series();
+        Histogram.getData().addAll(s1,s2);
+    }
+
+    private void addHistogramSeries (StatisticsInfo examInfo, int index)
+    {
+        XYChart.Series<String, Double> series = new XYChart.Series();
+        series.setName(examInfo.getTitle());
+        series.getData().add(new XYChart.Data("0-9",examInfo.getHist()[0]));
+        series.getData().add(new XYChart.Data("10-19",examInfo.getHist()[1]));
+        series.getData().add(new XYChart.Data("20-29",examInfo.getHist()[2]));
+        series.getData().add(new XYChart.Data("30-39",examInfo.getHist()[3]));
+        series.getData().add(new XYChart.Data("40-49",examInfo.getHist()[4]));
+        series.getData().add(new XYChart.Data("50-59",examInfo.getHist()[5]));
+        series.getData().add(new XYChart.Data("60-69",examInfo.getHist()[6]));
+        series.getData().add(new XYChart.Data("70-79",examInfo.getHist()[7]));
+        series.getData().add(new XYChart.Data("80-89",examInfo.getHist()[8]));
+        series.getData().add(new XYChart.Data("90-100",examInfo.getHist()[9]));
+
+//        if(Histogram.getData().size() < 2){
+//            Histogram.getData().add(series);
+//        }else{
+//            Histogram.getData().add(index, series);
+//        }
+        Histogram.getData().set(index, series);
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +174,7 @@ public class PrincipleStatisticsExamsInfoController
             initPieChart(allPieCharts[index], exam.getInTimeCounter(), exam.getTimeUpCounter());
             allAvgTexts[index].setText("Average: " + exam.getAverage());
             allMedianText[index].setText("Median: " + exam.getMedian());
+            addHistogramSeries(exam, index);
         }
     }
 

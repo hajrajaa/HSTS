@@ -93,7 +93,7 @@ public class PrincipleTeachersInfoDisplay {
 
         XYChart.Series<String, Double> series2 = new XYChart.Series();
         series2.setName("Exam 2 Grades");
-        series2.getData().add(new XYChart.Data("0-10",exam2.getHist()[0]));
+        series2.getData().add(new XYChart.Data("0-9",exam2.getHist()[0]));
         series2.getData().add(new XYChart.Data("10-19",exam2.getHist()[1]));
         series2.getData().add(new XYChart.Data("20-29",exam2.getHist()[2]));
         series2.getData().add(new XYChart.Data("30-39",exam2.getHist()[3]));

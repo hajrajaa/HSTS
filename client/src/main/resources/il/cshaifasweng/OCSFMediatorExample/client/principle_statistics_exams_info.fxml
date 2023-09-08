@@ -31,7 +31,7 @@
             </font>
         </Text>
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="500.0" layoutX="32.0" layoutY="84.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="716.0" />
-      <BarChart fx:id="Histogram" layoutX="47.0" layoutY="97.0" prefHeight="493.0" prefWidth="695.0">
+      <BarChart fx:id="Histogram" layoutX="47.0" layoutY="97.0" prefHeight="473.0" prefWidth="695.0">
          <xAxis>
             <CategoryAxis side="BOTTOM" />
          </xAxis>
@@ -46,26 +46,26 @@
         </ImageView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="243.0" layoutX="763.0" layoutY="84.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="211.0" />
       <ComboBox fx:id="Exam1_ComboBox" layoutX="779.0" layoutY="98.0" onAction="#Exam1Selected" prefHeight="29.0" prefWidth="180.0" promptText="Choose Exam" style="-fx-background-color: #ffffff;" />
-      <Text fx:id="Exam1_Avg" fill="#063970" layoutX="779.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Avg" wrappingWidth="180.00001308321953">
+      <Text fx:id="Exam1_Avg" fill="#063970" layoutX="779.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Avg" wrappingWidth="180.00001308321953">
          <font>
             <Font size="19.0" />
          </font>
       </Text>
-      <PieChart fx:id="Exam1_Pie" animated="false" labelLineLength="1.0" layoutX="779.0" layoutY="193.0" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="180.0" style="-fx-background-color: #ffffff;" />
-      <Text fx:id="Exam1_Median" fill="#063970" layoutX="780.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Median" wrappingWidth="180.00001308321953">
+      <PieChart fx:id="Exam1_Pie" labelLineLength="1.0" layoutX="779.0" layoutY="193.0" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="180.0" style="-fx-background-color: #ffffff;" />
+      <Text fx:id="Exam1_Median" fill="#063970" layoutX="780.0" layoutY="183.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Median" wrappingWidth="180.00001308321953">
          <font>
             <Font size="19.0" />
          </font>
       </Text>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="243.0" layoutX="763.0" layoutY="340.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="211.0" />
       <ComboBox fx:id="Exam2_ComboBox" layoutX="779.0" layoutY="354.0" onAction="#Exam2Selected" prefHeight="29.0" prefWidth="180.0" promptText="Choose Exam" style="-fx-background-color: #ffffff;" />
-      <Text fx:id="Exam2_Avg" fill="#063970" layoutX="779.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Avg" wrappingWidth="180.00001308321953">
+      <Text fx:id="Exam2_Avg" fill="#063970" layoutX="779.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Avg" wrappingWidth="180.00001308321953">
          <font>
             <Font size="19.0" />
          </font>
       </Text>
       <PieChart fx:id="Exam2_Pie" layoutX="779.0" layoutY="449.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="120.0" prefWidth="180.0" style="-fx-background-color: #ffffff;" />
-      <Text fx:id="Exam2_Median" fill="#063970" layoutX="780.0" layoutY="439.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Median" wrappingWidth="180.00001308321953">
+      <Text fx:id="Exam2_Median" fill="#063970" layoutX="780.0" layoutY="438.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Median" wrappingWidth="180.00001308321953">
          <font>
             <Font size="19.0" />
          </font>
