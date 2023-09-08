@@ -139,68 +139,80 @@ public class SimpleServer extends AbstractServer {
 			session.save(req);
 			session.flush();
 
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////////////////// Students /////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+
 			ArrayList<Student> studentsList = new ArrayList<>();
 
-			Student newStudent1 = new Student(0, "Manar Zoabi", "manar123");
-			studentsList.add(newStudent1);
-			session.save(newStudent1);
+			Student student1 = new Student(0, "Michel Ghanadry", "m123");
+			studentsList.add(student1);
+			session.save(student1);
 			session.flush();
 
-			Student newStudent2 = new Student(3, "r", "b");
+			Student student2 = new Student(1, "Rajaa Haj", "r123");
+			studentsList.add(student2);
+			session.save(student2);
+			session.flush();
+
+			Student student3 = new Student(2, "Manar Zoabi", "m123");
+			studentsList.add(student3);
+			session.save(student3);
+			session.flush();
+
+			Student student4 = new Student(3, "Thomas Elias", "t123");
+			studentsList.add(student4);
+			session.save(student4);
+			session.flush();
+
+			Student student5 = new Student(4, "Moanes Samara", "m123");
+			studentsList.add(student5);
+			session.save(student5);
+			session.flush();
+
+			Student student6 = new Student(5, "Bshara Khoury", "b123");
+			studentsList.add(student6);
+			session.save(student6);
+			session.flush();
+
+			Student newStudent2 = new Student(6, "r", "b");
 			studentsList.add(newStudent2);
 			session.save(newStudent2);
 			session.flush();
 
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////////////////// Teachers /////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+
 			ArrayList<Teacher> teachersList = new ArrayList<>();
 
-			Teacher newTeacher1 = new Teacher(123, "teacher1", "111111");
-			teachersList.add(newTeacher1);
-			session.save(newTeacher1);
+			Teacher teacher1 = new Teacher(7, "Tina", "111");
+			teachersList.add(teacher1);
+			session.save(teacher1);
 			session.flush();
 
-
-			Teacher newTeacher2 = new Teacher(1, "Tina", "123");
-			teachersList.add(newTeacher2);
-			session.save(newTeacher2);
+			Teacher teacher2 = new Teacher(8, "Seren", "222");
+			teachersList.add(teacher2);
+			session.save(teacher2);
 			session.flush();
 
-			Teacher newTeacherX = new Teacher(33, "a", "3");
+			Teacher teacher3 = new Teacher(9, "Joel", "333");
+			teachersList.add(teacher3);
+			session.save(teacher3);
+			session.flush();
+
+			Teacher newTeacherX = new Teacher(11, "a", "3");
 			teachersList.add(newTeacherX);
 			session.save(newTeacherX);
 			session.flush();
 
-			Teacher newTeacher3 = new Teacher(7, "1", "2");
-			teachersList.add(newTeacher3);
-			session.save(newTeacher3);
-			session.flush();
-
-			User ab = new User(343, "999", "111", User.UserType.Teacher);
-			session.save(ab);
-			session.flush();
-			//generatePrinciple();
-
-			User principle = new User(9, "manger", "123456789", User.UserType.Princiaple);
+			User principle = new User(12, "manger", "123456789", User.UserType.Princiaple);
 			session.save(principle);
 			session.flush();
 
-			Princiaple p = new Princiaple(545, "Malki", "121");
+			Princiaple p = new Princiaple(10, "Malki", "121");
 			session.save(p);
 			session.flush();
-
-
-//			Exam exam = new Exam(9, 12312, "student", "teacher", newTeacher2, "Virtual");
-//			session.save(exam);
-//			session.flush();
-
-
-			//List<Question> questions=new ArrayList<>();
-
-//			Subject s1 = new Subject("Computer Science");
-//			Course c1s1 = new Course("Intro to CS", s1);
-//			Course c2s1 = new Course("OOP", s1);
-//			Course c3s1 = new Course("Data Structures", s1);
-			//session.save(newExam);
-			//session.flush();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////// Subjects and Courses ///////////////////////////////////////
@@ -368,7 +380,7 @@ public class SimpleServer extends AbstractServer {
 			ExamQuestion x4 = new ExamQuestion(q29, 30, "", "Think Hard!");
 			ExamQuestion x5 = new ExamQuestion(q30, 25, "", "");
 
-			Exam exam2 = new Exam(66, "Calculus 1 Final Exam", 5, "", "", newTeacher2, calculus);
+			Exam exam2 = new Exam(66, "Calculus 1 Final Exam", 5, "", "", teacher2, calculus);
 			exam2.addExamQuestion(x1);
 			exam2.addExamQuestion(x2);
 			exam2.addExamQuestion(x3);
@@ -388,42 +400,107 @@ public class SimpleServer extends AbstractServer {
 			session.save(exam2);
 			session.flush();
 
-			/// Bshara ///
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////// Exam 3 //////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////
 
-//			ExecutedExam ex1 = new ExecutedExam(1,newStudent1,"15/8/2023","10:00",90,true,exam1,true);
-//			session.save(ex1);
-//			session.flush();
-//
-//			newStudent1.addExam1(ex1);
-//			session.merge(newStudent1);
-//			session.flush();
-//			int[] hist1 = {1,2,0,4,2,1,2,4,5,2,2};
-//
-//			int[] hist2 = {2,1,2,1,2,4,1,3,3,6,2};
-//
-//			ExecutedExamInfo moeda = new ExecutedExamInfo(173155,"1234","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,hist1);
-//			session.save(moeda);
-//			session.flush();
-//
-//			ExecutedExamInfo moedb = new ExecutedExamInfo(173155,"6789","Discrete Mathematics B",70,65,ExecutedExamInfo.ExamType.Virtual,hist2);
-//			session.save(moedb);
-//			session.flush();
-//
-//			dmath.addExam(exam1);
-//			session.save(dmath);
-//			session.flush();
-//
-//			newTeacherX.addExecutedExamInfo(moeda);
-//			session.merge(newTeacherX);
-//
-//			ExecutedExamInfo moedc = new ExecutedExamInfo(1122,"4545","Discrete Mathematics",64,60,ExecutedExamInfo.ExamType.Virtual,newTeacherX);
-//			moeda.addExecutedExam(ex1);
-//			session.save(moedc);
-//			session.flush();
-//
-//			newTeacherX.addExecutedExamInfo(moedb);
-//			session.merge(newTeacherX);
+			ExamQuestion m1 = new ExamQuestion(q1, 50, "", "Take Your Time Answering This Question!");
+			ExamQuestion m2 = new ExamQuestion(q2, 30, "", "");
+			ExamQuestion m3 = new ExamQuestion(q3, 20, "", "");
 
+			Exam exam3 = new Exam(66, "DS 2023 A", 10, "", "", teacher1, DS);
+			exam3.addExamQuestion(m1);
+			exam3.addExamQuestion(m2);
+			exam3.addExamQuestion(m3);
+
+			session.save(m1);
+			session.save(m2);
+			session.save(m3);
+			session.save(exam3);
+			session.flush();
+
+			ExecutedExamInfo exam3Info = new ExecutedExamInfo(exam3.getCodeExam(),"1234", ExecutedExamInfo.ExamType.Virtual,exam3.getTitle(),teacher1);
+
+			ExecutedExam exeExam = new ExecutedExam (exam3.getTitle(), exam3Info.getId(), student4.getUserName(), "06/06/2023", "00:10:00", "00:10:04", true, false);
+			ArrayList<Integer> answers = new ArrayList<>();
+			answers.add(1);answers.add(3);answers.add(4);
+			ExecutedVirtual vExam1 = new ExecutedVirtual (exeExam, answers);
+			vExam1.setStudent(student4);
+			vExam1.setExam(exam3);
+			vExam1.setGrade(vExam1.culcGrade());
+			vExam1.setExecutedExamInfo(exam3Info);
+			session.save(exeExam);
+			session.save(vExam1);
+
+			exeExam = new ExecutedExam (exam3.getTitle(), exam3Info.getId(), student2.getUserName(), "06/06/2023", "00:11:10", "00:11:20", false, false);
+			answers = new ArrayList<>();
+			answers.add(2);answers.add(2);answers.add(1);
+			vExam1 = new ExecutedVirtual (exeExam, answers);
+			vExam1.setStudent(student2);
+			vExam1.setExam(exam3);
+			vExam1.setGrade(vExam1.culcGrade());
+			vExam1.setExecutedExamInfo(exam3Info);
+			session.save(exeExam);
+			session.save(vExam1);
+
+			exeExam = new ExecutedExam (exam3.getTitle(), exam3Info.getId(), student1.getUserName(), "06/06/2023", "00:12:03", "00:12:10", true, true);
+			answers = new ArrayList<>();
+			answers.add(4);answers.add(2);answers.add(1);
+			vExam1 = new ExecutedVirtual (exeExam, answers);
+			vExam1.setStudent(student1);
+			vExam1.setExam(exam3);
+			vExam1.setGrade(vExam1.culcGrade());
+			vExam1.setExecutedExamInfo(exam3Info);
+			session.save(exeExam);
+			session.save(vExam1);
+
+			exeExam = new ExecutedExam (exam3.getTitle(), exam3Info.getId(), student6.getUserName(), "06/06/2023", "00:12:55", "00:13:00", true, true);
+			answers = new ArrayList<>();
+			answers.add(4);answers.add(2);answers.add(4);
+			vExam1 = new ExecutedVirtual (exeExam, answers);
+			vExam1.setStudent(student6);
+			vExam1.setExam(exam3);
+			vExam1.setGrade(vExam1.culcGrade());
+			vExam1.setExecutedExamInfo(exam3Info);
+			session.save(exeExam);
+			session.save(vExam1);
+
+			exeExam = new ExecutedExam (exam3.getTitle(), exam3Info.getId(), student5.getUserName(), "06/06/2023", "00:10:55", "00:11:05", true, false);
+			answers = new ArrayList<>();
+			answers.add(3);answers.add(2);answers.add(1);
+			vExam1 = new ExecutedVirtual (exeExam, answers);
+			vExam1.setStudent(student5);
+			vExam1.setExam(exam3);
+			vExam1.setGrade(vExam1.culcGrade());
+			vExam1.setExecutedExamInfo(exam3Info);
+			session.save(exeExam);
+			session.save(vExam1);
+
+			session.save(exam3Info);
+			session.flush();
+
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+			/////////////////////////////////////////// Histogram ////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////////////////////////////////
+
+			int[] hist1 = {1,2,0,4,2,1,2,4,5,2,2};
+			int[] hist2 = {2,1,2,1,2,4,1,3,3,6,2};
+
+			ExecutedExamInfo moeda = new ExecutedExamInfo(173311,"1234","OOP A",64,60,ExecutedExamInfo.ExamType.Virtual,hist1,20,5);
+			session.save(moeda);
+			session.flush();
+
+			ExecutedExamInfo moedb = new ExecutedExamInfo(173322,"6789","OOP B",70,65,ExecutedExamInfo.ExamType.Virtual,hist2,18,9);
+			session.save(moedb);
+			session.flush();
+
+			teacher3.addExecutedExamInfo(moeda);
+			session.merge(teacher3);
+
+			teacher3.addExecutedExamInfo(moedb);
+			session.merge(teacher3);
+
+			session.flush();
 			session.getTransaction().commit(); // Save everything.
 
 		}

@@ -79,6 +79,22 @@ public class ExecutedExamInfo implements Serializable
         this.allGrades = new ArrayList<>();
     }
 
+    public ExecutedExamInfo(int code, String password, String title, double average, double median,ExamType type,int[] hist, int inTime, int timeUp) {
+        this.code = code;
+        this.password = password;
+        this.title=title;
+        this.overtime = 0;
+        this.inTimeCounter = inTime;
+        this.timeUpCounter = timeUp;
+        this.average = average;
+        this.median = median;
+        this.type=type;
+        this.isRequestedOvertime = false;
+        this.hist = hist;
+        this.executedExamList = new ArrayList<ExecutedExam>();
+        this.allGrades = new ArrayList<>();
+    }
+
     public ExecutedExamInfo(ExecutedExamInfo exam)
     {
         this.id=exam.getId();
