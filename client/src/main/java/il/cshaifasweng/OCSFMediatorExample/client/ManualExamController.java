@@ -119,14 +119,18 @@ public class ManualExamController {
                 questionParagraph.setAlignment(ParagraphAlignment.LEFT);
                 XWPFRun questionRun = questionParagraph.createRun();
 
-                questionRun.setText("Question " + questionNumber + ": " + question.getQuestion());
+                questionRun.setText("Question " + questionNumber + ": " + question.getQuestionMll());
                 questionRun.addBreak();
-                questionRun.setText("Note :"+question.getStudent_note());
+                String note=question.getStudent_note();
+                System.out.println(note);
+                if(note!=null) {
+                    questionRun.setText("Note :" + note);
+                }
                 questionRun.addBreak();
                 String[] answers = question.getQuestion().getAnswers();
                 int answerCount = 1;
-                for (String a : answers) {
-                    questionRun.setText(answerCount + ". " + a);
+                for (String answer : answers) {
+                    questionRun.setText(answerCount + ". " + answer);
                     questionRun.addBreak();
                     answerCount++;
                 }
