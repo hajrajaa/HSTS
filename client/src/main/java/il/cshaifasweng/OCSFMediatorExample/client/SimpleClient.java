@@ -382,12 +382,17 @@ public class SimpleClient extends AbstractClient {
 		}
 		else if(messageSt.equals("#ApproveOvertimeRequest_Replay"))
 		{
+			System.out.println("overtime 1");
 			Object [] data = (Object[]) message.getObject1();
-
+			System.out.println("overtime 2");
 			int id = (int) data[0];
+			System.out.println("overtime 3");
 			int time = (int) data[1];
+			System.out.println("overtime 4");
 			EventOvertimeAdded newEvent = new EventOvertimeAdded(id, time);
+			System.out.println("overtime 5");
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+			System.out.println("overtime 6");
 		}
 
 	}
