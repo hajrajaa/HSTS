@@ -15,16 +15,19 @@ public class ExecutedExamInfo implements Serializable
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id ;
+    private int id;
     private int code;
     private String password;
     private String title;
     private int overtime;
+    private boolean isRequestedOvertime;
     private double average;
     private double median;
     private ExamType type;
     private int[] hist;
     private ArrayList<Double> allGrades;
+    private int inTimeCounter;
+    private int timeUpCounter;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "testDate")
     private List<ExecutedExam> executedExamList;
@@ -50,6 +53,9 @@ public class ExecutedExamInfo implements Serializable
         this.average = average;
         this.median = median;
         this.type=type;
+        this.inTimeCounter = 0;
+        this.timeUpCounter = 0;
+        this.isRequestedOvertime = false;
         this.hist = new int[10];
         for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executedExamList = new ArrayList<ExecutedExam>();
@@ -62,9 +68,28 @@ public class ExecutedExamInfo implements Serializable
         this.password = password;
         this.title=title;
         this.overtime = 0;
+        this.inTimeCounter = 0;
+        this.timeUpCounter = 0;
         this.average = average;
         this.median = median;
         this.type=type;
+        this.isRequestedOvertime = false;
+        this.hist = hist;
+        this.executedExamList = new ArrayList<ExecutedExam>();
+        this.allGrades = new ArrayList<>();
+    }
+
+    public ExecutedExamInfo(int code, String password, String title, double average, double median,ExamType type,int[] hist, int inTime, int timeUp) {
+        this.code = code;
+        this.password = password;
+        this.title=title;
+        this.overtime = 0;
+        this.inTimeCounter = inTime;
+        this.timeUpCounter = timeUp;
+        this.average = average;
+        this.median = median;
+        this.type=type;
+        this.isRequestedOvertime = false;
         this.hist = hist;
         this.executedExamList = new ArrayList<ExecutedExam>();
         this.allGrades = new ArrayList<>();
@@ -76,7 +101,11 @@ public class ExecutedExamInfo implements Serializable
         this.code = exam.getCode();
         this.password = exam.getPassword();
         this.title = exam.getTitle();
-        this.overtime = 0;
+        this.overtime = exam.getOvertime();
+        this.inTimeCounter = exam.getInTimeCounter();
+        this.timeUpCounter = exam.getTimeUpCounter();
+        this.isRequestedOvertime = exam.getIsRequestedOvertime();
+        this.isRequestedOvertime = exam.getIsRequestedOvertime();
         this.average = exam.getAverage();
         this.median = exam.getMedian();
         this.type = exam.getType();
@@ -89,6 +118,7 @@ public class ExecutedExamInfo implements Serializable
         this.code=code;
         this.password=password;
         this.type=type;
+        this.isRequestedOvertime = false;
         this.hist = new int[10];
         for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executedExamList = new ArrayList<ExecutedExam>();
@@ -100,6 +130,7 @@ public class ExecutedExamInfo implements Serializable
         this.code=code;
         this.password=password;
         this.type=type;
+        this.isRequestedOvertime = false;
         this.hist = new int[10];
         for (int i=0; i<hist.length; i++) {this.hist[i]=0;}
         this.executingTeacher=teacher;
@@ -109,6 +140,8 @@ public class ExecutedExamInfo implements Serializable
         this.overtime=0;
         this.average=0;
         this.median=0;
+        this.inTimeCounter = 0;
+        this.timeUpCounter = 0;
         this.allGrades = new ArrayList<>();
     }
 
@@ -205,6 +238,7 @@ public class ExecutedExamInfo implements Serializable
         }
         this.executedExamList.add(ex);
         updateGradesInfo();
+        updateInTimeCounters(ex);
     }
 
     public void updateGradesInfo ()
@@ -213,6 +247,17 @@ public class ExecutedExamInfo implements Serializable
         this.createHist();
         this.setAverage(culcAverage());
         this.setMedian(culcMedian());
+    }
+
+    private void updateInTimeCounters (ExecutedExam ex)
+    {
+        if(ex != null){
+            if(ex.isSubmitInTime()){
+                this.inTimeCounter++;
+            }else{
+                this.timeUpCounter++;
+            }
+        }
     }
 
     private void refreshAllGradesList ()
@@ -269,5 +314,32 @@ public class ExecutedExamInfo implements Serializable
 
             return (lower + upper) / 2.0;
         }
+    }
+
+    public int getOvertime() {
+        return overtime;
+    }
+
+    public boolean getIsRequestedOvertime() {
+        return isRequestedOvertime;
+    }
+    public void setIsRequestedOvertime(boolean isRequestedOvertime) {
+        this.isRequestedOvertime = isRequestedOvertime;
+    }
+
+    public int getInTimeCounter() {
+        return inTimeCounter;
+    }
+
+    public void setInTimeCounter(int inTimeCounter) {
+        this.inTimeCounter = inTimeCounter;
+    }
+
+    public int getTimeUpCounter() {
+        return timeUpCounter;
+    }
+
+    public void setTimeUpCounter(int timeUpCounter) {
+        this.timeUpCounter = timeUpCounter;
     }
 }

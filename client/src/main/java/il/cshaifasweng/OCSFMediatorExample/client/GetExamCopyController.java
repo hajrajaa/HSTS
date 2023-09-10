@@ -103,7 +103,7 @@ public class GetExamCopyController
     private void loadQuestionNumber (int questionNumber)
     {
         String myQuestionNumber = "Question ";
-        myQuestionNumber += Integer.toString(questionNumber);
+        myQuestionNumber += Integer.toString(questionNumber+1);
         myQuestionNumber += "/";
         myQuestionNumber += Integer.toString(examLength);
         question_number_text.setText(myQuestionNumber);
@@ -134,7 +134,8 @@ public class GetExamCopyController
     ////////////////////////////////////// On Action Functions ///////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void finish_exam_click(ActionEvent actionEvent) throws IOException {
+    public void finish_exam_click(ActionEvent actionEvent) throws IOException
+    {
         App.setRoot("studentMain");
     }
 

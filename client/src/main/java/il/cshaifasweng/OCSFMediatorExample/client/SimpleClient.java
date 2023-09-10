@@ -76,8 +76,9 @@ public class SimpleClient extends AbstractClient {
 			Exam exam=(Exam)obj[0];
 			ExecutedExamInfo.ExamType examType=(ExecutedExamInfo.ExamType)obj[1];
 			int examInfoID = (int)obj[2];
+			int overtime = (int)obj[3];
 
-			StartSolveExamEvent newEvent = new StartSolveExamEvent(exam,examType,examInfoID);
+			StartSolveExamEvent newEvent = new StartSolveExamEvent(exam,examType,examInfoID,overtime);
 			Platform.runLater(()->{
 						EventBus.getDefault().post(newEvent);
 					}
@@ -279,7 +280,6 @@ public class SimpleClient extends AbstractClient {
 			);
 
 		}
-
 		else if (messageSt.equals("#UpdateGradeWarning"))
 		{
 			Platform.runLater(()->{
@@ -303,7 +303,6 @@ public class SimpleClient extends AbstractClient {
 					}
 			);
 		}
-
 		else if (messageSt.equals("#UpdateGradeSuccessfully"))
 		{
 			ExecutedExam executedExam=(ExecutedExam) message.getObject1();
@@ -335,6 +334,14 @@ public class SimpleClient extends AbstractClient {
 			EventGetExamCopy newEvent = new EventGetExamCopy(vExam);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
+		else if(messageSt.equals(("#GetAllOvertimeRequests_Replay")))
+		{
+			Object [] data = (Object[]) message.getObject1();
+			ArrayList<OvertimeRequest> list = (ArrayList<OvertimeRequest>) data[0];
+			boolean switchPage = (boolean) data[1];
+			EventGetAllOvertimeRequests newEvent = new EventGetAllOvertimeRequests(list, switchPage);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
 
 		else if (messageSt.equals("#GetStudentExecutedExams_Replay"))
 		{
@@ -347,15 +354,32 @@ public class SimpleClient extends AbstractClient {
 		}
 		else if(messageSt.equals("#GetRefreshExcutedExamsRes"))
 		{
-		Object [] data = (Object[]) message.getObject1();
-		ExecutedExamInfo newExamInfo= (ExecutedExamInfo)data[0];
-		ArrayList<ExecutedExam>  allExcutedExams = (ArrayList<ExecutedExam>) data[1];
-		refreshExecExam  newEvent=new refreshExecExam(allExcutedExams,newExamInfo);
-		Platform.runLater(()->{
-					EventBus.getDefault().post(newEvent);
-				}
-		);
-	}
+      Object [] data = (Object[]) message.getObject1();
+      ExecutedExamInfo newExamInfo= (ExecutedExamInfo)data[0];
+      ArrayList<ExecutedExam>  allExcutedExams = (ArrayList<ExecutedExam>) data[1];
+      refreshExecExam  newEvent=new refreshExecExam(allExcutedExams,newExamInfo);
+      Platform.runLater(()->{
+            EventBus.getDefault().post(newEvent);
+          }
+      );
+	  }
+		else if(messageSt.equals("#PrincipleStatisticsLists_Replay"))
+		{
+			Object [] data = (Object[]) message.getObject1();
+			ArrayList<StatisticsFilter> studentsList = (ArrayList<StatisticsFilter>) data[0];
+			ArrayList<StatisticsFilter> teachersList = (ArrayList<StatisticsFilter>) data[1];
+			ArrayList<StatisticsFilter> coursesList = (ArrayList<StatisticsFilter>) data[2];
+
+			EventPrincipleStatisticsLists newEvent = new EventPrincipleStatisticsLists(studentsList,teachersList,coursesList);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
+		else if(messageSt.equals("#GetAllExamsInfoByFilter_Replay"))
+		{
+			ArrayList<StatisticsInfo> list = (ArrayList<StatisticsInfo>) message.getObject1();
+
+			EventAllStatisticsInfo newEvent = new EventAllStatisticsInfo(list);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
 
 	}
 	

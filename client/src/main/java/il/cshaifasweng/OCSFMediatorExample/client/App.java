@@ -34,15 +34,23 @@ public class App extends Application {
 
     public static User user;
 
-    public  static Exam exam;
+    public static Exam exam;
+
+    public static int overtimeInSolvingExam;
 
     public  static Question questionToEdit;
     public static ExecutedExamInfo.ExamType examType;
     public static int examInfoID;
     public static ExecutedVirtual examCopy;
     public  static List<Student> studentList;
-
     public  static List<Teacher> teacherList;
+    public static ArrayList<OvertimeRequest> allOvertimeReq;
+
+    public static ArrayList<StatisticsFilter> studentsStatisticsFilterList;
+    public static ArrayList<StatisticsFilter> teachersStatisticsFilterList;
+    public static ArrayList<StatisticsFilter> coursesStatisticsFilterList;
+
+    public static ArrayList<StatisticsInfo> statisticsInfoList;
 
     public static ArrayList<ExecutedExam> getStudentExecutedExamsList() {
         return studentsExecutedExams;
@@ -199,6 +207,9 @@ public class App extends Application {
     public static ExecutedVirtual getExamCopy() {return examCopy;}
     public static void setExamCopy(ExecutedVirtual examCopy) {App.examCopy = examCopy;}
 
+    public static ArrayList<OvertimeRequest> getAllOvertimeReq() {return allOvertimeReq;}
+    public static void setAllOvertimeReq(ArrayList<OvertimeRequest> allOvertimeReq) {App.allOvertimeReq = allOvertimeReq;}
+
     public static void setButtonColor(Button B, String color)
     {
         String colorID = "#ffffff"; // default white
@@ -239,6 +250,17 @@ public class App extends Application {
             return true;
         }
         return false;
+    }
+
+    public static boolean isNumber(String s)
+    {
+        char [] arr = s.toCharArray();
+        for(char c : arr){
+            if((c < '0') || (c > '9')){
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -297,6 +319,11 @@ public class App extends Application {
         changeScene();
     }
 
+    @Subscribe
+    public void EventAllStatisticsInfo(EventAllStatisticsInfo event) throws IOException {
+        statisticsInfoList = event.getList();
+        App.setRoot("principle_statistics_exams_info");
+    }
 
     @Subscribe
     public void startSolveExamEvent(StartSolveExamEvent event)
@@ -304,6 +331,7 @@ public class App extends Application {
         setExam(event.getExam());
         setExamType1(event.getExamType());
         setExamInfoID(event.getExamInfoID());
+        overtimeInSolvingExam=event.getOvertime();
         changeScene1();
     }
 
@@ -503,6 +531,22 @@ public class App extends Application {
         App.setExamCopy(event.getvExamCopy());
         App.setRoot("get_exam_copy");
     }
+
+    @Subscribe
+    public void EventPrincipleStatisticsLists(EventPrincipleStatisticsLists event) throws IOException {
+        studentsStatisticsFilterList = event.getStudentsList();
+        teachersStatisticsFilterList = event.getTeachersList();
+        coursesStatisticsFilterList = event.getCoursesList();
+        App.setRoot("principle_statistics");
+    }
+
+//    @Subscribe
+//    public void EventGetAllOvertimeRequests(EventGetAllOvertimeRequests event) throws IOException {
+//        App.setAllOvertimeReq(event.getAllRequests());
+//        if(event.isSwitchPage()){
+//            App.setRoot("overtime_requests");
+//        }
+//    }
 
     private void changeScene()
     {
