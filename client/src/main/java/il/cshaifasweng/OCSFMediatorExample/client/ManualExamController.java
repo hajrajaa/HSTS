@@ -76,7 +76,8 @@ public class ManualExamController {
 
         File selectedFile = fileChooser.showOpenDialog(null);
 
-        if (selectedFile != null) {
+        if (selectedFile != null)
+        {
             ManualSolutionPath = selectedFile.getAbsolutePath();
             error_bar_text.setText("Exam document uploaded successfully");
             System.out.println(ManualSolutionPath);
@@ -101,17 +102,15 @@ public class ManualExamController {
     public void generateWordDocument(Exam exam, List<ExamQuestion> examQuestionList, String filePath) {
         XWPFDocument document = new XWPFDocument();
 
-        String fileName = exam.getTitle() + "-" + exam.getCodeExam() + ".docx";
         try (FileOutputStream fileOutputStream = new FileOutputStream(filePath)) {
             XWPFParagraph titleParagraph = document.createParagraph();
             titleParagraph.setAlignment(ParagraphAlignment.CENTER);
-            XWPFRun titleRun = titleParagraph.createRun();
+            XWPFRun title = titleParagraph.createRun();
 
-            titleRun.setText(exam.getTitle());
-            titleRun.addBreak();
-            titleRun.addBreak();
-            titleRun.addBreak();
-            titleRun.setFontSize(24);
+            title.setText(exam.getTitle());
+            title.addBreak();
+            title.addBreak();
+            title.setFontSize(28);
 
             int questionNumber = 1;
             for (ExamQuestion question : examQuestionList) {
@@ -124,17 +123,20 @@ public class ManualExamController {
                 String note=question.getStudent_note();
                 System.out.println(note);
                 if(note!=null) {
-                    questionRun.setText("Note :" + note);
+                    if(!note.equals("")){
+                        questionRun.setText("Note :" + note);
+                    }
                 }
                 questionRun.addBreak();
                 String[] answers = question.getQuestion().getAnswers();
-                int answerCount = 1;
-                for (String answer : answers) {
+                char answerCount = 'a';
+                for (String answer : answers)
+                {
                     questionRun.setText(answerCount + ". " + answer);
                     questionRun.addBreak();
                     answerCount++;
                 }
-                questionRun.setText("Answer: ________________________");
+                questionRun.addBreak();
                 questionRun.addBreak();
                 questionRun.addBreak();
                 questionNumber++;
@@ -150,17 +152,15 @@ public class ManualExamController {
     @FXML
     void download_Exam(ActionEvent event)
     {
-
         List<ExamQuestion> examQuestionList = currExam.getExamQuestion();
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Word Files", "*.docx"));
-        String fileName = currExam.getTitle() + "-" + currExam.getCodeExam() + ".docx";
-        fileChooser.setInitialFileName(fileName);
+        String name = currExam.getTitle()+".docx";
+        fileChooser.setInitialFileName(name);
         File selectedFile = fileChooser.showSaveDialog(null);
 
         if (selectedFile != null)
         {
-
             String filePath = selectedFile.getAbsolutePath();
             generateWordDocument(currExam, examQuestionList, filePath);
 
