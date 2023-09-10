@@ -99,7 +99,7 @@ public class TeacherDrawerController {
                     SimpleClient.getClient().sendToServer(new Message("#drawExamRequest", exeExam));
                     execCodeTxt.clear();
                     radioGroup.selectToggle(null);
-
+                    App.setRoot("teacherMain");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

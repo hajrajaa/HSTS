@@ -275,7 +275,9 @@ public class SolveExamController
     @Subscribe
     public void overtimeAddedMessage(EventOvertimeAdded event)
     {
-        System.out.println("-----> overtimeAddedMessage "+App.getUser().getUserName());
+        System.out.println("--------------> overtimeAddedMessage "+App.getUser().getUserName());
+        System.out.println("-----> event.getInfoID() "+event.getInfoID());
+        System.out.println("-----> App.getExamInfoID() "+App.getExamInfoID());
         // TODO need to set the infoID to the vxam according to the ExecutedExamInfo
         if(event.getInfoID() == App.getExamInfoID()){
             extraTime = event.getOvertimeDuration();

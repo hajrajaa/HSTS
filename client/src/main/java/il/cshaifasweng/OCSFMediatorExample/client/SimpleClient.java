@@ -380,12 +380,22 @@ public class SimpleClient extends AbstractClient {
 			EventAllStatisticsInfo newEvent = new EventAllStatisticsInfo(list);
 			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
 		}
+		else if(messageSt.equals("#ApproveOvertimeRequest_Replay"))
+		{
+			Object [] data = (Object[]) message.getObject1();
+
+			int id = (int) data[0];
+			int time = (int) data[1];
+			EventOvertimeAdded newEvent = new EventOvertimeAdded(id, time);
+			Platform.runLater(()->{EventBus.getDefault().post(newEvent);});
+		}
 
 	}
 	
 	public static SimpleClient getClient() {
 		if (client == null) {
-			client = new SimpleClient("localhost", 3000);
+			client = new SimpleClient("172.20.10.4", 3000);
+//			client = new SimpleClient("localhost", 3000);
 		}
 		return client;
 	}
