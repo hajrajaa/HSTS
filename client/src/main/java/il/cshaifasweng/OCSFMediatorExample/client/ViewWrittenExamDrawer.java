@@ -28,7 +28,6 @@ public class ViewWrittenExamDrawer {
     ExecutedExamInfo examInfo;
 
 
-
     List<ExecutedExam> writtenExamList1;
 
     public ExecutedExamInfo getExamInfo() {

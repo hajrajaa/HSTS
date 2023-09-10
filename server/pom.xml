@@ -44,7 +44,12 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>poi</groupId>
+            <artifactId>poi-contrib-2.5-final</artifactId>
+            <version>20040302</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

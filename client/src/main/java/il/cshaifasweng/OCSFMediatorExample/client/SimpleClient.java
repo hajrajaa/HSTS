@@ -296,8 +296,10 @@ public class SimpleClient extends AbstractClient {
 		}
 		else if(messageSt.equals(("#GradeApprovedSuccessfully")))
 		{
+			ExecutedExam executedExam=(ExecutedExam) message.getObject1();
+			ApproveGradeEvent newEvent =new ApproveGradeEvent(executedExam);
 			Platform.runLater(()->{
-						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+						EventBus.getDefault().post(newEvent);
 					}
 			);
 		}
@@ -321,7 +323,10 @@ public class SimpleClient extends AbstractClient {
 		}
 		else if(messageSt.equals(("#drawExamRes")))
 		{
-			App.setRoot("exams_drawer");
+			Platform.runLater(()->{
+						EventBus.getDefault().post(new WarningEvent((Warning) message.getObject1()));
+					}
+			);
 		}
 		else if(messageSt.equals(("#getExamCopy_Replay")))
 		{
@@ -349,14 +354,15 @@ public class SimpleClient extends AbstractClient {
 		}
 		else if(messageSt.equals("#GetRefreshExcutedExamsRes"))
 		{
-			List<ExecutedExam> allExcutedExams = (List<ExecutedExam>) message.getObject1();
-
-			refreshExecExam  newEvent=new refreshExecExam(allExcutedExams);
-			Platform.runLater(()->{
-						EventBus.getDefault().post(newEvent);
-					}
-			);
-		}
+      Object [] data = (Object[]) message.getObject1();
+      ExecutedExamInfo newExamInfo= (ExecutedExamInfo)data[0];
+      ArrayList<ExecutedExam>  allExcutedExams = (ArrayList<ExecutedExam>) data[1];
+      refreshExecExam  newEvent=new refreshExecExam(allExcutedExams,newExamInfo);
+      Platform.runLater(()->{
+            EventBus.getDefault().post(newEvent);
+          }
+      );
+	  }
 		else if(messageSt.equals("#PrincipleStatisticsLists_Replay"))
 		{
 			Object [] data = (Object[]) message.getObject1();

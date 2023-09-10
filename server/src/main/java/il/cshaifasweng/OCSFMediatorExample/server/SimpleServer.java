@@ -902,8 +902,8 @@ public class SimpleServer extends AbstractServer {
 				session.save(newExecExam);
 				session.merge(teacher);
 				session.flush();
-
-				client.sendToClient(new Message("#drawExamRes"));
+				Warning warning = new Warning("Exam Draw Successfully");
+				client.sendToClient(new Message("#drawExamRes",warning));
 				session.getTransaction().commit();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -1026,10 +1026,11 @@ public class SimpleServer extends AbstractServer {
 
 			try {
 				client.sendToClient(new Message("#GetExcutedExamRes", copyexecutedExams));
-				session.getTransaction().commit();
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			session.getTransaction().commit();
 
 		}
 		else if (msgString.equals(("#GetWrittenExams")))
@@ -1050,10 +1051,11 @@ public class SimpleServer extends AbstractServer {
 
 			try {
 				client.sendToClient(new Message("#GeWrittenExamRes", copyexecutedExams));
-				session.getTransaction().commit();
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			session.getTransaction().commit();
 		}
 		else if(msgString.equals("#UpdateGradeRequest"))
 		{
@@ -1100,11 +1102,11 @@ public class SimpleServer extends AbstractServer {
 					if(!currExam.isMarked())
 					{
 						currExam.setMarked(true);
-						Warning warning = new Warning("Grade approved Successfully");
-						client.sendToClient(new Message("#GradeApprovedSuccessfully", warning));
-						//session.update(currExam);
-						session.merge(currExam);
+						ExecutedExam copyExam=new ExecutedExam(currExam);
+						client.sendToClient(new Message("#GradeApprovedSuccessfully",copyExam));
+						session.update(currExam);
 						session.flush();
+
 					}
 					else
 					{
@@ -1112,6 +1114,10 @@ public class SimpleServer extends AbstractServer {
 						client.sendToClient(new Message("#ApproveGradeWarning", warning));
 					}
 
+				}
+				else {
+					Warning warning = new Warning("This Exam Doesn't Exist");
+					client.sendToClient(new Message("#ApproveGradeWarning", warning));
 				}
 				session.getTransaction().commit();
 			}
@@ -1668,15 +1674,28 @@ public class SimpleServer extends AbstractServer {
 			{
 				copyexecutedExams.add(new ExecutedExam(ex));
 			}
+            ExecutedExamInfo copyInfo=new ExecutedExamInfo(realInfo);
+			Object [] obj = {copyInfo, copyexecutedExams};
 
 			try {
-				client.sendToClient(new Message("#GetRefreshExcutedExamsRes", copyexecutedExams));
+				client.sendToClient(new Message("#GetRefreshExcutedExamsRes", obj));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			session.getTransaction().commit();
 
 		}
+//		else if(msgString.equals("ManualExamSave_req"))
+//		{
+//			session.beginTransaction();
+//			Object[] obj = (Object[]) message.getObject1();
+//			Exam exam =(Exam) obj[0];
+//			String sol_path=(String) obj[1];
+//			ExecutedManual newExam=new ExecutedManual();
+//			/////ADDD SAVE EXAM
+//
+//
+//		}
 
 	} /////////////////////////////////////////////////////////////////////////////////////////////////////
 

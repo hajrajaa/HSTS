@@ -51,7 +51,7 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <AnchorPane fx:id="editgradePane" layoutX="500.0" layoutY="241.0" prefHeight="339.0" prefWidth="433.0">
+      <AnchorPane fx:id="editgradePane" layoutX="500.0" layoutY="241.0" prefHeight="312.0" prefWidth="433.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="262.0" layoutX="9.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #e28743;" width="416.0" />
             <Text layoutX="21.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name: ">
@@ -81,11 +81,6 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Text fx:id="error_bar" layoutX="21.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" wrappingWidth="270.1572265625">
-               <font>
-                  <Font size="14.0" />
-               </font>
-            </Text>
             <Text fill="#abdbe3" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Grade">
                <font>
                   <Font size="24.0" />
@@ -103,5 +98,10 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <Text fx:id="error_bar" fill="#abdbe3" layoutX="511.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" wrappingWidth="270.1572265625">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

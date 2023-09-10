@@ -1,6 +1,7 @@
 package il.cshaifasweng.OCSFMediatorExample.client;
 
 import il.cshaifasweng.OCSFMediatorExample.entities.Exam;
+import javafx.fxml.FXML;
 
 
 public class SolveExamEvent {
@@ -12,15 +13,24 @@ public class SolveExamEvent {
        this.exam=exam;
     }
 
-    public Exam getExam() {
+    public Exam getExam1() {
         return exam;
     }
 
-    public void setExam(Exam exam) {
+    public void setExam1(Exam exam) {
         this.exam = exam;
     }
 
-}
+    @FXML
+    public  void initialize()
+    {
+        exam=App.getExam();
+    }
+
+
+    }
+
+
 
 
 
