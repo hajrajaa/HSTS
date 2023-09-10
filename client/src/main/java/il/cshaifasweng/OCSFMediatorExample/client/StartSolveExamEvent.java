@@ -10,10 +10,13 @@ public class StartSolveExamEvent {
     ExecutedExamInfo.ExamType examType;
     int examInfoID;
 
-    public StartSolveExamEvent(Exam exam , ExecutedExamInfo.ExamType type, int examInfoID) {
+    int overtime;
+
+    public StartSolveExamEvent(Exam exam , ExecutedExamInfo.ExamType type, int examInfoID, int overtime) {
         this.exam=exam;
         this.examType=type;
         this.examInfoID=examInfoID;
+        this.overtime=overtime;
     }
 
     public Exam getExam() {
@@ -38,6 +41,14 @@ public class StartSolveExamEvent {
 
     public void stExamInfoID(int examInfoID) {
         this.examInfoID=examInfoID;
+    }
+
+    public int getOvertime() {
+        return overtime;
+    }
+
+    public void setOvertime(int overtime) {
+        this.overtime = overtime;
     }
 
 }

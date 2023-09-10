@@ -9,8 +9,10 @@ import java.util.List;
 public class EventGetAllOvertimeRequests
 {
     private ArrayList<OvertimeRequest> allRequests;
-    public EventGetAllOvertimeRequests(ArrayList<OvertimeRequest> allRequests) {
+    private boolean switchPage;
+    public EventGetAllOvertimeRequests(ArrayList<OvertimeRequest> allRequests, boolean switchPage) {
         this.allRequests = allRequests;
+        this.switchPage = switchPage;
     }
 
     public ArrayList<OvertimeRequest> getAllRequests() {
@@ -19,5 +21,13 @@ public class EventGetAllOvertimeRequests
 
     public void setAllRequests(ArrayList<OvertimeRequest> allRequests) {
         this.allRequests = allRequests;
+    }
+
+    public boolean isSwitchPage() {
+        return switchPage;
+    }
+
+    public void setSwitchPage(boolean switchPage) {
+        this.switchPage = switchPage;
     }
 }

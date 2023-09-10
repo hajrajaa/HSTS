@@ -34,7 +34,9 @@ public class App extends Application {
 
     public static User user;
 
-    public  static Exam exam;
+    public static Exam exam;
+
+    public static int overtimeInSolvingExam;
 
     public  static Question questionToEdit;
     public static ExecutedExamInfo.ExamType examType;
@@ -42,8 +44,13 @@ public class App extends Application {
     public static ExecutedVirtual examCopy;
     public  static List<Student> studentList;
     public  static List<Teacher> teacherList;
-
     public static ArrayList<OvertimeRequest> allOvertimeReq;
+
+    public static ArrayList<StatisticsFilter> studentsStatisticsFilterList;
+    public static ArrayList<StatisticsFilter> teachersStatisticsFilterList;
+    public static ArrayList<StatisticsFilter> coursesStatisticsFilterList;
+
+    public static ArrayList<StatisticsInfo> statisticsInfoList;
 
     public static ArrayList<ExecutedExam> getStudentExecutedExamsList() {
         return studentsExecutedExams;
@@ -312,6 +319,11 @@ public class App extends Application {
         changeScene();
     }
 
+    @Subscribe
+    public void EventAllStatisticsInfo(EventAllStatisticsInfo event) throws IOException {
+        statisticsInfoList = event.getList();
+        App.setRoot("principle_statistics_exams_info");
+    }
 
     @Subscribe
     public void startSolveExamEvent(StartSolveExamEvent event)
@@ -319,6 +331,7 @@ public class App extends Application {
         setExam(event.getExam());
         setExamType1(event.getExamType());
         setExamInfoID(event.getExamInfoID());
+        overtimeInSolvingExam=event.getOvertime();
         changeScene1();
     }
 
@@ -520,10 +533,20 @@ public class App extends Application {
     }
 
     @Subscribe
-    public void EventGetAllOvertimeRequests(EventGetAllOvertimeRequests event) throws IOException {
-        App.setAllOvertimeReq(event.getAllRequests());
-        App.setRoot("overtime_requests");
+    public void EventPrincipleStatisticsLists(EventPrincipleStatisticsLists event) throws IOException {
+        studentsStatisticsFilterList = event.getStudentsList();
+        teachersStatisticsFilterList = event.getTeachersList();
+        coursesStatisticsFilterList = event.getCoursesList();
+        App.setRoot("principle_statistics");
     }
+
+//    @Subscribe
+//    public void EventGetAllOvertimeRequests(EventGetAllOvertimeRequests event) throws IOException {
+//        App.setAllOvertimeReq(event.getAllRequests());
+//        if(event.isSwitchPage()){
+//            App.setRoot("overtime_requests");
+//        }
+//    }
 
     private void changeScene()
     {

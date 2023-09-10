@@ -25,6 +25,7 @@ public class OvertimeRequest implements Serializable
     }
 
     public OvertimeRequest(OvertimeRequest request) {
+        this.id = request.getId();
         this.examName = request.getExamName();
         this.teacherName = request.getTeacherName();
         this.infoID = request.getInfoID();

@@ -18,7 +18,7 @@
          <font>
             <Font size="18.0" />
          </font></Button>
-      <Button fx:id="seeStatisticsButton" layoutX="611.0" layoutY="414.0" mnemonicParsing="false" onAction="#seeStatisticsButton" onMouseEntered="#statistics_in" onMouseExited="#statistics_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="See Statistics">
+      <Button fx:id="seeStatisticsButton" layoutX="611.0" layoutY="414.0" mnemonicParsing="false" onAction="#seeStatisticsButton" onMouseEntered="#statistics_in" onMouseExited="#statistics_out" prefHeight="54.0" prefWidth="181.0" style="-fx-background-color: e28743;" text="My Exams">
          <font>
             <Font size="18.0" />
          </font></Button>

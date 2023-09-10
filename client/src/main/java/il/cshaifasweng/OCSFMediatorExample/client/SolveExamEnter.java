@@ -101,7 +101,7 @@ public class SolveExamEnter
         else if(!isNumber(pass)){error_bar_text.setText("Exam Password Must Be a Number");}
         else if(pass.length() != 4){error_bar_text.setText("Exam Password Must Be 4 Digits");}
         else {
-            Object[] obj = {ecode, pass};
+            Object[] obj = {ecode, pass, App.getUser().getUserName()};
             try {
                 SimpleClient.getClient().sendToServer(new Message("#StartSolveExam", obj));
             } catch (IOException e) {
