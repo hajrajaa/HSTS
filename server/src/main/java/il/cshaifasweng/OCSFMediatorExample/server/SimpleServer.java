@@ -1017,19 +1017,23 @@ public class SimpleServer extends AbstractServer {
 			session.beginTransaction();
 			int currId=(int)message.getObject1();
 			ExecutedExamInfo realInfo = session.find(ExecutedExamInfo.class, currId);
-			List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
-			ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
-			for(ExecutedExam ex:executedExams)
+			if(realInfo != null)
 			{
-				copyexecutedExams.add(new ExecutedExam(ex));
+				List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
+				ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
+				for(ExecutedExam ex:executedExams)
+				{
+					copyexecutedExams.add(new ExecutedExam(ex));
+				}
+
+				try {
+					client.sendToClient(new Message("#GetExcutedExamRes", copyexecutedExams));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
-			try {
-				client.sendToClient(new Message("#GetExcutedExamRes", copyexecutedExams));
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 			session.getTransaction().commit();
 
 		}
@@ -1039,22 +1043,27 @@ public class SimpleServer extends AbstractServer {
 			int currId=(int)message.getObject1();
 			System.out.println(currId);
 			ExecutedExamInfo realInfo = session.find(ExecutedExamInfo.class, currId);
-			System.out.println(realInfo);
-			System.out.println(realInfo.getCode());
 
-			List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
-			ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
-			for(ExecutedExam ex:executedExams)
+			if(realInfo != null)
 			{
-				copyexecutedExams.add(new ExecutedExam(ex));
+				System.out.println(realInfo);
+				System.out.println(realInfo.getCode());
+				List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
+				ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
+				for(ExecutedExam ex:executedExams)
+				{
+					copyexecutedExams.add(new ExecutedExam(ex));
+				}
+
+				try {
+					client.sendToClient(new Message("#GeWrittenExamRes", copyexecutedExams));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
-			try {
-				client.sendToClient(new Message("#GeWrittenExamRes", copyexecutedExams));
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 			session.getTransaction().commit();
 		}
 		else if(msgString.equals("#UpdateGradeRequest"))
