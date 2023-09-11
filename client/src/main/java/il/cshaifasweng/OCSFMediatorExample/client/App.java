@@ -354,7 +354,6 @@ public class App extends Application {
                 return;
         }
 
-
         Platform.runLater(()->{
                     try
                     {

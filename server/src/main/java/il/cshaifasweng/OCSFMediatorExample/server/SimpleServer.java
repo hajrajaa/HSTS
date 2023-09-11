@@ -1017,19 +1017,23 @@ public class SimpleServer extends AbstractServer {
 			session.beginTransaction();
 			int currId=(int)message.getObject1();
 			ExecutedExamInfo realInfo = session.find(ExecutedExamInfo.class, currId);
-			List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
-			ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
-			for(ExecutedExam ex:executedExams)
+			if(realInfo != null)
 			{
-				copyexecutedExams.add(new ExecutedExam(ex));
+				List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
+				ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
+				for(ExecutedExam ex:executedExams)
+				{
+					copyexecutedExams.add(new ExecutedExam(ex));
+				}
+
+				try {
+					client.sendToClient(new Message("#GetExcutedExamRes", copyexecutedExams));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
-			try {
-				client.sendToClient(new Message("#GetExcutedExamRes", copyexecutedExams));
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 			session.getTransaction().commit();
 
 		}
@@ -1039,22 +1043,27 @@ public class SimpleServer extends AbstractServer {
 			int currId=(int)message.getObject1();
 			System.out.println(currId);
 			ExecutedExamInfo realInfo = session.find(ExecutedExamInfo.class, currId);
-			System.out.println(realInfo);
-			System.out.println(realInfo.getCode());
 
-			List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
-			ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
-			for(ExecutedExam ex:executedExams)
+			if(realInfo != null)
 			{
-				copyexecutedExams.add(new ExecutedExam(ex));
+				System.out.println(realInfo);
+				System.out.println(realInfo.getCode());
+				List<ExecutedExam> executedExams=realInfo.getExecutedExamList();
+				ArrayList<ExecutedExam> copyexecutedExams=new ArrayList<>();
+				for(ExecutedExam ex:executedExams)
+				{
+					copyexecutedExams.add(new ExecutedExam(ex));
+				}
+
+				try {
+					client.sendToClient(new Message("#GeWrittenExamRes", copyexecutedExams));
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 
-			try {
-				client.sendToClient(new Message("#GeWrittenExamRes", copyexecutedExams));
 
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 			session.getTransaction().commit();
 		}
 		else if(msgString.equals("#UpdateGradeRequest"))
@@ -1411,6 +1420,50 @@ public class SimpleServer extends AbstractServer {
 			System.out.println("vx");
 			session.getTransaction().commit();
 		}
+		else if (msgString.equals("#newExecutedManualExam")) ///
+		{
+			session.beginTransaction();
+			ExecutedManual mExam = (ExecutedManual) message.getObject1();
+			boolean inTime = mExam.isSubmitInTime();
+
+			Student student = session.find(Student.class, mExam.getStudentName());
+			if (student == null){
+				Warning warning = new Warning("Error1! Could Not Save Exam");
+				client.sendToClient(new Message("#loginWarning", warning));
+			}else{
+				ExecutedExamInfo eInfo = session.find(ExecutedExamInfo.class, mExam.getInfoID());
+				if (eInfo == null){
+					Warning warning = new Warning("Error2! Could Not Save Exam");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}else{
+					Exam exam = session.find(Exam.class, eInfo.getCode());
+					if (exam == null){
+						Warning warning = new Warning("Error3! Could Not Save Exam");
+						client.sendToClient(new Message("#loginWarning", warning));
+					}else{
+						mExam.setStudent(student);
+						mExam.setExam(exam);
+						mExam.setExecutedExamInfo(eInfo);
+						try
+						{
+							session.save(mExam);
+							session.flush();
+							if(inTime){
+								client.sendToClient(new Message("#successAlert", "The Exam Has Been Finished And Saved In Time"));
+							}else {
+								Warning warning = new Warning("Time Is Up! The Exam Has Been Automatically Saved");
+								client.sendToClient(new Message("#loginWarning", warning));
+							}
+						}
+						catch (Exception e1) {
+							e1.printStackTrace();
+						}
+
+					}
+				}
+			}
+			session.getTransaction().commit();
+		}
 		else if (msgString.equals("#getExamCopy")) ///
 		{
 			session.beginTransaction();
@@ -1510,7 +1563,7 @@ public class SimpleServer extends AbstractServer {
 
 				Object [] data = {request.getInfoID(), request.getTimeToAdd()};
 				System.out.println("o4");
-				sendToAllClients(new Message("ApproveOvertimeRequest_Replay", data));
+				sendToAllClients(new Message("#ApproveOvertimeRequest_Replay", data));
 				System.out.println("o5");
 			}
 
@@ -1685,17 +1738,6 @@ public class SimpleServer extends AbstractServer {
 			session.getTransaction().commit();
 
 		}
-//		else if(msgString.equals("ManualExamSave_req"))
-//		{
-//			session.beginTransaction();
-//			Object[] obj = (Object[]) message.getObject1();
-//			Exam exam =(Exam) obj[0];
-//			String sol_path=(String) obj[1];
-//			ExecutedManual newExam=new ExecutedManual();
-//			/////ADDD SAVE EXAM
-//
-//
-//		}
 
 	} /////////////////////////////////////////////////////////////////////////////////////////////////////
 

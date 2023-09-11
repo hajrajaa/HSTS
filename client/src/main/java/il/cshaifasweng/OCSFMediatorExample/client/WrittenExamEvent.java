@@ -11,7 +11,7 @@ public class WrittenExamEvent {
 
 
 
-    public WrittenExamEvent(List<ExecutedExam> executedExamLis) {
+    public WrittenExamEvent(List<ExecutedExam> executedExamList) {
         this.executedExamList = executedExamList;
     }
 

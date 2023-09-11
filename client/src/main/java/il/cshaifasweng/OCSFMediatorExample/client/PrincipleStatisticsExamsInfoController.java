@@ -172,8 +172,8 @@ public class PrincipleStatisticsExamsInfoController
     {
         if(exam != null){
             initPieChart(allPieCharts[index], exam.getInTimeCounter(), exam.getTimeUpCounter());
-            allAvgTexts[index].setText("Average: " + exam.getAverage());
-            allMedianText[index].setText("Median: " + exam.getMedian());
+            allAvgTexts[index].setText("Average: " + (int)exam.getAverage());
+            allMedianText[index].setText("Median: " + (int)exam.getMedian());
             addHistogramSeries(exam, index);
         }
     }
