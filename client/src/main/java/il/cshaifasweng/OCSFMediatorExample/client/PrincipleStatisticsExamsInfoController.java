@@ -51,7 +51,8 @@ public class PrincipleStatisticsExamsInfoController
     //////////////////////////////////////////////////////////////////////////////////////////////////
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() throws IOException
+    {
         System.out.println("\n--------------------------------------------> PrincipleStatisticsExamsInfoController");
 
         allExamsInfoList = App.statisticsInfoList;
