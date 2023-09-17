@@ -30,7 +30,7 @@ public class App extends Application {
 
     private static Scene scene;
 
-    public SimpleClient client;
+    public static SimpleClient client;
 
     public static User user;
 
@@ -266,15 +266,25 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
     	EventBus.getDefault().register(this);
-    	client = SimpleClient.getClient();
-    	client.openConnection();
-        scene = new Scene(loadFXML("login1"), 1000, 600);
+//    	client = SimpleClient.getClient();
+//    	client.openConnection();
+//        scene = new Scene(loadFXML("login1"), 1000, 600);
+
+        scene = new Scene(loadFXML("connection_gui"), 1000, 600);
+
         stage.setScene(scene);
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    public static void myStart () throws IOException {
+        System.out.println("GG App 1");
+        client = SimpleClient.getClient();
+        System.out.println("GG App 2");
+        setRoot("login1");
+        System.out.println("GG App 3");
+    }
 
+    static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
 
