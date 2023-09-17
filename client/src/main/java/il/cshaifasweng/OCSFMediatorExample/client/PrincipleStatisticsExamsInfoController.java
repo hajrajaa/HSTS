@@ -109,10 +109,10 @@ public class PrincipleStatisticsExamsInfoController
         inTimeNode.setStyle("-fx-pie-color: #34b048;"); // green
         timeUpNode.setStyle("-fx-pie-color: #ff0404;"); // red
 
-        inTimeNode.setOnMouseEntered(event -> {chart.setTitle("Submit In Time: " + (int)(inTimeVal/sumVal)*100 + "%");});
+        inTimeNode.setOnMouseEntered(event -> {chart.setTitle("Submit In Time: " + (int)((inTimeVal/sumVal)*100) + "%");});
         inTimeNode.setOnMouseExited(event -> {chart.setTitle("Submit In Time");});
 
-        timeUpNode.setOnMouseEntered(event -> {chart.setTitle("Not In Time: " + (int)(timeUpVal/sumVal)*100 + "%");});
+        timeUpNode.setOnMouseEntered(event -> {chart.setTitle("Not In Time: " + (int)((timeUpVal/sumVal)*100) + "%");});
         timeUpNode.setOnMouseExited(event -> {chart.setTitle("Submit In Time");});
     }
 

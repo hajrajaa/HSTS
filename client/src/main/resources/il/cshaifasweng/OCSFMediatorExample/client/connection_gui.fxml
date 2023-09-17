@@ -37,7 +37,7 @@
                 <Image url="@../../../../images/o_users.png" />
             </image>
         </ImageView>
-      <Text fx:id="error_bar_text" fill="RED" layoutX="326.0" layoutY="466.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" wrappingWidth="348.1366882324219">
+      <Text fx:id="error_bar_text" fill="RED" layoutX="326.0" layoutY="467.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" textAlignment="CENTER" wrappingWidth="348.1366882324219">
          <font>
             <Font size="18.0" />
          </font>

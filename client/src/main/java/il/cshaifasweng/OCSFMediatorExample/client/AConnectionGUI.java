@@ -34,6 +34,8 @@ public class AConnectionGUI
                 System.out.println("GG 4");
                 App.myStart();
                 System.out.println("GG 5");
+            }else{
+                error_bar_text.setText("Invalid IP Address");
             }
         }
     }
