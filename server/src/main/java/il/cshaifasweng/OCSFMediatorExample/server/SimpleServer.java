@@ -891,19 +891,40 @@ public class SimpleServer extends AbstractServer {
 			try {
 				session.beginTransaction();
 				ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
-				Exam exam = session.find(Exam.class, newExecExam.getCode());
-				if(exam != null){
-					newExecExam.setTitle(exam.getTitle());
+
+				boolean passwordFlag = false;
+				List<ExecutedExamInfo> allInfoList = getAllObjects(ExecutedExamInfo.class);
+				if(allInfoList != null){
+					for(ExecutedExamInfo info : allInfoList){
+						if(info.getCode() == newExecExam.getCode()){
+							if(info.getPassword().equals(newExecExam.getPassword())){
+								passwordFlag = true;
+								break;
+							}
+						}
+					}
 				}
-				Teacher teacher = session.find(Teacher.class, newExecExam.getExecutingTeacher().getUserName());
-				if(teacher != null){
-					newExecExam.setTeacher(teacher);
+
+				if(passwordFlag)
+				{
+					Warning warning = new Warning("Can't Execute The Same Exam With The Same Password");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}else{
+					Exam exam = session.find(Exam.class, newExecExam.getCode());
+					if(exam != null){
+						newExecExam.setTitle(exam.getTitle());
+					}
+					Teacher teacher = session.find(Teacher.class, newExecExam.getExecutingTeacher().getUserName());
+					if(teacher != null){
+						newExecExam.setTeacher(teacher);
+					}
+					session.save(newExecExam);
+					session.merge(teacher);
+					session.flush();
+
+					client.sendToClient(new Message("#successAlert", "Exam Executed Successfully"));
 				}
-				session.save(newExecExam);
-				session.merge(teacher);
-				session.flush();
-				Warning warning = new Warning("Exam Draw Successfully");
-				client.sendToClient(new Message("#drawExamRes",warning));
+
 				session.getTransaction().commit();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -1199,7 +1220,7 @@ public class SimpleServer extends AbstractServer {
 					}
 					client.sendToClient(new Message("#GetAllCoursesBySubject_Replay", allNames));
 				}else{
-					Warning warning = new Warning("Subject Name doesn't exist");
+					Warning warning = new Warning("Subject Name Doesn't Exist");
 					client.sendToClient(new Message("#loginWarning", warning));
 				}
 				session.getTransaction().commit();
