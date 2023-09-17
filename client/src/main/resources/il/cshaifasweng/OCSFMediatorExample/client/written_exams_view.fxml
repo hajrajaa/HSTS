@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -18,28 +21,6 @@
           <TableColumn fx:id="gradeCol" prefWidth="150.00001525878906" text="grade" />
         </columns>
       </TableView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="500.0" layoutY="104.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="343.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="500.0" layoutY="183.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="343.0" />
-      <Text layoutX="508.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text layoutX="511.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtAverage" layoutX="610.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtMedian" layoutX="605.0" layoutY="214.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
       <Text fill="#abdbe3" layoutX="42.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Written Exam View">
          <font>
             <Font size="36.0" />
@@ -55,5 +36,44 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="459.0" layoutX="382.0" layoutY="105.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="577.0" />
+      <BarChart fx:id="Histogram" layoutX="381.0" layoutY="182.0" prefHeight="371.0" prefWidth="565.0">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" tickLabelFill="#063970" />
+         </yAxis>
+      </BarChart>
+      <ImageView fitHeight="124.0" fitWidth="320.0" layoutX="650.0" layoutY="89.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/paper_clip2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="211.0" fitWidth="92.0" layoutX="904.0" layoutY="354.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/teacher_stat.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="670.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtAverage" layoutX="772.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="825.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtMedian" layoutX="919.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
