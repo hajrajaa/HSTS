@@ -99,8 +99,6 @@ public class SimpleServer extends AbstractServer {
 		User ab = new User(343, "999", "111", User.UserType.Teacher);
 		session.save(ab);
 		session.flush();
-
-
 	}
 
 	private static void generatePrinciple() throws Exception {
@@ -135,9 +133,9 @@ public class SimpleServer extends AbstractServer {
 		try {
 			session.beginTransaction();
 
-			OvertimeRequest req = new OvertimeRequest("myExam", "Mr. ZOZO", 1, "sdncsdncsdcsc	sdc	qssc", 5);
-			session.save(req);
-			session.flush();
+//			OvertimeRequest req = new OvertimeRequest("myExam", "Mr. ZOZO", 1, "sdncsdncsdcsc	sdc	qssc", 5);
+//			session.save(req);
+//			session.flush();
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 			/////////////////////////////////////////// Students /////////////////////////////////////////////
@@ -175,10 +173,10 @@ public class SimpleServer extends AbstractServer {
 			session.save(student6);
 			session.flush();
 
-			Student newStudent2 = new Student(6, "r", "b");
-			studentsList.add(newStudent2);
-			session.save(newStudent2);
-			session.flush();
+//			Student newStudent2 = new Student(6, "r", "b");
+//			studentsList.add(newStudent2);
+//			session.save(newStudent2);
+//			session.flush();
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 			/////////////////////////////////////////// Teachers /////////////////////////////////////////////
@@ -201,10 +199,10 @@ public class SimpleServer extends AbstractServer {
 			session.save(teacher3);
 			session.flush();
 
-			Teacher newTeacherX = new Teacher(11, "a", "3");
-			teachersList.add(newTeacherX);
-			session.save(newTeacherX);
-			session.flush();
+//			Teacher newTeacherX = new Teacher(11, "a", "3");
+//			teachersList.add(newTeacherX);
+//			session.save(newTeacherX);
+//			session.flush();
 
 			User principle = new User(12, "manger", "123456789", User.UserType.Princiaple);
 			session.save(principle);
@@ -340,7 +338,7 @@ public class SimpleServer extends AbstractServer {
 			ExamQuestion eq4 = new ExamQuestion(q20, 30, "from DS and OOP", "You learned this in many courses");
 			ExamQuestion eq5 = new ExamQuestion(q15, 25, "", "");
 
-			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", newTeacherX, C_language);
+			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", teacher1, C_language);
 			exam1.addExamQuestion(eq1);
 			exam1.addExamQuestion(eq2);
 			exam1.addExamQuestion(eq3);
