@@ -7,7 +7,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ManualExamController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.ManualExamController">
     <children>
         <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -16,7 +16,7 @@
         </ImageView>
         <Text fx:id="exam_name_text" fill="#abdbe3" layoutX="24.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Exam Name" wrappingWidth="294.77471923828125" />
         <Button fx:id="submit_button" layoutX="652.0" layoutY="457.0" mnemonicParsing="false" onAction="#submit_click" prefHeight="31.0" prefWidth="120.0" style="-fx-background-color: #34b048;" text="Submit" />
-        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="330.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="348.77471923828125" />
+        <Text fx:id="error_bar_text" fill="#abdbe3" layoutX="330.0" layoutY="561.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" textAlignment="CENTER" wrappingWidth="348.77471923828125" />
         <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="24.0" layoutY="78.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="148.0" />
         <Text fx:id="date_text" fill="#abdbe3" layoutX="811.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="06/06/2023" textAlignment="RIGHT" wrappingWidth="147.99999818205833" />
         <Text fx:id="clock_text" fill="#063970" layoutX="66.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="00:00:00" textAlignment="CENTER" wrappingWidth="101.77471923828125" />

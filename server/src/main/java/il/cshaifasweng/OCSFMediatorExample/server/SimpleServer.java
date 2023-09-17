@@ -99,8 +99,6 @@ public class SimpleServer extends AbstractServer {
 		User ab = new User(343, "999", "111", User.UserType.Teacher);
 		session.save(ab);
 		session.flush();
-
-
 	}
 
 	private static void generatePrinciple() throws Exception {
@@ -135,9 +133,9 @@ public class SimpleServer extends AbstractServer {
 		try {
 			session.beginTransaction();
 
-			OvertimeRequest req = new OvertimeRequest("myExam", "Mr. ZOZO", 1, "sdncsdncsdcsc	sdc	qssc", 5);
-			session.save(req);
-			session.flush();
+//			OvertimeRequest req = new OvertimeRequest("myExam", "Mr. ZOZO", 1, "sdncsdncsdcsc	sdc	qssc", 5);
+//			session.save(req);
+//			session.flush();
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 			/////////////////////////////////////////// Students /////////////////////////////////////////////
@@ -175,10 +173,10 @@ public class SimpleServer extends AbstractServer {
 			session.save(student6);
 			session.flush();
 
-			Student newStudent2 = new Student(6, "r", "b");
-			studentsList.add(newStudent2);
-			session.save(newStudent2);
-			session.flush();
+//			Student newStudent2 = new Student(6, "r", "b");
+//			studentsList.add(newStudent2);
+//			session.save(newStudent2);
+//			session.flush();
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 			/////////////////////////////////////////// Teachers /////////////////////////////////////////////
@@ -201,10 +199,10 @@ public class SimpleServer extends AbstractServer {
 			session.save(teacher3);
 			session.flush();
 
-			Teacher newTeacherX = new Teacher(11, "a", "3");
-			teachersList.add(newTeacherX);
-			session.save(newTeacherX);
-			session.flush();
+//			Teacher newTeacherX = new Teacher(11, "a", "3");
+//			teachersList.add(newTeacherX);
+//			session.save(newTeacherX);
+//			session.flush();
 
 			User principle = new User(12, "manger", "123456789", User.UserType.Princiaple);
 			session.save(principle);
@@ -340,7 +338,7 @@ public class SimpleServer extends AbstractServer {
 			ExamQuestion eq4 = new ExamQuestion(q20, 30, "from DS and OOP", "You learned this in many courses");
 			ExamQuestion eq5 = new ExamQuestion(q15, 25, "", "");
 
-			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", newTeacherX, C_language);
+			Exam exam1 = new Exam(55, "Intro Exam", 30, "", "", teacher1, C_language);
 			exam1.addExamQuestion(eq1);
 			exam1.addExamQuestion(eq2);
 			exam1.addExamQuestion(eq3);
@@ -891,19 +889,40 @@ public class SimpleServer extends AbstractServer {
 			try {
 				session.beginTransaction();
 				ExecutedExamInfo newExecExam = (ExecutedExamInfo) message.getObject1();
-				Exam exam = session.find(Exam.class, newExecExam.getCode());
-				if(exam != null){
-					newExecExam.setTitle(exam.getTitle());
+
+				boolean passwordFlag = false;
+				List<ExecutedExamInfo> allInfoList = getAllObjects(ExecutedExamInfo.class);
+				if(allInfoList != null){
+					for(ExecutedExamInfo info : allInfoList){
+						if(info.getCode() == newExecExam.getCode()){
+							if(info.getPassword().equals(newExecExam.getPassword())){
+								passwordFlag = true;
+								break;
+							}
+						}
+					}
 				}
-				Teacher teacher = session.find(Teacher.class, newExecExam.getExecutingTeacher().getUserName());
-				if(teacher != null){
-					newExecExam.setTeacher(teacher);
+
+				if(passwordFlag)
+				{
+					Warning warning = new Warning("Can't Execute The Same Exam With The Same Password");
+					client.sendToClient(new Message("#loginWarning", warning));
+				}else{
+					Exam exam = session.find(Exam.class, newExecExam.getCode());
+					if(exam != null){
+						newExecExam.setTitle(exam.getTitle());
+					}
+					Teacher teacher = session.find(Teacher.class, newExecExam.getExecutingTeacher().getUserName());
+					if(teacher != null){
+						newExecExam.setTeacher(teacher);
+					}
+					session.save(newExecExam);
+					session.merge(teacher);
+					session.flush();
+
+					client.sendToClient(new Message("#successAlert", "Exam Executed Successfully"));
 				}
-				session.save(newExecExam);
-				session.merge(teacher);
-				session.flush();
-				Warning warning = new Warning("Exam Draw Successfully");
-				client.sendToClient(new Message("#drawExamRes",warning));
+
 				session.getTransaction().commit();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -1199,7 +1218,7 @@ public class SimpleServer extends AbstractServer {
 					}
 					client.sendToClient(new Message("#GetAllCoursesBySubject_Replay", allNames));
 				}else{
-					Warning warning = new Warning("Subject Name doesn't exist");
+					Warning warning = new Warning("Subject Name Doesn't Exist");
 					client.sendToClient(new Message("#loginWarning", warning));
 				}
 				session.getTransaction().commit();
@@ -1636,7 +1655,9 @@ public class SimpleServer extends AbstractServer {
 							if(student.getMyExams() != null){
 								for(ExecutedExam ex : student.getMyExams()){
 									System.out.println("f ---> "+ex);
-									allInfoFilteredList.add(new StatisticsInfo(ex.getTestDate()));
+									if(ex.getTestDate().getType().equals(ExecutedExamInfo.ExamType.Virtual)){
+										allInfoFilteredList.add(new StatisticsInfo(ex.getTestDate()));
+									}
 								}
 							}
 						}
@@ -1646,7 +1667,9 @@ public class SimpleServer extends AbstractServer {
 						Teacher teacher = session.find(Teacher.class, filter.getText());
 						if(teacher != null){
 							for(ExecutedExamInfo ex : teacher.getExecutedExamsInfo()){
-								allInfoFilteredList.add(new StatisticsInfo(ex));
+								if(ex.getType().equals(ExecutedExamInfo.ExamType.Virtual)){
+									allInfoFilteredList.add(new StatisticsInfo(ex));
+								}
 							}
 						}
 						break;
@@ -1655,10 +1678,12 @@ public class SimpleServer extends AbstractServer {
 						List<ExecutedExamInfo> infoList = getAllObjects(ExecutedExamInfo.class);
 						if(infoList != null){
 							for(ExecutedExamInfo info : infoList){
-								Exam exe = session.find(Exam.class, info.getCode());
-								if(exe != null){
-									if(exe.getCourseName().equals(filter.getText())){
-										allInfoFilteredList.add(new StatisticsInfo(info));
+								if(info.getType().equals(ExecutedExamInfo.ExamType.Virtual)){
+									Exam exe = session.find(Exam.class, info.getCode());
+									if(exe != null){
+										if(exe.getCourseName().equals(filter.getText())){
+											allInfoFilteredList.add(new StatisticsInfo(info));
+										}
 									}
 								}
 							}

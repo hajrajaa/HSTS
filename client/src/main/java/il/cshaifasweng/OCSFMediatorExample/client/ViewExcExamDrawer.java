@@ -12,6 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -21,14 +23,11 @@ import javafx.util.Callback;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-public class  ViewExcExamDrawer {
-
-
+public class  ViewExcExamDrawer
+{
     public SimpleClient client;
     ExecutedExamInfo examInfo;
-
     List<ExecutedExam> executedExamList1;
-
     boolean TableInitFlag;
 
     public ExecutedExamInfo getExamInfo() {
@@ -57,71 +56,43 @@ public class  ViewExcExamDrawer {
 
     public static  ExecutedExam selectedExam;
 
-
     @FXML
     private ResourceBundle resources;
-
     @FXML
     private URL location;
-
     @FXML
     private AnchorPane editgradePane;
-
-    @FXML
-    private Text error_bar;
-
     @FXML
     private TableView exeExamTable;
-
     @FXML
-    private TextField expTxt;
-
+    private TableColumn<ExecutedExam, String> gradeCol, nameCol;
     @FXML
-    private Text studentNameTxt;
-
+    private TextField newGradeTxt, expTxt;
     @FXML
-    private TableColumn<ExecutedExam, String> gradeCol;
-
-    @FXML
-    private TableColumn<ExecutedExam, String> nameCol;
-
-    @FXML
-    private TextField newGradeTxt;
-
-    @FXML
-    private Text txtAverage;
-
-    @FXML
-    private Text txtMedian;
+    private Text error_bar, txtAverage, txtMedian, studentNameTxt;
 
 //    @FXML
 //    private Button Home_Click;
 
     @FXML
     private Button updateBtn;
-
     @FXML
-    void newGradeTxt(ActionEvent event) {
-
-    }
+    private BarChart<String, Double> Histogram;
+    @FXML
+    void newGradeTxt(ActionEvent event) {}
 
     @FXML
     void updateBtn(ActionEvent event) {
-
         UpdateExamGrade(selectedExam);
         exeExamTable.refresh();
-
     }
 
     @FXML
-    void expTxt(ActionEvent event) {
-
-    }
-
+    void expTxt(ActionEvent event) {}
 
     @FXML
-    void initialize() throws IOException {
-
+    void initialize() throws IOException
+    {
         editgradePane.setDisable(true);
         error_bar.setText("");
         txtAverage.setText("");
@@ -134,25 +105,25 @@ public class  ViewExcExamDrawer {
 
         examInfo=TeacherExuctedInfoDrawer.getSelectedExecutedExam();
         int id =examInfo.getId();
-        try
-        {
+        try {
             SimpleClient.getClient().sendToServer(new Message("#GetExcutedExams",id));
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-
         if(examInfo!=null)
         {
             String avg=examInfo.getAverage().toString();
             String med=examInfo.getMedian().toString();
-
             txtAverage.setText(avg);
             txtMedian.setText(med);
+            InitHistogram();
         }
 
         TableInitFlag=false;
+        updateBtn.setDisable(true);
+        exeExamTable.setStyle("-fx-pref-height: 510;");
 
         assert error_bar != null : "fx:id=\"error_bar\" was not injected: check your FXML file 'executed_exam_view.fxml'.";
         assert exeExamTable != null : "fx:id=\"exeExamTable\" was not injected: check your FXML file 'executed_exam_view.fxml'.";
@@ -164,7 +135,33 @@ public class  ViewExcExamDrawer {
         assert txtMedian != null : "fx:id=\"txtMedian\" was not injected: check your FXML file 'executed_exam_view.fxml'.";
         assert studentNameTxt != null : "fx:id=\"studentNameTxt\" was not injected: check your FXML file 'executed_exam_view.fxml'.";
         assert updateBtn != null : "fx:id=\"updateBtn\" was not injected: check your FXML file 'executed_exam_view.fxml'.";
+    }
 
+    private void InitHistogram ()
+    {
+        Histogram.setAnimated(false);
+        Histogram.setTitle("Grades Histogram");
+        XYChart.Series<String, Double> s = new XYChart.Series();
+        Histogram.getData().add(s);
+        HistDataRefresh();
+    }
+
+    private void HistDataRefresh ()
+    {
+        XYChart.Series<String, Double> series = new XYChart.Series();
+        series.setName(examInfo.getTitle());
+        series.getData().add(new XYChart.Data("0-9",examInfo.getHist()[0]));
+        series.getData().add(new XYChart.Data("10-19",examInfo.getHist()[1]));
+        series.getData().add(new XYChart.Data("20-29",examInfo.getHist()[2]));
+        series.getData().add(new XYChart.Data("30-39",examInfo.getHist()[3]));
+        series.getData().add(new XYChart.Data("40-49",examInfo.getHist()[4]));
+        series.getData().add(new XYChart.Data("50-59",examInfo.getHist()[5]));
+        series.getData().add(new XYChart.Data("60-69",examInfo.getHist()[6]));
+        series.getData().add(new XYChart.Data("70-79",examInfo.getHist()[7]));
+        series.getData().add(new XYChart.Data("80-89",examInfo.getHist()[8]));
+        series.getData().add(new XYChart.Data("90-100",examInfo.getHist()[9]));
+
+        Histogram.getData().set(0,series);
     }
 
     private void initTable()
@@ -173,7 +170,6 @@ public class  ViewExcExamDrawer {
         exeExamTable.setItems(excutedExams);
         nameCol.setCellValueFactory(new PropertyValueFactory<>("studentName"));
         gradeCol.setCellValueFactory(new PropertyValueFactory<>("grade"));
-
 
         if(!TableInitFlag){
 
@@ -184,20 +180,19 @@ public class  ViewExcExamDrawer {
     }
 
     @Subscribe
-    public  void ExcutedExamEventFunc(ExcutedExamEvent event)
+    public void ExcutedExamEventFunc(ExcutedExamEvent event)
     {
         executedExamList1= (event.getExecutedExamList());
         if(executedExamList1!=null)
         {
             initTable();
         }
-
     }
 
     @Subscribe
-    public  void refreshExecEventFunc(refreshExecExam event)
+    public void refreshExecEventFunc(refreshExecExam event)
     {
-        executedExamList1= (event.getExecutedExamList());
+        executedExamList1=(event.getExecutedExamList());
         examInfo=(event.getExamInfo());
         if(executedExamList1!=null)
         {
@@ -207,14 +202,15 @@ public class  ViewExcExamDrawer {
         {
             String avg = examInfo.getAverage().toString();
             String med = examInfo.getMedian().toString();
-
             txtAverage.setText(avg);
             txtMedian.setText(med);
-        }
 
+            HistDataRefresh();
+        }
     }
+
     @Subscribe
-    public  void approveGradeEventFunc(ApproveGradeEvent event)
+    public void approveGradeEventFunc(ApproveGradeEvent event)
     {
         selectedExam = (event.getExecutedExam());
         exeExamTable.refresh();
@@ -264,11 +260,11 @@ public class  ViewExcExamDrawer {
                         if (empty) {
                             setGraphic(null);
                         } else {
-
                             ExecutedExam exam = getTableView().getItems().get(getIndex());
                             if(exam.isMarked())
                             {
-                                btn.setStyle("-fx-background-color: green;");
+//                                btn.setStyle("-fx-background-color: green;");
+                                App.setButtonColor(btn,"green");
                                 btn.setText("Approved");
                             }
                             else {
@@ -303,7 +299,8 @@ public class  ViewExcExamDrawer {
                                 String name=selectedExam.getStudentName();
                                 studentNameTxt.setText(name.toString());
                                 editgradePane.setDisable(false);
-
+                                updateBtn.setDisable(false);
+                                exeExamTable.setStyle("-fx-pref-height: 320;");
                             }
 
                         });
@@ -315,6 +312,7 @@ public class  ViewExcExamDrawer {
                         if (empty) {
                             setGraphic(null);
                         } else {
+                            App.setButtonColor(btn,"orange");
                             setGraphic(btn);
                         }
                     }
@@ -326,26 +324,26 @@ public class  ViewExcExamDrawer {
         exeExamTable.getColumns().add(colBtn);
     }
 
-
-
     public void UpdateExamGrade(ExecutedExam exam)
     {
         String newGradeSt=newGradeTxt.getText();
-        double newGrade=Double.parseDouble(newGradeSt);
-        String explanation=expTxt.getText();
-        Object[] obj={exam.getExamNum(),newGrade,explanation};
-        try {
-            SimpleClient.getClient().sendToServer(new Message("#UpdateGradeRequest",obj));
-        } catch (IOException e) {
-
-            e.printStackTrace();
+        if(newGradeSt.equals("")){
+            error_bar.setText("Please Enter a Grade");
+        }else{
+            double newGrade=Double.parseDouble(newGradeSt);
+            String explanation=expTxt.getText();
+            Object[] obj={exam.getExamNum(),newGrade,explanation};
+            try {
+                SimpleClient.getClient().sendToServer(new Message("#UpdateGradeRequest",obj));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Subscribe
-    public  void UpdateGradeEventFunc(UpdateGradeEvent event)
+    public void UpdateGradeEventFunc(UpdateGradeEvent event)
     {
-
         selectedExam = (event.getExecutedExam());
         exeExamTable.refresh();
 
@@ -359,6 +357,8 @@ public class  ViewExcExamDrawer {
         }
         error_bar.setText("Grade Updated Successfully");
         editgradePane.setDisable(true);
+        updateBtn.setDisable(true);
+        exeExamTable.setStyle("-fx-pref-height: 510;");
         studentNameTxt.setText("");
         expTxt.clear();
         newGradeTxt.clear();
@@ -371,10 +371,7 @@ public class  ViewExcExamDrawer {
             e.printStackTrace();
         }
 
-
     }
-
-
 
     public void Home_Click(ActionEvent actionEvent) throws IOException {
         EventBus.getDefault().unregister(this);

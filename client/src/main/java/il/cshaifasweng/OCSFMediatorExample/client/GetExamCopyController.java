@@ -30,7 +30,7 @@ public class GetExamCopyController
     private Button answer1_button, answer2_button, answer3_button, answer4_button, finish_exam_button;
     private Button [] answersButtons;
     @FXML
-    private Text exam_name_text, date_text, question_number_text, question_text, student_note_text, grade_text;
+    private Text exam_name_text, date_text, question_number_text, question_text, student_note_text, grade_text, points_text;
     @FXML
     ImageView note_ImageView;
 
@@ -83,6 +83,7 @@ public class GetExamCopyController
         loadNote();
 
         question_text.setText(currentQuestion.getQuestion().getQuestion());
+        points_text.setText(Integer.toString(currentQuestion.getPoints()) + " points");
         for(int i=0; i<answersButtons.length; i++)
         {
             String tempAnswer = currentQuestion.getQuestion().getAnswers()[i];

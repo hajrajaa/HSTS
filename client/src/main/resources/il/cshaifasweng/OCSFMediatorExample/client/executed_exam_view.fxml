@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -18,90 +21,104 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <TableView fx:id="exeExamTable" layoutX="21.0" layoutY="200.0" prefHeight="381.0" prefWidth="450.0">
-         <columns>
-            <TableColumn fx:id="nameCol" prefWidth="135.33333778381348" text="Student Name" />
-            <TableColumn fx:id="gradeCol" prefWidth="128.6666717529297" text="grade" />
-         </columns>
-      </TableView>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="21.0" layoutY="74.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="343.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="48.0" layoutX="21.0" layoutY="139.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="343.0" />
-      <Text layoutX="30.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average:">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="440.0" layoutX="556.0" layoutY="110.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #abdbe3;" width="424.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="169.0" layoutX="21.0" layoutY="415.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #e28743;" width="519.0" />
+      <Text fill="#abdbe3" layoutX="558.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Statistic: " wrappingWidth="197.44140625">
          <font>
             <Font size="24.0" />
          </font>
       </Text>
-      <Text layoutX="30.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtAverage" layoutX="129.0" layoutY="107.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text fx:id="txtMedian" layoutX="124.0" layoutY="170.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Text fill="#abdbe3" layoutX="521.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Statistic ">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <AnchorPane fx:id="editgradePane" layoutX="500.0" layoutY="241.0" prefHeight="312.0" prefWidth="433.0">
-         <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="262.0" layoutX="9.0" layoutY="37.0" stroke="BLACK" strokeType="INSIDE" style="-fx-fill: #e28743;" width="416.0" />
-            <Text layoutX="21.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name: ">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <Text fx:id="studentNameTxt" layoutX="156.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <Text layoutX="15.0" layoutY="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Grade:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <TextField fx:id="newGradeTxt" layoutX="115.0" layoutY="80.0" onAction="#newGradeTxt" />
-            <Text layoutX="13.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <TextField fx:id="expTxt" layoutX="13.0" layoutY="150.0" onAction="#expTxt" prefHeight="73.0" prefWidth="391.0" />
-            <Button fx:id="updateBtn" layoutX="302.0" layoutY="244.0" mnemonicParsing="false" onAction="#updateBtn" prefHeight="32.0" prefWidth="89.0" style="-fx-background-color: #abdbe3;" text="Update">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Text fill="#abdbe3" layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit Grade">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Text>
-         </children>
-      </AnchorPane>
-      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="916.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane fx:id="editgradePane" layoutX="919.0" layoutY="517.0" prefHeight="64.0" prefWidth="59.0" />
+      <ImageView fitHeight="48.0" fitWidth="48.0" layoutX="936.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../images/home_lblue.png" />
          </image>
       </ImageView>
-      <Button fx:id="Home_Button" layoutX="919.0" layoutY="20.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
+      <Button fx:id="Home_Button" layoutX="939.0" layoutY="20.0" mnemonicParsing="false" onAction="#Home_Click" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: transparent;">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Text fx:id="error_bar" fill="#abdbe3" layoutX="511.0" layoutY="576.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" wrappingWidth="270.1572265625">
+      <Text fx:id="error_bar" fill="#abdbe3" layoutX="556.0" layoutY="579.0" strokeType="OUTSIDE" strokeWidth="0.0" text="error_bar" wrappingWidth="424.0">
          <font>
-            <Font size="14.0" />
+            <Font size="18.0" />
          </font>
       </Text>
+      <Text fill="#063970" layoutX="31.0" layoutY="448.0" stroke="#abdbe3" strokeType="OUTSIDE" text="Edit Grade">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="34.0" layoutY="477.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student: ">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="studentNameTxt" layoutX="104.0" layoutY="477.0" strokeType="OUTSIDE" strokeWidth="0.0" text="name" wrappingWidth="137.16281127929688">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text layoutX="36.0" layoutY="512.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Grade:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="newGradeTxt" layoutX="137.0" layoutY="490.0" onAction="#newGradeTxt" prefHeight="32.0" prefWidth="102.0" />
+      <TextField fx:id="expTxt" layoutX="251.0" layoutY="490.0" onAction="#expTxt" prefHeight="81.0" prefWidth="277.0" />
+      <Text layoutX="251.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Explanation:">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Button fx:id="updateBtn" layoutX="34.0" layoutY="536.0" mnemonicParsing="false" onAction="#updateBtn" prefHeight="36.0" prefWidth="205.0" style="-fx-background-color: #abdbe3;" text="Update">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <BarChart fx:id="Histogram" layoutX="553.0" layoutY="157.0" prefHeight="381.0" prefWidth="413.0">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" tickLabelFill="#063970" />
+         </yAxis>
+      </BarChart>
+      <ImageView fitHeight="124.0" fitWidth="320.0" layoutX="676.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/paper_clip2.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="693.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Average:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="851.0" layoutY="169.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Median:">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtAverage" layoutX="792.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <Text fx:id="txtMedian" layoutX="945.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TableView fx:id="exeExamTable" layoutX="21.0" layoutY="77.0" prefHeight="320.0" prefWidth="520.0">
+         <columns>
+            <TableColumn fx:id="nameCol" prefWidth="276.6666965484619" text="Student Name" />
+            <TableColumn fx:id="gradeCol" prefWidth="78.0" text="grade" />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="211.0" fitWidth="92.0" layoutX="911.0" layoutY="339.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/teacher_stat.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

@@ -13,6 +13,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
@@ -60,16 +62,13 @@ public class ViewWrittenExamDrawer {
     private TableView exeExamTable;
 
     @FXML
-    private TableColumn<ExecutedExam, String> gradeCol;
+    private TableColumn<ExecutedExam, String> gradeCol, nameCol;
 
     @FXML
-    private TableColumn<ExecutedExam,String> nameCol;
+    private Text txtAverage, txtMedian;
 
     @FXML
-    private Text txtAverage;
-
-    @FXML
-    private Text txtMedian;
+    private BarChart<String, Double> Histogram;
 
     @FXML
     Button Home_Button;
@@ -86,8 +85,7 @@ public class ViewWrittenExamDrawer {
 
         examInfo=TeacherExuctedInfoDrawer.getSelectedWrittenExam();
         int id= examInfo.getId();
-        try
-        {
+        try {
             SimpleClient.getClient().sendToServer(new Message("#GetWrittenExams",id));
         }
         catch (IOException e) {
@@ -101,6 +99,8 @@ public class ViewWrittenExamDrawer {
             String med=examInfo.getMedian().toString();
             txtAverage.setText(avg);
             txtMedian.setText(med);
+
+            InitHistogram();
         }
 
 
@@ -112,6 +112,32 @@ public class ViewWrittenExamDrawer {
 
     }
 
+    private void InitHistogram ()
+    {
+        Histogram.setAnimated(false);
+        XYChart.Series<String, Double> s = new XYChart.Series();
+        Histogram.getData().add(s);
+        HistDataRefresh();
+    }
+
+    private void HistDataRefresh ()
+    {
+        XYChart.Series<String, Double> series = new XYChart.Series();
+        series.setName(examInfo.getTitle());
+        series.getData().add(new XYChart.Data("0-9",examInfo.getHist()[0]));
+        series.getData().add(new XYChart.Data("10-19",examInfo.getHist()[1]));
+        series.getData().add(new XYChart.Data("20-29",examInfo.getHist()[2]));
+        series.getData().add(new XYChart.Data("30-39",examInfo.getHist()[3]));
+        series.getData().add(new XYChart.Data("40-49",examInfo.getHist()[4]));
+        series.getData().add(new XYChart.Data("50-59",examInfo.getHist()[5]));
+        series.getData().add(new XYChart.Data("60-69",examInfo.getHist()[6]));
+        series.getData().add(new XYChart.Data("70-79",examInfo.getHist()[7]));
+        series.getData().add(new XYChart.Data("80-89",examInfo.getHist()[8]));
+        series.getData().add(new XYChart.Data("90-100",examInfo.getHist()[9]));
+
+        Histogram.getData().set(0,series);
+    }
+
     @Subscribe
     public  void writtenExamEventFunc(WrittenExamEvent event)
     {
@@ -120,8 +146,6 @@ public class ViewWrittenExamDrawer {
         {
             initTable();
         }
-
-
     }
 
     private void initTable()
@@ -139,9 +163,6 @@ public class ViewWrittenExamDrawer {
         EventBus.getDefault().unregister(this);
         App.setRoot("teacherMain");
     }
-
-
-
 
 }
 
