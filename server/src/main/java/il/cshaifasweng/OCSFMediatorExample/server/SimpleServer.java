@@ -1636,7 +1636,9 @@ public class SimpleServer extends AbstractServer {
 							if(student.getMyExams() != null){
 								for(ExecutedExam ex : student.getMyExams()){
 									System.out.println("f ---> "+ex);
-									allInfoFilteredList.add(new StatisticsInfo(ex.getTestDate()));
+									if(ex.getTestDate().getType().equals(ExecutedExamInfo.ExamType.Virtual)){
+										allInfoFilteredList.add(new StatisticsInfo(ex.getTestDate()));
+									}
 								}
 							}
 						}
@@ -1646,7 +1648,9 @@ public class SimpleServer extends AbstractServer {
 						Teacher teacher = session.find(Teacher.class, filter.getText());
 						if(teacher != null){
 							for(ExecutedExamInfo ex : teacher.getExecutedExamsInfo()){
-								allInfoFilteredList.add(new StatisticsInfo(ex));
+								if(ex.getType().equals(ExecutedExamInfo.ExamType.Virtual)){
+									allInfoFilteredList.add(new StatisticsInfo(ex));
+								}
 							}
 						}
 						break;
@@ -1655,10 +1659,12 @@ public class SimpleServer extends AbstractServer {
 						List<ExecutedExamInfo> infoList = getAllObjects(ExecutedExamInfo.class);
 						if(infoList != null){
 							for(ExecutedExamInfo info : infoList){
-								Exam exe = session.find(Exam.class, info.getCode());
-								if(exe != null){
-									if(exe.getCourseName().equals(filter.getText())){
-										allInfoFilteredList.add(new StatisticsInfo(info));
+								if(info.getType().equals(ExecutedExamInfo.ExamType.Virtual)){
+									Exam exe = session.find(Exam.class, info.getCode());
+									if(exe != null){
+										if(exe.getCourseName().equals(filter.getText())){
+											allInfoFilteredList.add(new StatisticsInfo(info));
+										}
 									}
 								}
 							}

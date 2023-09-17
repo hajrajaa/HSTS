@@ -310,9 +310,9 @@ public class  ViewExcExamDrawer
                     public void updateItem(Void item, boolean empty) {
                         super.updateItem(item, empty);
                         if (empty) {
-                            App.setButtonColor(btn,"orange");
                             setGraphic(null);
                         } else {
+                            App.setButtonColor(btn,"orange");
                             setGraphic(btn);
                         }
                     }
@@ -327,13 +327,17 @@ public class  ViewExcExamDrawer
     public void UpdateExamGrade(ExecutedExam exam)
     {
         String newGradeSt=newGradeTxt.getText();
-        double newGrade=Double.parseDouble(newGradeSt);
-        String explanation=expTxt.getText();
-        Object[] obj={exam.getExamNum(),newGrade,explanation};
-        try {
-            SimpleClient.getClient().sendToServer(new Message("#UpdateGradeRequest",obj));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(newGradeSt.equals("")){
+            error_bar.setText("Please Enter a Grade");
+        }else{
+            double newGrade=Double.parseDouble(newGradeSt);
+            String explanation=expTxt.getText();
+            Object[] obj={exam.getExamNum(),newGrade,explanation};
+            try {
+                SimpleClient.getClient().sendToServer(new Message("#UpdateGradeRequest",obj));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

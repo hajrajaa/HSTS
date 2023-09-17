@@ -126,7 +126,6 @@ public class TeacherExuctedInfoDrawer {
     @Subscribe
     public void GetTeacherAllExams_Replay(EventGetTeacherAllExams event)
     {
-
         writtenListExamsInfo=event.getWrittenExamsInfoList();
         executedExamsInfoList=event.getExecutedExamInfoList();
         if(writtenListExamsInfo==null)
@@ -217,6 +216,10 @@ public class TeacherExuctedInfoDrawer {
                         if (empty) {
                             setGraphic(null);
                         } else {
+                            ExecutedExamInfo tempInfo = getTableView().getItems().get(getIndex());
+                            if(tempInfo.getType().equals(ExecutedExamInfo.ExamType.Manual)){
+                                btn.setDisable(true);
+                            }
                             setGraphic(btn);
                         }
                     }
@@ -256,6 +259,10 @@ public class TeacherExuctedInfoDrawer {
                         if (empty) {
                             setGraphic(null);
                         } else {
+                            ExecutedExamInfo tempInfo = getTableView().getItems().get(getIndex());
+                            if(tempInfo.getType().equals(ExecutedExamInfo.ExamType.Manual)){
+                                btn.setDisable(true);
+                            }
                             setGraphic(btn);
                         }
                     }

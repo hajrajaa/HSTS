@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.GetExamCopyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #063970;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="il.cshaifasweng.OCSFMediatorExample.client.GetExamCopyController">
     <children>
         <ImageView fitHeight="600.0" fitWidth="1000.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -36,7 +36,7 @@
                 <Font size="14.0" />
             </font></Button>
         <Text fx:id="date_text" fill="#abdbe3" layoutX="811.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="06/06/2023" textAlignment="RIGHT" wrappingWidth="147.99999818205833" />
-        <Text fx:id="question_number_text" layoutX="388.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Question 1/10" textAlignment="CENTER" wrappingWidth="223.77471923828125" />
+        <Text fx:id="question_number_text" layoutX="388.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="Question 1/10" textAlignment="CENTER" wrappingWidth="223.77471923828125" />
         <ImageView fitHeight="65.0" fitWidth="70.0" layoutX="117.0" layoutY="281.0" pickOnBounds="true" preserveRatio="true">
             <image>
                 <Image url="@../../../../images/prev.png" />
@@ -63,5 +63,10 @@
             </font></Button>
         <Text fx:id="question_text" layoutX="286.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 24;" text="question_text" wrappingWidth="427.77471923828125" />
       <Text fx:id="grade_text" fill="#063970" layoutX="32.0" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 18;" wrappingWidth="133.00001668930054" />
+      <Text fx:id="points_text" layoutX="444.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-size: 16;" text="25 points" textAlignment="CENTER" wrappingWidth="120.00000000000023">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Text>
     </children>
 </AnchorPane>
