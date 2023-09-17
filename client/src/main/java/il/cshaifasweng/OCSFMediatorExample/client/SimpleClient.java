@@ -399,10 +399,33 @@ public class SimpleClient extends AbstractClient {
 	
 	public static SimpleClient getClient() {
 		if (client == null) {
+//			client = new SimpleClient("172.20.10.7", 3000);
 			client = new SimpleClient("localhost", 3000);
+		}
+		return client;
+	}
+
+	public static SimpleClient newClientMy(String ip) throws IOException {
+		if (client == null) {
+			client = new SimpleClient(ip, 3000);
+			client.openConnection();
 //			client = new SimpleClient("localhost", 3000);
 		}
 		return client;
+	}
+
+	public static boolean newClient(String ip) throws IOException {
+		System.out.println("GG newClient 1 , ip="+ip);
+		client = new SimpleClient(ip, 3000);
+		System.out.println("GG newClient 2");
+		try {
+			System.out.println("GG newClient 3 " + client.isConnected());
+			client.openConnection();
+			System.out.println("GG newClient 4");
+			return true;
+		}catch (IOException e){
+			return false;
+		}
 	}
 
 }
